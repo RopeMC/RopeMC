@@ -1,2 +1,2 @@
 # RopeMC
-A Minecraft-modding Framework.
+see how to install at the [Wiki](Wiki) ! 
