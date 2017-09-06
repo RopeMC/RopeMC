@@ -1,2 +1,2 @@
 # RopeMC
-see how to install at the [Wiki](Wiki) ! 
+see how to install at the [Wiki](wiki) ! 
