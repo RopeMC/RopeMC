@@ -12,8 +12,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import de.ropemc.Mappings.MCVersion;
 import de.ropemc.api.Minecraft;
+import de.ropemc.Mappings.MCVersion;
 import de.ropemc.event.EventManager;
 import de.ropemc.event.window.WindowTitleChangeEvent;
 import de.ropemc.mods.ModManager;

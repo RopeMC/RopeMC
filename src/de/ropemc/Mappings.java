@@ -1,92 +1,102 @@
 package de.ropemc;
 
-public class Mappings
-{
-	
-	public static String getClassName(MCVersion version,String name)
-	{
-		switch(name)
-		{
-			case "net.minecraft.client.Minecraft":
-				switch(version)
-				{
-					case MC1_8_8: return "ave";
-				}
-				break;
-			case "net.minecraft.util.ChatComponentText":
-				switch(version)
-				{
-					case MC1_8_8: return "fa";
-				}
-				break;
-			case "net.minecraft.util.IChatComponent":
-				switch(version)
-				{
-					case MC1_8_8: return "eu";
-				}
-				break;
-		}
-		return null;
-	}
-	
-	public static String getFieldName(MCVersion version,String c,String f)
-	{
-		switch(c)
-		{
-			case "net.minecraft.client.Minecraft":
-				switch(f)
-				{
-					case "launchedVersion":
-						switch(version)
-						{
-							case MC1_8_8: return "al";
-						}
-					case "ingameGUI":
-						switch(version)
-						{
-							case MC1_8_8: return "q";
-						}
-					case "theMinecraft":
-						switch(version)
-						{
-							case MC1_8_8: return "S";
-						}
-				}
-				break;
-		}
-		return null;
-	}
-	
-	public static String getMethodName(MCVersion version,String c,String f)
-	{
-		switch(c)
-		{
-			case "net.minecraft.client.gui.GuiIngame":
-				switch(f)
-				{
-					case "getChatGUI":
-						switch(version)
-						{
-							case MC1_8_8: return "d";
-						}
-				}
-				break;
-			case "net.minecraft.client.gui.GuiNewChat":
-				switch(f)
-				{
-					case "printChatMessage":
-						switch(version)
-						{
-							case MC1_8_8: return "a";
-						}
-				}
-				break;
-		}
-		return null;
-	}
-	
-	public static enum MCVersion {
-		MC1_8_8
-	}
-	
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Mappings {
+
+    private static Map<String, String> MC188Classes = new HashMap<>(); // 1.String: unobf-class, 2.String: obf-class; example: net.minecraft.client.renderer.WorldVertexBufferUploader : bfe
+    private static Map<String, String> MC188Fields = new HashMap<>(); // 1.String: unobf-field, 2.String: obf-field; example: net.minecraft.init.Items.record_13 : zy.cq
+    private static Map<String, String> MC188Methods = new HashMap<>(); // 1.String: unobf-method, 2.String: obf-method; example: net/minecraft/entity/item/EntityMinecart.func_70495_a : va/a
+
+    static {
+
+        try {
+
+            InputStream in = Mappings.class.getResourceAsStream("188.srg");
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                line = line.replace("/", ".");
+
+                if (line.startsWith("CL:")) {
+
+                    line = line.substring(4);
+
+                    String[] split = line.split(" ");
+                    MC188Classes.put(split[0], split[1]);
+
+                } else if (line.startsWith("FD:")) {
+
+                    line = line.substring(4);
+
+                    String[] split = line.split(" ");
+                    String[] nameSplit = split[1].split(".");
+                    MC188Fields.put(split[0], nameSplit[nameSplit.length - 1]);
+
+                } else if (line.startsWith("MD:")) {
+
+                    line = line.substring(4);
+
+                    String[] split = line.split(" ");
+                    String[] nameSplit = split[2].split(".");
+                    MC188Methods.put(split[0], nameSplit[nameSplit.length - 1]);
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String getClassName(MCVersion version, String clazz) {
+
+        switch (version) {
+
+            case MC1_8_8:
+                return MC188Classes.get(clazz);
+
+        }
+
+        return null;
+
+    }
+
+    public static String getFieldName(MCVersion version, String fullName) {
+
+        switch (version) {
+
+            case MC1_8_8:
+                return MC188Fields.get(fullName);
+
+        }
+
+        return null;
+    }
+
+    public static String getMethodName(MCVersion version, String fullName) {
+
+        switch (version) {
+
+            case MC1_8_8:
+                return MC188Methods.get(fullName);
+
+        }
+
+        return null;
+    }
+
+    public enum MCVersion {
+        MC1_8_8
+    }
+
 }
