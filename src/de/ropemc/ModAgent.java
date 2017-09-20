@@ -1,16 +1,7 @@
 package de.ropemc;
 
 import java.io.File;
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
-import java.security.ProtectionDomain;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 
 import de.ropemc.api.Minecraft;
 import de.ropemc.Mappings.MCVersion;
@@ -38,21 +29,16 @@ public class ModAgent
 		rope_config_directory = new File(rope_directory,"Config");
 		if(!rope_config_directory.exists()) rope_config_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
-		instrumentation.addTransformer(new ClassFileTransformer()
+		/*instrumentation.addTransformer(new ClassFileTransformer()
 		{
 			public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
 			{
 				if("org/lwjgl/opengl/Display".equals(s))
 				{
-					ClassReader reader = new ClassReader(bytes);
-					ClassWriter writer = new ClassWriter(reader, 0);
-					JaTestVisitor visitor = new JaTestVisitor(writer);
-					reader.accept(visitor, 0);
-					return writer.toByteArray();
 				}
 				return null;
 			}
-		});
+		});*/
 	}
 
 	public static void setTitleHook()
@@ -65,7 +51,7 @@ public class ModAgent
 		}
 	}
 
-	public static class JaTestVisitor extends ClassVisitor
+	/*public static class JaTestVisitor extends ClassVisitor
 	{
 
 		public JaTestVisitor(ClassWriter writer)
@@ -108,6 +94,6 @@ public class ModAgent
 			super(Opcodes.ASM5, mv);
 		}
 
-	}
+	}*/
 	
 }
