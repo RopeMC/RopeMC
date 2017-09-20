@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 
 import de.ropemc.Mappings;
-import de.ropemc.ModAgent;
+import de.ropemc.RopeMC;
 import de.ropemc.Utils;
 
 public class Minecraft
@@ -53,7 +53,7 @@ public class Minecraft
 	private static Object getMinecraft()
 	{
 		try {
-			Class mc = Class.forName(Mappings.getClassName(ModAgent.version, "net.minecraft.client.Minecraft"));
+			Class mc = Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.client.Minecraft"));
 			if(mc==null)
 			{
 				System.out.println("========");
@@ -65,7 +65,7 @@ public class Minecraft
 				System.out.println("========");
 				return null;
 			}
-			Field f = mc.getDeclaredField(Mappings.getFieldName(ModAgent.version,"net.minecraft.client.Minecraft.theMinecraft"));
+			Field f = mc.getDeclaredField(Mappings.getFieldName(RopeMC.version,"net.minecraft.client.Minecraft.theMinecraft"));
 			f.setAccessible(true);
 			return f.get(null);
 		}
@@ -75,29 +75,29 @@ public class Minecraft
 		return null;
 	}
 	public static String getMinecraftVersion() {
-		return "Debug";
-		/*
+		//return "Debug";
+
 		try {
 			Object mc = getMinecraft();
-			Field f2 = Class.forName(Mappings.getClassName(ModAgent.version, "net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName(ModAgent.version,"net.minecraft.client.Minecraft","launchedVersion"));
+			Field f2 = Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName(RopeMC.version,"net.minecraft.client.Minecraft.launchedVersion"));
 			f2.setAccessible(true);
 			return f2.get(mc).toString();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;*/
+		return null;
 	}
 	public static void printChatMessage(String msg)
 	{
 		try {
-			Object cc = Class.forName(Mappings.getClassName(ModAgent.version, "net.minecraft.util.ChatComponentText")).getConstructor(String.class).newInstance(msg);
+			Object cc = Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.util.ChatComponentText")).getConstructor(String.class).newInstance(msg);
 			Object mc = getMinecraft();
-			Field f = mc.getClass().getDeclaredField(Mappings.getFieldName(ModAgent.version, "net.minecraft.client.Minecraft.ingameGUI"));
+			Field f = mc.getClass().getDeclaredField(Mappings.getFieldName(RopeMC.version, "net.minecraft.client.Minecraft.ingameGUI"));
 			f.setAccessible(true);
-			Method m1 = f.getType().getDeclaredMethod(Mappings.getMethodName(ModAgent.version, "net.minecraft.client.gui.GuiIngame.getChatGUI"));
+			Method m1 = f.getType().getDeclaredMethod(Mappings.getMethodName(RopeMC.version, "net.minecraft.client.gui.GuiIngame.getChatGUI"));
 			Object chatgui = m1.invoke(f.get(mc));
-			Method m2 = chatgui.getClass().getDeclaredMethod(Mappings.getMethodName(ModAgent.version, "net.minecraft.client.gui.GuiNewChat.printChatMessage"), Class.forName(Mappings.getClassName(ModAgent.version, "net.minecraft.util.IChatComponent")));
+			Method m2 = chatgui.getClass().getDeclaredMethod(Mappings.getMethodName(RopeMC.version, "net.minecraft.client.gui.GuiNewChat.printChatMessage"), Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.util.IChatComponent")));
 			m2.invoke(chatgui, cc);
 			
 		}
