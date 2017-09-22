@@ -38,6 +38,7 @@ public class RopeMC
 		rope_Mappings_directory = new File(rope_directory, "Mappings");
 		if(!rope_Mappings_directory.exists()) rope_Mappings_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
+        Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
 		instrumentation.addTransformer(new ClassFileTransformer()
 		{
 			public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
@@ -48,7 +49,7 @@ public class RopeMC
                         ClassPool cp = ClassPool.getDefault();
                         CtClass cc = cp.get("org.lwjgl.opengl.Display");
                         CtMethod m = cc.getDeclaredMethod("setTitle");
-                        m.insertBefore("{de.ropemc.RopeMC.setTitleHook(newTitle);return;}");
+                        m.insertBefore("{de.ropemc.RopeMC.titleHook(newTitle);return;}");
                         byte[] byteCode = cc.toBytecode();
                         cc.detach();
                         return byteCode;
@@ -75,15 +76,10 @@ public class RopeMC
 		});
 	}
 
-	public static void setTitleHook(String title)
+	public static void titleHook(String title)
 	{
 		WindowTitleChangeEvent e = new WindowTitleChangeEvent(title);
 		EventManager.callEvent(e);
-		if(!e.isCancelled())
-		{
-			//Minecraft.setWindowTitle(e.getTitle());
-		}
-		Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
 	}
 	
 }
