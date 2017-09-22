@@ -23,6 +23,7 @@ public class RopeMC
 	public static File rope_directory;
 	public static File rope_mods_directory;
 	public static File rope_config_directory;
+	public static File rope_Mappings_directory;
 	
 	public static void premain(String args, Instrumentation instrumentation)
 	{
@@ -34,6 +35,8 @@ public class RopeMC
 		if(!rope_mods_directory.exists()) rope_mods_directory.mkdir();
 		rope_config_directory = new File(rope_directory,"Config");
 		if(!rope_config_directory.exists()) rope_config_directory.mkdir();
+		rope_Mappings_directory = new File(rope_directory, "Mappings");
+		if(!rope_Mappings_directory.exists()) rope_Mappings_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
 		instrumentation.addTransformer(new ClassFileTransformer()
 		{
