@@ -69,18 +69,16 @@ public class Minecraft
 	}
 	
 	public static String getMinecraftVersion() {
-		return "Debug";
-
-		/*try {
-			Object mc = getMinecraft();
-			Field f2 = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
-			f2.setAccessible(true);
-			return f2.get(mc).toString();
+		try {
+		Object mc = getMinecraft();
+		Field f2 = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
+		f2.setAccessible(true);
+		return f2.get(mc).toString();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;*/
+		return null;
 	}
 	
 	public static void printChatMessage(String msg)
