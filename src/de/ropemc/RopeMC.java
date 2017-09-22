@@ -1,18 +1,10 @@
 package de.ropemc;
 
 import java.io.File;
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
-import java.security.ProtectionDomain;
 
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
 import de.ropemc.api.Minecraft;
 import de.ropemc.Mappings.MCVersion;
-import de.ropemc.event.EventManager;
-import de.ropemc.event.window.WindowTitleChangeEvent;
 import de.ropemc.mods.ModManager;
 
 public class RopeMC

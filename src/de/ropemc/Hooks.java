@@ -10,7 +10,7 @@ public class Hooks {
         EventManager.callEvent(new WindowTitleChangeEvent(title));
     }
 
-    public static void keyHooks(int key) {
+    public static void keyHook(int key) {
         EventManager.callEvent(new KeyPressedEvent(key));
     }
 
