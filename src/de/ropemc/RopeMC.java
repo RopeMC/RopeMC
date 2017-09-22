@@ -39,47 +39,7 @@ public class RopeMC
 		if(!rope_Mappings_directory.exists()) rope_Mappings_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
         Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
-		instrumentation.addTransformer(new ClassFileTransformer()
-		{
-			public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
-			{
-				if("org/lwjgl/opengl/Display".equals(s))
-				{
-					try {
-                        ClassPool cp = ClassPool.getDefault();
-                        CtClass cc = cp.get("org.lwjgl.opengl.Display");
-                        CtMethod m = cc.getDeclaredMethod("setTitle");
-                        m.insertBefore("{de.ropemc.RopeMC.titleHook(newTitle);return;}");
-                        byte[] byteCode = cc.toBytecode();
-                        cc.detach();
-                        return byteCode;
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-				}
-				if(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s))
-				{
-					try {
-                        ClassPool cp = ClassPool.getDefault();
-                        CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP"));
-                        CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
-                        m.insertBefore("de.ropemc.event.EventManager.callEvent(new de.ropemc.event.player.PlayerUpdateEvent());");
-                        byte[] byteCode = cc.toBytecode();
-                        cc.detach();
-                        return byteCode;
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-				}
-				return null;
-			}
-		});
-	}
-
-	public static void titleHook(String title)
-	{
-		WindowTitleChangeEvent e = new WindowTitleChangeEvent(title);
-		EventManager.callEvent(e);
+		instrumentation.addTransformer(new Transformer());
 	}
 	
 }
