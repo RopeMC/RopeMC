@@ -1,4 +1,4 @@
-package de.ropemc;
+package de.ropemc.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

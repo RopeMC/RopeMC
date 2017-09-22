@@ -1,8 +1,14 @@
 package de.ropemc;
 
 import java.io.File;
+import java.lang.instrument.ClassFileTransformer;
+import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
+import java.security.ProtectionDomain;
 
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
 import de.ropemc.api.Minecraft;
 import de.ropemc.Mappings.MCVersion;
 import de.ropemc.event.EventManager;
@@ -29,20 +35,32 @@ public class RopeMC
 		rope_config_directory = new File(rope_directory,"Config");
 		if(!rope_config_directory.exists()) rope_config_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
-		/*instrumentation.addTransformer(new ClassFileTransformer()
+		instrumentation.addTransformer(new ClassFileTransformer()
 		{
 			public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
 			{
 				if("org/lwjgl/opengl/Display".equals(s))
 				{
+					try {
+                        ClassPool cp = ClassPool.getDefault();
+                        CtClass cc = cp.get("org.lwjgl.opengl.Display");
+                        CtMethod m = cc.getDeclaredMethod("setTitle");
+                        m.insertBefore("{de.ropemc.RopeMC.setTitleHook(newTitle);return;}");
+                        byte[] byteCode = cc.toBytecode();
+                        cc.detach();
+                        return byteCode;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
 				}
 				return null;
 			}
-		});*/
+		});
 	}
 
-	public static void setTitleHook()
+	public static void setTitleHook(String title)
 	{
+		System.out.println("TitleHook: "+title);
 		WindowTitleChangeEvent e = new WindowTitleChangeEvent(Minecraft.getMinecraftVersion());
 		EventManager.callEvent(e);
 		if(!e.isCancelled())
@@ -50,50 +68,5 @@ public class RopeMC
 			Minecraft.setWindowTitle(e.getTitle());
 		}
 	}
-
-	/*public static class JaTestVisitor extends ClassVisitor
-	{
-
-		public JaTestVisitor(ClassWriter writer)
-		{
-			super(Opcodes.ASM4, writer);
-		}
-
-		public void visit(int version, int access, String name, String signature, String superName, String[] interfaces)
-		{
-			super.visit(version, access, name, signature, superName, interfaces);
-		}
-
-		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-	        //System.out.println(" " + name + desc);
-	        if(name.equals("setTitle"))return new SetTitleMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions));
-	        return super.visitMethod(access, name, desc, signature, exceptions);
-	    }
-
-		public void visitEnd()
-		{
-			super.visitEnd();
-		}
-
-	}
-
-	public static class SetTitleMethodVisitor extends MethodVisitor
-	{
-
-		public void visitCode()
-		{
-			//mv.visitInsn(Opcodes.RETURN);
-			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "de/ropemc/RopeMC", "setTitleHook", "()V", false);
-			mv.visitInsn(Opcodes.RETURN);
-		}
-		
-		
-		
-		public SetTitleMethodVisitor(MethodVisitor mv)
-		{
-			super(Opcodes.ASM5, mv);
-		}
-
-	}*/
 	
 }

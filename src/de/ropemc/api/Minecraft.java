@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 
 import de.ropemc.Mappings;
 import de.ropemc.RopeMC;
-import de.ropemc.Utils;
+import de.ropemc.utils.Utils;
 
 public class Minecraft
 {	
