@@ -27,7 +27,7 @@ public class RopeMC
 	public static void premain(String args, Instrumentation instrumentation)
 	{
 		version = MCVersion.MC1_8_8;
-		//creating folders 
+		//creating folders
 		rope_directory = new File("RopeMC");
 		if(!rope_directory.exists()) rope_directory.mkdir();
 		rope_mods_directory = new File(rope_directory,"Mods");
@@ -56,7 +56,6 @@ public class RopeMC
 				return null;
 			}
 		});
-		System.out.println("Mapping: "+Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
 	}
 
 	public static void setTitleHook(String title)
