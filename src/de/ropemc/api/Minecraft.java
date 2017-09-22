@@ -69,9 +69,9 @@ public class Minecraft
 	}
 	
 	public static String getMinecraftVersion() {
-		//return "Debug";
+		return "Debug";
 
-		try {
+		/*try {
 			Object mc = getMinecraft();
 			Field f2 = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
 			f2.setAccessible(true);
@@ -80,7 +80,7 @@ public class Minecraft
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return null;*/
 	}
 	
 	public static void printChatMessage(String msg)
