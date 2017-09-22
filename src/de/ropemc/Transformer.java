@@ -26,6 +26,7 @@ public class Transformer implements ClassFileTransformer {
                 ex.printStackTrace();
             }
         }
+
         if(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s))
         {
             try {
@@ -40,6 +41,22 @@ public class Transformer implements ClassFileTransformer {
                 ex.printStackTrace();
             }
         }
+
+        if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.Minecraft"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.Minecraft", "runTickKeyboard"));
+                m.insertAt(1937, "de.ropemc.Hooks.titleHook(k);");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+            //1937
+
         return null;
     }
 
