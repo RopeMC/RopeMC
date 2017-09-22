@@ -9,7 +9,7 @@ import de.ropemc.mods.ModManager;
 public class Hooks {
 
     public static void titleHook(String title) {
-    	Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
+    	if (!title.contains("Rope")) Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
         EventManager.callEvent(new WindowTitleChangeEvent(title));
     }
 
