@@ -30,7 +30,6 @@ public class RopeMC
 		rope_Mappings_directory = new File(rope_directory, "Mappings");
 		if(!rope_Mappings_directory.exists()) rope_Mappings_directory.mkdir();
 		ModManager.loadModules(rope_mods_directory);
-        Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
 		instrumentation.addTransformer(new Transformer());
 	}
 	
