@@ -49,7 +49,8 @@ public class Minecraft
 			e.printStackTrace();
 		}
 	}
-	private static Object getMinecraft()
+	
+	public static Object getMinecraft()
 	{
 		try {
 			Class mc = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
@@ -66,6 +67,7 @@ public class Minecraft
 		}
 		return null;
 	}
+	
 	public static String getMinecraftVersion() {
 		//return "Debug";
 

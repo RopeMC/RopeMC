@@ -53,6 +53,20 @@ public class RopeMC
                         ex.printStackTrace();
                     }
 				}
+				if(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s))
+				{
+					try {
+                        ClassPool cp = ClassPool.getDefault();
+                        CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP"));
+                        CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
+                        m.insertBefore("de.ropemc.event.EventManager.callEvent(new de.ropemc.event.player.PlayerUpdateEvent());");
+                        byte[] byteCode = cc.toBytecode();
+                        cc.detach();
+                        return byteCode;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+				}
 				return null;
 			}
 		});
