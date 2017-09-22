@@ -56,17 +56,18 @@ public class RopeMC
 				return null;
 			}
 		});
+		System.out.println("Mapping: "+Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
 	}
 
 	public static void setTitleHook(String title)
 	{
-		System.out.println("TitleHook: "+title);
-		WindowTitleChangeEvent e = new WindowTitleChangeEvent(Minecraft.getMinecraftVersion());
+		WindowTitleChangeEvent e = new WindowTitleChangeEvent(title);
 		EventManager.callEvent(e);
 		if(!e.isCancelled())
 		{
-			Minecraft.setWindowTitle(e.getTitle());
+			//Minecraft.setWindowTitle(e.getTitle());
 		}
+		Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
 	}
 	
 }

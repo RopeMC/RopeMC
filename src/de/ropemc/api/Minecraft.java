@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 
 import de.ropemc.Mappings;
-import de.ropemc.RopeMC;
 import de.ropemc.utils.Utils;
 
 public class Minecraft
@@ -53,7 +52,7 @@ public class Minecraft
 	private static Object getMinecraft()
 	{
 		try {
-			Class mc = Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.client.Minecraft"));
+			Class mc = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
 			if(mc==null)
 			{
 				System.out.println("========");
@@ -65,7 +64,7 @@ public class Minecraft
 				System.out.println("========");
 				return null;
 			}
-			Field f = mc.getDeclaredField(Mappings.getFieldName(RopeMC.version,"net.minecraft.client.Minecraft.theMinecraft"));
+			Field f = mc.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
 			f.setAccessible(true);
 			return f.get(null);
 		}
@@ -79,7 +78,7 @@ public class Minecraft
 
 		try {
 			Object mc = getMinecraft();
-			Field f2 = Class.forName(Mappings.getClassName(RopeMC.version, "net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName(RopeMC.version,"net.minecraft.client.Minecraft.launchedVersion"));
+			Field f2 = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
 			f2.setAccessible(true);
 			return f2.get(mc).toString();
 		}
@@ -88,6 +87,8 @@ public class Minecraft
 		}
 		return null;
 	}
+	
+	/*
 	public static void printChatMessage(String msg)
 	{
 		try {
@@ -105,6 +106,7 @@ public class Minecraft
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	
 }
