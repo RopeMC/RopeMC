@@ -124,4 +124,16 @@ public class Player {
 			e.printStackTrace();
 		}
 	}
+
+	public static boolean isInvisible() {
+		try {
+			Object player = getPlayer();
+			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
+			m.setAccessible(true);
+			return (boolean) m.invoke(player);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
