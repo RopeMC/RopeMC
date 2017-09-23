@@ -127,7 +127,7 @@ public class Mapping
 			try {
 				URL github = new URL("https://raw.githubusercontent.com/RopeMC/MinecraftMappings/master/" + version.toString().substring(2).replace("_", ".") + "/mcp2obf.srg");
 				ReadableByteChannel rbc = Channels.newChannel(github.openStream());
-				FileOutputStream fos = new FileOutputStream(RopeMC.rope_Mappings_directory.toPath() + "/" + version + ".srg");
+				FileOutputStream fos = new FileOutputStream(RopeMC.rope_mappings_directory.toPath() + "/" + version + ".srg");
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 			} catch (Exception e) {
 				e.printStackTrace();
