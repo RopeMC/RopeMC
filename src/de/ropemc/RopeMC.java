@@ -34,6 +34,7 @@ public class RopeMC
 
 		System.out.println("Downloading Mappings...");
 		Mapping.download();
+		System.out.println("Downloading Completed !");
 
 		ModManager.loadModules(rope_mods_directory);
 		instrumentation.addTransformer(new Transformer());
