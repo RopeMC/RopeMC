@@ -1,9 +1,11 @@
 package de.ropemc.api;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import de.ropemc.Mappings;
 import de.ropemc.utils.HelperClasses.Vector3d;
+import de.ropemc.utils.Mapping;
 
 public class Player {
 	
@@ -75,5 +77,50 @@ public class Player {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static boolean isSprinting() {
+		try {
+			Object player = getPlayer();
+			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
+			m.setAccessible(true);
+			return (boolean) m.invoke(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static void setSprinting(boolean flag) {
+		try {
+			Object player = getPlayer();
+			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
+			m.setAccessible(true);
+			m.invoke(player, flag);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static boolean isSneaking() {
+		try {
+			Object player = getPlayer();
+			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
+			m.setAccessible(true);
+			return (boolean) m.invoke(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static void setSneaking(boolean flag) {
+		try {
+			Object player = getPlayer();
+			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
+			m.setAccessible(true);
+			m.invoke(player, flag);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

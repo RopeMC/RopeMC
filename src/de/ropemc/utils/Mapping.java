@@ -121,7 +121,6 @@ public class Mapping
 		}
 		return null;
 	}
-
 	public static void download() {
 		for(Mappings.MCVersion version : Mappings.MCVersion.values()) {
 			try {
