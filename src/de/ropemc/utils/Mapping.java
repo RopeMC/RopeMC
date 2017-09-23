@@ -1,14 +1,14 @@
 package de.ropemc.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.ropemc.Mappings;
+import de.ropemc.RopeMC;
 
 public class Mapping
 {
@@ -120,6 +120,19 @@ public class Mapping
 			}
 		}
 		return null;
+	}
+
+	public static void download() {
+		for(Mappings.MCVersion version : Mappings.MCVersion.values()) {
+			try {
+				URL github = new URL("https://raw.githubusercontent.com/RopeMC/MinecraftMappings/master/" + version.toString().substring(2).replace("_", ".") + "/mcp2obf.srg");
+				ReadableByteChannel rbc = Channels.newChannel(github.openStream());
+				FileOutputStream fos = new FileOutputStream(RopeMC.rope_Mappings_directory.toPath() + "/" + version + ".srg");
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

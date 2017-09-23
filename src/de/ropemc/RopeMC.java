@@ -6,6 +6,7 @@ import java.lang.instrument.Instrumentation;
 import de.ropemc.api.Minecraft;
 import de.ropemc.Mappings.MCVersion;
 import de.ropemc.mods.ModManager;
+import de.ropemc.utils.Mapping;
 
 public class RopeMC
 {
@@ -19,6 +20,7 @@ public class RopeMC
 	
 	public static void premain(String args, Instrumentation instrumentation)
 	{
+
 		version = MCVersion.MC1_8_8;
 		//creating folders
 		rope_directory = new File("RopeMC");
@@ -29,6 +31,10 @@ public class RopeMC
 		if(!rope_config_directory.exists()) rope_config_directory.mkdir();
 		rope_Mappings_directory = new File(rope_directory, "Mappings");
 		if(!rope_Mappings_directory.exists()) rope_Mappings_directory.mkdir();
+
+		System.out.println("Downloading Mappings...");
+		Mapping.download();
+
 		ModManager.loadModules(rope_mods_directory);
 		instrumentation.addTransformer(new Transformer());
 	}
