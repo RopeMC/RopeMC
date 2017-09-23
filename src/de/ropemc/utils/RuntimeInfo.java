@@ -14,4 +14,9 @@ public class RuntimeInfo {
     public static Long getUsedMemory() {
         return mcrt.totalMemory();
     }
+    
+    public static int getAvailableProcessors() {
+    	return mcrt.availableProcessors();
+    }
+    
 }
