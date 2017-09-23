@@ -42,6 +42,20 @@ public class Transformer implements ClassFileTransformer {
             }
         }
 
+        if (Mappings.getClassName("net.minecraft.client.gui.IngameGui").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.gui.IngameGui"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.IngameGui", "renderGameOverlay"));
+                m.insertAfter("de.ropemc.Hooks.draw2DHook();");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
         /*if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s)) {
             try {
                 ClassPool cp = ClassPool.getDefault();
