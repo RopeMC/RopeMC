@@ -25,6 +25,7 @@ public class Player {
 			e.printStackTrace();
 		}
 		return null;
+
 	}
 	
 	public static int getHurtTime()
