@@ -12,6 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +41,19 @@ public class Utils {
         var4.flip();
         return var4;
     }
+	public static long convertGitHubTimestamp(String stamp)
+	{
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		try
+		{
+			return df.parse(stamp).getTime();
+		}
+		catch(ParseException e)
+		{
+			e.printStackTrace();
+		}
+		return -1;
+	}
 	public static String getGitHubPushedAt(String owner,String repo)
 	{
 		String content = getContent("https://api.github.com/repos/"+owner+"/"+repo,null,null);
