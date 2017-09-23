@@ -57,19 +57,19 @@ public class Transformer implements ClassFileTransformer {
             }
         }
 
-        /*if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s)) {
+        if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s)) {
             try {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.Minecraft"));
-                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.settings.KeyBinding", "onTick"));
-                m.insertBefore("de.ropemc.Hooks.keyHook(k);");
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.Minecraft", "runTick"));
+                m.insertAt(1691, "de.ropemc.Hooks.keyHook(org.lwjgl.input.Keyboard.getEventKey());");
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }*/
+        }
 
         return null;
     }
