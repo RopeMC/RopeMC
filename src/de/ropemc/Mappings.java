@@ -1,18 +1,46 @@
 package de.ropemc;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 import de.ropemc.utils.Mapping;
+import de.ropemc.utils.Utils;
 
 public class Mappings {
 	
-	private static Mapping mapping;
-	
-	static {
-		mapping = new Mapping(new File(RopeMC.rope_mappings_directory.toPath() + "/MC1_8_8.srg"));
+	private static Mapping mapping = null;
+
+	public static void load()
+	{
+		long github_version = Utils.convertGitHubTimestamp(Utils.getGitHubPushedAt("RopeMC","MinecraftMappings"));
+		if(github_version>RopeMC.versions.getMappings())
+		{
+			update();
+			RopeMC.versions.setMappings(github_version);
+		}
+		File file = new File(RopeMC.rope_mappings_directory,RopeMC.version+".srg");
+		mapping = new Mapping(file);
+	}
+
+	public static void update() {
+		try {
+			for(MCVersion version : MCVersion.values()) {
+				File file = new File(RopeMC.rope_mappings_directory,version+".srg");
+				if (file.exists())
+				{
+					file.delete();
+				}
+				URL github = new URL("https://raw.githubusercontent.com/RopeMC/MinecraftMappings/master/" + version.toString().substring(2).replace("_", ".") + "/mcp2obf.srg");
+				ReadableByteChannel rbc = Channels.newChannel(github.openStream());
+				FileOutputStream fos = new FileOutputStream(file);
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static String getClassName(String clazz)
@@ -30,7 +58,7 @@ public class Mappings {
 		return mapping.getMethodName(clazz, method);
 	}
 	
-    public static enum MCVersion {
+    public enum MCVersion {
         MC1_8_8
     }
 

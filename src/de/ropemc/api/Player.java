@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import de.ropemc.Mappings;
-import de.ropemc.utils.HelperClasses.Vector3d;
+import de.ropemc.utils.Vector3d;
 import de.ropemc.utils.Mapping;
 
 public class Player {

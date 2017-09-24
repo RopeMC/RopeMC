@@ -121,19 +121,5 @@ public class Mapping
 		}
 		return null;
 	}
-	public static void download() {
-		for(Mappings.MCVersion version : Mappings.MCVersion.values()) {
-			try {
-				File file = new File(RopeMC.rope_mappings_directory.toPath() + "/" + version + ".srg");
-				if (file.exists()) continue;
-				URL github = new URL("https://raw.githubusercontent.com/RopeMC/MinecraftMappings/master/" + version.toString().substring(2).replace("_", ".") + "/mcp2obf.srg");
-				ReadableByteChannel rbc = Channels.newChannel(github.openStream());
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 }

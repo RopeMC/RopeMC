@@ -54,84 +54,43 @@ public class Utils {
 		}
 		return -1;
 	}
-	public static String getGitHubPushedAt(String owner,String repo)
-	{
-		String content = getContent("https://api.github.com/repos/"+owner+"/"+repo,null,null);
-		if(content==null)return null;
-		if(content.length()<1)return null;
+	public static String getGitHubPushedAt(String owner,String repo) {
+		String content = getContent("https://api.github.com/repos/" + owner + "/" + repo, null);
+		if (content == null) return null;
+		if (content.length() < 1) return null;
 		JsonParser parser = new JsonParser();
 		JsonObject o = parser.parse(content).getAsJsonObject();
-		if(o.has("pulled_at"))
-		{
-			return o.get("pulled_at").getAsString();
+		if (o.has("pushed_at")) {
+			return o.get("pushed_at").getAsString();
 		}
 		return null;
 	}
-	public static String getContent(String urlToRead,HashMap<String,String> header,HashMap<String,String> postdata){
+
+	public static String getContent(String urlToRead,HashMap<String,String> header){
 		StringBuilder result = new StringBuilder();
 		try
 		{
-			String post = null;
-			if(postdata!=null)
-			{
-				post = getPostDataString(postdata);
-			}
 			URL url = new URL(urlToRead);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(10000);
-			conn.setConnectTimeout(15000);
-			if(post!=null)
-			{
-				conn.setRequestMethod("POST");
-			}else{
-				conn.setRequestMethod("GET");
-			}
+			conn.setRequestMethod("GET");
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			if(header!=null)
 			{
 				for(String k : header.keySet())conn.addRequestProperty(k, header.get(k));
 			}
-			if(postdata!=null)
-			{
-				OutputStream os = conn.getOutputStream();
-				BufferedWriter writer = new BufferedWriter(
-				        new OutputStreamWriter(os, "UTF-8"));
-				writer.write(post);
-				writer.flush();
-				writer.close();
-				os.close();
-			}
 			BufferedReader rd = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
 			String line;
 			while ((line = rd.readLine()) != null) {
-				result.append(line);
+				result.append(line+"\n");
 			}
 			rd.close();
 		}
 		catch(Exception e)
-		{ 
+		{
 			e.printStackTrace();
 		}
 		return result.toString();
 	}
-	
-	private static String getPostDataString(HashMap<String, String> params){
-		StringBuilder result = new StringBuilder();
-        try {
-        	boolean first = true;
-            for(Map.Entry<String, String> entry : params.entrySet()){
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
-        }catch(Exception ex){ex.printStackTrace();}
-        return result.toString();
-    }
 }

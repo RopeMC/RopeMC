@@ -613,7 +613,7 @@ public final class LinkedHashTreeMap<K, V> extends AbstractMap<K, V> implements 
   /**
    * Walks an AVL tree in iteration order. Once a node has been returned, its
    * left, right and parent links are <strong>no longer used</strong>. For this
-   * reason it is safe to transform these links as you walk a tree.
+   * reason it is safe to instrumentation these links as you walk a tree.
    *
    * <p><strong>Warning:</strong> this iterator is destructive. It clears the
    * parent node of all nodes in the tree. It is an error to make a partial
