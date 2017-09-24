@@ -3,6 +3,8 @@ package de.ropemc;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import javassist.Modifier;
+import javassist.bytecode.LocalVariableAttribute;
 
 import javax.swing.*;
 import java.lang.instrument.ClassFileTransformer;
@@ -70,7 +72,22 @@ public class Transformer implements ClassFileTransformer {
                 ex.printStackTrace();
             }
         }
-
+        /*
+        if (Mappings.getClassName("net.minecraft.client.network.NetHandlerPlayClient").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.network.NetHandlerPlayClient"));
+                CtClass pc = cp.get(Mappings.getClassName("net.minecraft.network.play.server.S02PacketChat"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.network.NetHandlerPlayClient", "handleChat"),new CtClass[]{pc});
+                m.insertBefore("{de.ropemc.event.player.ChatReceiveEvent event = new de.ropemc.event.player.ChatReceiveEvent(de.ropemc.utils.Helper.getMessageFromChatPacket(\u9731));de.ropemc.event.EventManager.callEvent(event);if(event.isCancelled())return;}");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        */
         return null;
     }
 

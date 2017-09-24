@@ -2,6 +2,7 @@ package de.ropemc;
 
 import de.ropemc.api.Minecraft;
 import de.ropemc.event.EventManager;
+import de.ropemc.event.player.ChatReceiveEvent;
 import de.ropemc.event.window.Draw2DEvent;
 import de.ropemc.event.window.KeyPressedEvent;
 import de.ropemc.event.window.WindowTitleChangeEvent;
