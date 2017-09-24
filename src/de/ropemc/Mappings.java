@@ -3,6 +3,7 @@ package de.ropemc;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.File;
 
 import de.ropemc.utils.Mapping;
 
@@ -11,13 +12,7 @@ public class Mappings {
 	private static Mapping mapping;
 	
 	static {
-		InputStream in = null;
-		try {
-			in = new FileInputStream(RopeMC.rope_mappings_directory.toPath() + "/MC1_8_8.srg");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		mapping = new Mapping(in);
+		mapping = new Mapping(new File(RopeMC.rope_mappings_directory.toPath() + "/MC1_8_8.srg"));
 	}
 	
 	public static String getClassName(String clazz)
