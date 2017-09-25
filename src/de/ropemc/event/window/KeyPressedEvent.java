@@ -1,6 +1,7 @@
 package de.ropemc.event.window;
 
 import de.ropemc.api.Minecraft;
+import de.ropemc.api.Player;
 import de.ropemc.event.Event;
 
 public class KeyPressedEvent extends Event {
@@ -16,6 +17,6 @@ public class KeyPressedEvent extends Event {
     }
 
     public boolean isIngame() {
-        return Minecraft.getMinecraft() != null;
+        return Player.getPlayer() != null;
     }
 }
