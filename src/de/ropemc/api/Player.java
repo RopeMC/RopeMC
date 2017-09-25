@@ -5,11 +5,10 @@ import java.lang.reflect.Method;
 
 import de.ropemc.Mappings;
 import de.ropemc.utils.Vector3d;
-import de.ropemc.utils.Mapping;
 
 public class Player {
 	
-	private static Object getPlayer()
+	public static Object getPlayer()
 	{
 		try {
 			Class mc = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
