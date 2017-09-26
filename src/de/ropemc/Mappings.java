@@ -2,11 +2,13 @@ package de.ropemc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 import de.ropemc.utils.Mapping;
+import de.ropemc.utils.UpdateGUI;
 import de.ropemc.utils.Utils;
 
 public class Mappings {
@@ -35,8 +37,10 @@ public class Mappings {
 				}
 				URL github = new URL("https://raw.githubusercontent.com/RopeMC/MinecraftMappings/master/" + version.toString().substring(2).replace("_", ".") + "/mcp2obf.srg");
 				ReadableByteChannel rbc = Channels.newChannel(github.openStream());
+				UpdateGUI.createGUI();
 				FileOutputStream fos = new FileOutputStream(file);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+				UpdateGUI.frame.setVisible(false);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
