@@ -8,3 +8,6 @@ Our current code includes code that is not written by us, but there is currently
 For now these are the credits for the used libraries: <br/>
 Gson [com.google.gson] by Google (https://github.com/google/gson) <br/>
 [Javassist](http://jboss-javassist.github.io/javassist/) by the Javassist Team.
+
+## Contact Us
+[Our Discord](https://discord.gg/ReT5HwE)
