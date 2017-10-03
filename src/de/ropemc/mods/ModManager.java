@@ -90,7 +90,7 @@ public class ModManager
 								error="The modinfo.json has an invalid json syntax!";
 							}
 						}else{
-							error="The jarfile does not contain a module.json!";
+							error="The jarfile does not contain a modinfo.json!";
 						}
 					}
 					catch(IOException e)
