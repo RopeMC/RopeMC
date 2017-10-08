@@ -7,18 +7,64 @@ import de.ropemc.Mappings;
 import de.ropemc.utils.Vector3d;
 
 public class Player {
-	
+
+	public static Object player;
+
+	public static Class Minecraft;
+	public static Field thePlayer;
+	public static Field hurtTime;
+
+	public static Field motionX;
+	public static Field motionY;
+	public static Field motionZ;
+
+	public static Method isSprinting;
+	public static Method setSprinting;
+	public static Method isSneaking;
+	public static Method setSneaking;
+	public static Method isInvisible;
+
+	static {
+		try {
+			Minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
+			thePlayer = Minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
+			thePlayer.setAccessible(true);
+
+			hurtTime = Class.forName(Mappings.getClassName("net.minecraft.entity.EntityLivingBase")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.EntityLivingBase", "hurtTime"));
+			hurtTime.setAccessible(true);
+
+			motionX = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
+			motionY = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
+			motionZ = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
+			motionX.setAccessible(true);
+			motionY.setAccessible(true);
+			motionZ.setAccessible(true);
+
+			isSprinting = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
+			setSprinting = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
+			isSneaking = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
+			setSneaking = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
+			isInvisible = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
+			isSprinting.setAccessible(true);
+			setSprinting.setAccessible(true);
+			isSneaking.setAccessible(true);
+			setSneaking.setAccessible(true);
+			isInvisible.setAccessible(true);
+
+			player = getPlayer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static Object getPlayer()
 	{
 		try {
-			Class mc = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-			if(mc==null)
+			if(Minecraft==null)
 			{
 				return null;
 			}
-			Field f = mc.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
-			f.setAccessible(true);
-			return f.get(Minecraft.getMinecraft());
+			return thePlayer.get(de.ropemc.api.Minecraft.getMinecraft());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -30,10 +76,7 @@ public class Player {
 	public static int getHurtTime()
 	{
 		try {
-			Object player = getPlayer();
-			Field f = Class.forName(Mappings.getClassName("net.minecraft.entity.EntityLivingBase")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.EntityLivingBase", "hurtTime"));
-			f.setAccessible(true);
-			return f.getInt(player);
+			return hurtTime.getInt(player);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -44,14 +87,7 @@ public class Player {
 	public static Vector3d getMotion()
 	{
 		try {
-			Object player = getPlayer();
-			Field fx = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
-			fx.setAccessible(true);
-			Field fy = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
-			fy.setAccessible(true);
-			Field fz = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
-			fz.setAccessible(true);
-			Vector3d motion = new Vector3d(fx.getDouble(player),fy.getDouble(player),fz.getDouble(player));
+			Vector3d motion = new Vector3d(motionX.getDouble(player),motionY.getDouble(player),motionZ.getDouble(player));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -62,16 +98,9 @@ public class Player {
 	public static void setMotion(Vector3d motion)
 	{
 		try {
-			Object player = getPlayer();
-			Field fx = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
-			fx.setAccessible(true);
-			fx.set(player, motion.getX());
-			Field fy = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
-			fy.setAccessible(true);
-			fy.set(player, motion.getY());
-			Field fz = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
-			fz.setAccessible(true);
-			fz.set(player, motion.getZ());
+			motionX.set(player, motion.getX());
+			motionY.set(player, motion.getY());
+			motionZ.set(player, motion.getZ());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -80,10 +109,7 @@ public class Player {
 
 	public static boolean isSprinting() {
 		try {
-			Object player = getPlayer();
-			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
-			m.setAccessible(true);
-			return (boolean) m.invoke(player);
+			return (boolean) isSprinting.invoke(player);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,10 +118,7 @@ public class Player {
 
 	public static void setSprinting(boolean flag) {
 		try {
-			Object player = getPlayer();
-			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
-			m.setAccessible(true);
-			m.invoke(player, flag);
+			setSprinting.invoke(player, flag);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -103,10 +126,7 @@ public class Player {
 
 	public static boolean isSneaking() {
 		try {
-			Object player = getPlayer();
-			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
-			m.setAccessible(true);
-			return (boolean) m.invoke(player);
+			return (boolean) isSneaking.invoke(player);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,10 +135,7 @@ public class Player {
 
 	public static void setSneaking(boolean flag) {
 		try {
-			Object player = getPlayer();
-			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
-			m.setAccessible(true);
-			m.invoke(player, flag);
+			setSneaking.invoke(player, flag);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -126,10 +143,7 @@ public class Player {
 
 	public static boolean isInvisible() {
 		try {
-			Object player = getPlayer();
-			Method m = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
-			m.setAccessible(true);
-			return (boolean) m.invoke(player);
+			return (boolean) isInvisible.invoke(player);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
