@@ -9,5 +9,9 @@ For now these are the credits for the used libraries: <br/>
 Gson [com.google.gson] by Google (https://github.com/google/gson) <br/>
 [Javassist](http://jboss-javassist.github.io/javassist/) by the Javassist Team.
 
+## Existing Mods
+[ConsoleMod](https://github.com/RopeMC/ConsoleMod)
+[DebugMod](https://github.com/RopeMC/DebugMod)
+
 ## Contact Us
 [Our Discord](https://discord.gg/ReT5HwE)
