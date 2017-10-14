@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 public class Rendering {
 
     private static Object fontRenderer;
+    private static Class<?> fontRendererClass;
 
     private static Method drawString;
     private static Method drawStringWithShadow;
@@ -18,47 +19,42 @@ public class Rendering {
             Field f = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getField(Mappings.getFieldName(Mappings.getClassName("net.minecraft.client.Minecraft"), "fontRendererObj"));
             f.setAccessible(true);
             fontRenderer = f.get(Minecraft.getMinecraft());
+            fontRendererClass = fontRenderer.getClass();
 
-            Method drawStringMethod = Class.forName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer")).getMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawString"));
-            drawStringMethod.setAccessible(true);
-            drawString = drawStringMethod;
+            drawString = fontRendererClass.getDeclaredMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawString"), String.class, float.class, float.class, int.class);
+            drawString.setAccessible(true);
 
-            Method drawStringWithShadowMethod = Class.forName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer")).getMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawStringWithShadow"));
-            drawStringWithShadowMethod.setAccessible(true);
-            drawStringWithShadow = drawStringWithShadowMethod;
+            drawStringWithShadow = fontRendererClass.getDeclaredMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawStringWithShadow"), String.class, float.class, float.class, int.class);
+            drawStringWithShadow.setAccessible(true);
 
-            Method drawCenteredStringMethod = Class.forName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer")).getMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawCenteredString"));
-            drawCenteredStringMethod.setAccessible(true);
-            drawCenteredString = drawCenteredStringMethod;
+            drawCenteredString = fontRendererClass.getDeclaredMethod(Mappings.getMethodName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"), "drawCenteredString"), String.class, float.class, float.class, int.class);
+            drawCenteredString.setAccessible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static int drawString(String text, int x, int y, int color) {
+    public static void drawString(String text, float x, float y, int color) {
         try {
-            return (int) drawString.invoke(fontRenderer, text, x, y, color);
+            drawString.invoke(fontRenderer, text, x, y, color);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
     }
 
-    public static int drawStringWithShadow(String text, int x, int y, int color) {
+    public static void drawStringWithShadow(String text, float x, float y, int color) {
         try {
-            return (int) drawStringWithShadow.invoke(fontRenderer, text, x, y, color);
+            drawStringWithShadow.invoke(fontRenderer, text, x, y, color);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
     }
 
-    public static int drawCenteredString(String text, int x, int y, int color) {
+    public static void drawCenteredString(String text, float x, float y, int color) {
         try {
-            return (int) drawCenteredString.invoke(fontRenderer, text, x, y, color);
+            drawCenteredString.invoke(fontRenderer, text, x, y, color);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
     }
 }

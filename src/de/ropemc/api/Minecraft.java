@@ -14,7 +14,7 @@ public class Minecraft
     private static Field minecraft;
     private static Field launchedVersion;
 
-    private static Class chatComponentText;
+    private static Class<?> chatComponentText;
     private static Field ingameGui;
     private static Method getChatGui;
     private static Method printChatMessage;

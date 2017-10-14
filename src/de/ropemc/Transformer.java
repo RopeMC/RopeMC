@@ -50,7 +50,7 @@ public class Transformer implements ClassFileTransformer {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.gui.GuiIngame"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "renderGameOverlay"));
-                m.insertAt(72, "de.ropemc.Hooks.draw2DHook();");
+                m.insertAt(121, "de.ropemc.Hooks.draw2DHook();");
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
