@@ -9,7 +9,42 @@ import de.ropemc.Mappings;
 import de.ropemc.utils.Utils;
 
 public class Minecraft
-{	
+{
+
+    private static Field minecraft;
+    private static Field launchedVersion;
+
+    private static Class chatComponentText;
+    private static Field ingameGui;
+    private static Method getChatGui;
+    private static Method printChatMessage;
+    private static Object chatGui;
+
+    static {
+        try {
+            minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
+            minecraft.setAccessible(true);
+
+            launchedVersion = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
+            launchedVersion.setAccessible(true);
+
+            chatComponentText = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText"));
+
+            ingameGui = getMinecraft().getClass().getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
+            ingameGui.setAccessible(true);
+
+            getChatGui = ingameGui.getType().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));
+            getChatGui.setAccessible(true);
+
+            chatGui = getChatGui.invoke(ingameGui.get(getMinecraft()));
+
+            printChatMessage = chatGui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
+            printChatMessage.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 	public static void setWindowTitle(String title)
 	{
 		try
@@ -53,29 +88,17 @@ public class Minecraft
 	public static Object getMinecraft()
 	{
 		try {
-			Class mc = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-			if(mc==null)
-			{
-				return null;
-			}
-			Field f = mc.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
-			f.setAccessible(true);
-			return f.get(null);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+            return minecraft.get(null);
+        } catch (Exception e) {
+		    e.printStackTrace();
+        }
+        return null;
 	}
 	
 	public static String getMinecraftVersion() {
 		try {
-		Object mc = getMinecraft();
-		Field f2 = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
-		f2.setAccessible(true);
-		return f2.get(mc).toString();
-		}
-		catch(Exception e) {
+            return launchedVersion.get(getMinecraft()).toString();
+        } catch(Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -84,15 +107,8 @@ public class Minecraft
 	public static void printChatMessage(String msg)
 	{
 		try {
-			Object cc = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText")).getConstructor(String.class).newInstance(msg);
-			Object mc = getMinecraft();
-			Field f = mc.getClass().getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
-			f.setAccessible(true);
-			Method m1 = f.getType().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));
-			Object chatgui = m1.invoke(f.get(mc));
-			Method m2 = chatgui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
-			m2.invoke(chatgui, cc);
-			
+			Object cc = chatComponentText.getConstructor(String.class).newInstance(msg);
+			printChatMessage.invoke(chatGui, cc);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -8,21 +8,21 @@ import de.ropemc.utils.Vector3d;
 
 public class Player {
 
-	public static Object player;
+	private static Object player;
 
-	public static Class Minecraft;
-	public static Field thePlayer;
-	public static Field hurtTime;
+	private static Class Minecraft;
+	private static Field thePlayer;
+	private static Field hurtTime;
 
-	public static Field motionX;
-	public static Field motionY;
-	public static Field motionZ;
+	private static Field motionX;
+	private static Field motionY;
+	private static Field motionZ;
 
-	public static Method isSprinting;
-	public static Method setSprinting;
-	public static Method isSneaking;
-	public static Method setSneaking;
-	public static Method isInvisible;
+	private static Method isSprinting;
+	private static Method setSprinting;
+	private static Method isSneaking;
+	private static Method setSneaking;
+	private static Method isInvisible;
 
 	static {
 		try {
@@ -60,10 +60,6 @@ public class Player {
 	public static Object getPlayer()
 	{
 		try {
-			if(Minecraft==null)
-			{
-				return null;
-			}
 			return thePlayer.get(de.ropemc.api.Minecraft.getMinecraft());
 		}
 		catch(Exception e) {
