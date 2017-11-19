@@ -3,10 +3,6 @@ package de.ropemc;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import javassist.Modifier;
-import javassist.bytecode.LocalVariableAttribute;
-
-import javax.swing.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
@@ -38,7 +34,10 @@ public class Transformer implements ClassFileTransformer {
                 CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "sendChatMessage"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
                 m.insertBefore("de.ropemc.event.EventManager.callEvent(new de.ropemc.event.player.PlayerUpdateEvent());");
-                m1.insertBefore("if(de.ropemc.event.player.PlayerChatHook.playerChatHook($1)) return;");
+                m1.insertBefore("de.ropemc.event.player.ChatReceiveEvent event = new de.ropemc.event.player.ChatReceiveEvent($1);" +
+                "de.ropemc.event.EventManager.callEvent(event);" +
+                "$1 = event.getMessage();" +
+                "if (event.isCancelled()) return;");
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;

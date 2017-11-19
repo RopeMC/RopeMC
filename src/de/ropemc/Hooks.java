@@ -24,5 +24,5 @@ public class Hooks {
         EventManager.callEvent(new Draw2DEvent());
     }
 
-    public static void PlayerChatHook(String message) { EventManager.callEvent(new PlayerChatEvent(message));}
+    public static void playerChatHook(String message) { EventManager.callEvent(new PlayerChatEvent(message));}
 }
