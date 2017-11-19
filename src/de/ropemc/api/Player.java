@@ -3,6 +3,7 @@ package de.ropemc.api;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import com.sun.istack.internal.NotNull;
 import de.ropemc.Mappings;
 import de.ropemc.utils.Vector3d;
 
@@ -79,7 +80,7 @@ public class Player {
 		}
 		return 0;
 	}
-	
+
 	public static Vector3d getMotion()
 	{
 		try {

@@ -3,6 +3,7 @@ package de.ropemc;
 import de.ropemc.api.Minecraft;
 import de.ropemc.event.EventManager;
 import de.ropemc.event.player.ChatReceiveEvent;
+import de.ropemc.event.player.PlayerChatEvent;
 import de.ropemc.event.window.Draw2DEvent;
 import de.ropemc.event.window.KeyPressedEvent;
 import de.ropemc.event.window.WindowTitleChangeEvent;
@@ -23,4 +24,5 @@ public class Hooks {
         EventManager.callEvent(new Draw2DEvent());
     }
 
+    public static void PlayerChatHook(String message) { EventManager.callEvent(new PlayerChatEvent(message));}
 }
