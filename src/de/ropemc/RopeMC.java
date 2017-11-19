@@ -1,15 +1,13 @@
 package de.ropemc;
 
-import java.io.File;
-import java.lang.instrument.Instrumentation;
-
-import de.ropemc.api.Minecraft;
 import de.ropemc.Mappings.MCVersion;
 import de.ropemc.event.EventManager;
 import de.ropemc.event.instrumentation.InstrumentationEvent;
 import de.ropemc.mods.ModManager;
-import de.ropemc.utils.Mapping;
 import de.ropemc.utils.VersionFile;
+
+import java.io.File;
+import java.lang.instrument.Instrumentation;
 
 public class RopeMC
 {
