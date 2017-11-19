@@ -34,7 +34,7 @@ public class Transformer implements ClassFileTransformer {
                 CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "sendChatMessage"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
                 m.insertBefore("de.ropemc.event.EventManager.callEvent(new de.ropemc.event.player.PlayerUpdateEvent());");
-                m1.insertBefore("de.ropemc.event.player.ChatReceiveEvent event = new de.ropemc.event.player.ChatReceiveEvent($1);" +
+                m1.insertBefore("de.ropemc.event.player.PlayerChatEvent event = new de.ropemc.event.player.PlayerChatEvent($1);" +
                 "de.ropemc.event.EventManager.callEvent(event);" +
                 "$1 = event.getMessage();" +
                 "if (event.isCancelled()) return;");

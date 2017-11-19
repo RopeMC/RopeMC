@@ -16,6 +16,10 @@ public class PlayerChatEvent extends Event implements Cancellable{
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public boolean isCancelled() {
         return cancelled;
