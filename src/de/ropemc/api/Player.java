@@ -3,7 +3,6 @@ package de.ropemc.api;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import com.sun.istack.internal.NotNull;
 import de.ropemc.Mappings;
 import de.ropemc.utils.Vector3d;
 
@@ -11,7 +10,7 @@ public class Player {
 
 	private static Object player;
 
-	private static Class Minecraft;
+	private static Class minecraft;
 	private static Field thePlayer;
 	private static Field hurtTime;
 
@@ -27,8 +26,8 @@ public class Player {
 
 	static {
 		try {
-			Minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-			thePlayer = Minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
+			minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
+			thePlayer = minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
 			thePlayer.setAccessible(true);
 
 			hurtTime = Class.forName(Mappings.getClassName("net.minecraft.entity.EntityLivingBase")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.EntityLivingBase", "hurtTime"));
@@ -65,7 +64,12 @@ public class Player {
 	public static Object getPlayer()
 	{
 		try {
-			return thePlayer.get(de.ropemc.api.Minecraft.getMinecraft());
+			Class.forName("de.ropemc.api.world.World");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			return thePlayer.get(Minecraft.getMinecraft());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
