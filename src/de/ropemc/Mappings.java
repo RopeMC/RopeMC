@@ -15,6 +15,9 @@ public class Mappings {
 	
 	private static Mapping mapping = null;
 
+    /**
+     * init, looking for mapping updates
+     */
 	public static void load()
 	{
 		long github_version = Utils.convertGitHubTimestamp(Utils.getGitHubPushedAt("RopeMC","MinecraftMappings"));
@@ -27,6 +30,9 @@ public class Mappings {
 		mapping = new Mapping(file);
 	}
 
+    /**
+     * updates the mappings if necessary
+     */
 	public static void update() {
 		try {
 			for(MCVersion version : MCVersion.values()) {
@@ -56,12 +62,21 @@ public class Mappings {
 	{
 		return mapping.getFieldName(clazz, field);
 	}
-	
+
+	/**
+	 *
+	 * @param clazz unobfuscated name of the class the method belongs to
+	 * @param method unobfuscated name of the method itself
+	 * @return obfuscated standalone name of the method
+	 */
 	public static String getMethodName(String clazz,String method)
 	{
 		return mapping.getMethodName(clazz, method);
 	}
-	
+
+	/**
+	 * represents the Minecraft-version
+	 */
     public enum MCVersion {
         MC1_8_8
     }

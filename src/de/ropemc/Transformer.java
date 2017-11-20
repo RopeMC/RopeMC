@@ -9,6 +9,16 @@ import java.security.ProtectionDomain;
 
 public class Transformer implements ClassFileTransformer {
 
+    /**
+     * called when a class is transformed
+     * @param classLoader
+     * @param s (obfuscated) name of the class which is transformed
+     * @param aClass instance of the class which is transformed
+     * @param protectionDomain
+     * @param bytes bytecode of class
+     * @return the bytecode to transform, if null nothing will happen
+     * @throws IllegalClassFormatException
+     */
     public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
     {
         if("org/lwjgl/opengl/Display".equals(s))

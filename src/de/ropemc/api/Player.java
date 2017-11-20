@@ -58,6 +58,10 @@ public class Player {
 		}
 	}
 
+	/**
+	 *
+	 * @return instance of the own player
+	 */
 	public static Object getPlayer()
 	{
 		try {
@@ -69,7 +73,11 @@ public class Player {
 		return null;
 
 	}
-	
+
+	/**
+	 *
+	 * @return hurttime of the own player
+	 */
 	public static int getHurtTime()
 	{
 		try {
@@ -81,6 +89,10 @@ public class Player {
 		return 0;
 	}
 
+	/**
+	 *
+	 * @return motion of the own player as a three dimensional double-vector
+	 */
 	public static Vector3d getMotion()
 	{
 		try {
@@ -91,7 +103,11 @@ public class Player {
 		}
 		return new Vector3d(0.0,0.0,0.0);
 	}
-	
+
+	/**
+	 * sets the motion of the own player
+	 * @param motion three dimensional double-vector which represents the motion
+	 */
 	public static void setMotion(Vector3d motion)
 	{
 		try {
@@ -104,6 +120,10 @@ public class Player {
 		}
 	}
 
+	/**
+	 *
+	 * @return if the own player is sprinting
+	 */
 	public static boolean isSprinting() {
 		try {
 			return (boolean) isSprinting.invoke(player);
@@ -113,6 +133,10 @@ public class Player {
 		return false;
 	}
 
+	/**
+	 * sets the own player's sprinting state
+	 * @param flag sprinting state
+	 */
 	public static void setSprinting(boolean flag) {
 		try {
 			setSprinting.invoke(player, flag);
@@ -121,6 +145,10 @@ public class Player {
 		}
 	}
 
+	/**
+	 *
+	 * @return if the own player is sneaking
+	 */
 	public static boolean isSneaking() {
 		try {
 			return (boolean) isSneaking.invoke(player);
@@ -130,6 +158,10 @@ public class Player {
 		return false;
 	}
 
+	/**
+	 * sets the own player's sneaking state
+	 * @param flag sneaking state
+	 */
 	public static void setSneaking(boolean flag) {
 		try {
 			setSneaking.invoke(player, flag);
@@ -138,6 +170,10 @@ public class Player {
 		}
 	}
 
+	/**
+	 *
+	 * @return if the own player is invisible
+	 */
 	public static boolean isInvisible() {
 		try {
 			return (boolean) isInvisible.invoke(player);

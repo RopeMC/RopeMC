@@ -19,7 +19,12 @@ public class RopeMC
 	public static File rope_config_directory;
 	public static File rope_mappings_directory;
 	public static VersionFile versions;
-	
+
+	/**
+	 * project main-class, executed before minecraft is started
+	 * @param args
+	 * @param instrumentation
+	 */
 	public static void premain(String args, Instrumentation instrumentation)
 	{
 		version = MCVersion.MC1_8_8;
