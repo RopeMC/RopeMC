@@ -2,15 +2,14 @@ package de.ropemc.utils;
 
 public class Vector3d {
 
-    private double x;
-    private double y;
-    private double z;
-    public Vector3d(double x,double y,double z)
-    {
+    private double x, y, z;
+
+    public Vector3d(double x,double y,double z) {
         this.x=x;
         this.y=y;
         this.z=z;
     }
+
     public double getX()
     {
         return this.x;

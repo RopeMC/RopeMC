@@ -2,6 +2,7 @@ package de.ropemc.api.world;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.Minecraft;
+import de.ropemc.utils.Vector3i;
 
 import java.lang.reflect.Field;
 
@@ -24,6 +25,13 @@ public class World {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public static Block getBlock(Vector3i pos) {
+        return null;
+    }
     /**
      *
      * @return instance of the world object

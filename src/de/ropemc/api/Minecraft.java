@@ -22,15 +22,18 @@ public class Minecraft
 
     static {
         try {
-            minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
+
+        	Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
+
+            minecraft = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
             minecraft.setAccessible(true);
 
-            launchedVersion = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft")).getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
+            launchedVersion = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
             launchedVersion.setAccessible(true);
 
             chatComponentText = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText"));
 
-            ingameGui = getMinecraft().getClass().getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
+            ingameGui = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
             ingameGui.setAccessible(true);
 
             getChatGui = ingameGui.getType().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));

@@ -14,6 +14,10 @@ public class Player {
 	private static Field thePlayer;
 	private static Field hurtTime;
 
+	private static Field posX;
+	private static Field posY;
+	private static Field posZ;
+
 	private static Field motionX;
 	private static Field motionY;
 	private static Field motionZ;
@@ -33,18 +37,28 @@ public class Player {
 			hurtTime = Class.forName(Mappings.getClassName("net.minecraft.entity.EntityLivingBase")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.EntityLivingBase", "hurtTime"));
 			hurtTime.setAccessible(true);
 
-			motionX = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
-			motionY = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
-			motionZ = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
+
+			Class<?> entityClass = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity"));
+
+			posX = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posX"));
+			posY = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posY"));
+			posZ = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posZ"));
+			posX.setAccessible(true);
+			posY.setAccessible(true);
+			posZ.setAccessible(true);
+
+			motionX = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
+			motionY = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
+			motionZ = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
 			motionX.setAccessible(true);
 			motionY.setAccessible(true);
 			motionZ.setAccessible(true);
 
-			isSprinting = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
-			setSprinting = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
-			isSneaking = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
-			setSneaking = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
-			isInvisible = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity")).getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
+			isSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
+			setSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
+			isSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
+			setSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
+			isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
 			isSprinting.setAccessible(true);
 			setSprinting.setAccessible(true);
 			isSneaking.setAccessible(true);
@@ -100,12 +114,25 @@ public class Player {
 	public static Vector3d getMotion()
 	{
 		try {
-			Vector3d motion = new Vector3d(motionX.getDouble(player),motionY.getDouble(player),motionZ.getDouble(player));
+			return new Vector3d(motionX.getDouble(player),motionY.getDouble(player),motionZ.getDouble(player));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		return new Vector3d(0.0,0.0,0.0);
+	}
+
+	/**
+	 *
+	 * @return position of the own player as a three dimensional double-vector
+	 */
+	public static Vector3d getPosition() {
+		try {
+			return new Vector3d(posX.getDouble(player), posY.getDouble(player), posZ.getDouble(player));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Vector3d(0.0, 0.0, 0.0);
 	}
 
 	/**
