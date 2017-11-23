@@ -56,7 +56,7 @@ public class Player {
 			setSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "setSprinting"));
 			isSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "isSneaking"));
 			setSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "setSneaking"));
-			isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "isInvisible"));
+			isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
 			isSprinting.setAccessible(true);
 			setSprinting.setAccessible(true);
 			isSneaking.setAccessible(true);
