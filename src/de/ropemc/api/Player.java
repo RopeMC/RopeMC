@@ -52,11 +52,11 @@ public class Player {
 			motionY.setAccessible(true);
 			motionZ.setAccessible(true);
 
-			isSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
-			setSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
-			isSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
-			setSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
-			isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
+			isSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "isSprinting"));
+			setSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "setSprinting"));
+			isSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "isSneaking"));
+			setSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "setSneaking"));
+			isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "isInvisible"));
 			isSprinting.setAccessible(true);
 			setSprinting.setAccessible(true);
 			isSneaking.setAccessible(true);
