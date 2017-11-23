@@ -22,6 +22,8 @@ import javax.imageio.ImageIO;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javassist.CannotCompileException;
+import javassist.CtMethod;
 
 public class Utils {
 	public static ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException
@@ -94,4 +96,7 @@ public class Utils {
 		return result.toString();
 	}
 
+	public static void InsertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException {
+		method.insertAt(method.getMethodInfo().getLineNumber(0) + lineInMethod, src);
+	}
 }
