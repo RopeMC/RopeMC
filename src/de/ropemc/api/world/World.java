@@ -61,7 +61,7 @@ public class World {
      *
      * @return instance of the world object
      */
-    public static Object getWorld() {
+    private static Object getWorld() {
         try {
             return theWorld.get(Minecraft.getMinecraft());
         } catch (Exception e) {
