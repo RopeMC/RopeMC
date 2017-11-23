@@ -8,8 +8,6 @@ import de.ropemc.utils.Vector3d;
 
 public class Player {
 
-	private static Object player;
-
 	private static Class minecraft;
 	private static Field thePlayer;
 	private static Field hurtTime;
@@ -64,8 +62,6 @@ public class Player {
 			isSneaking.setAccessible(true);
 			setSneaking.setAccessible(true);
 			isInvisible.setAccessible(true);
-
-			player = getPlayer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,13 +71,8 @@ public class Player {
 	 *
 	 * @return instance of the own player
 	 */
-	public static Object getPlayer()
+	private static Object getPlayer()
 	{
-		try {
-			Class.forName("de.ropemc.api.world.World");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		try {
 			return thePlayer.get(Minecraft.getMinecraft());
 		}
@@ -99,7 +90,7 @@ public class Player {
 	public static int getHurtTime()
 	{
 		try {
-			return hurtTime.getInt(player);
+			return hurtTime.getInt(getPlayer());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -114,7 +105,7 @@ public class Player {
 	public static Vector3d getMotion()
 	{
 		try {
-			return new Vector3d(motionX.getDouble(player),motionY.getDouble(player),motionZ.getDouble(player));
+			return new Vector3d(motionX.getDouble(getPlayer()),motionY.getDouble(getPlayer()),motionZ.getDouble(getPlayer()));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -128,7 +119,7 @@ public class Player {
 	 */
 	public static Vector3d getPosition() {
 		try {
-			return new Vector3d(posX.getDouble(player), posY.getDouble(player), posZ.getDouble(player));
+			return new Vector3d(posX.getDouble(getPlayer()), posY.getDouble(getPlayer()), posZ.getDouble(getPlayer()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -142,9 +133,9 @@ public class Player {
 	public static void setMotion(Vector3d motion)
 	{
 		try {
-			motionX.set(player, motion.getX());
-			motionY.set(player, motion.getY());
-			motionZ.set(player, motion.getZ());
+			motionX.set(getPlayer(), motion.getX());
+			motionY.set(getPlayer(), motion.getY());
+			motionZ.set(getPlayer(), motion.getZ());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -157,7 +148,7 @@ public class Player {
 	 */
 	public static boolean isSprinting() {
 		try {
-			return (boolean) isSprinting.invoke(player);
+			return (boolean) isSprinting.invoke(getPlayer());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -170,7 +161,7 @@ public class Player {
 	 */
 	public static void setSprinting(boolean flag) {
 		try {
-			setSprinting.invoke(player, flag);
+			setSprinting.invoke(getPlayer(), flag);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -182,7 +173,7 @@ public class Player {
 	 */
 	public static boolean isSneaking() {
 		try {
-			return (boolean) isSneaking.invoke(player);
+			return (boolean) isSneaking.invoke(getPlayer());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,7 +186,7 @@ public class Player {
 	 */
 	public static void setSneaking(boolean flag) {
 		try {
-			setSneaking.invoke(player, flag);
+			setSneaking.invoke(getPlayer(), flag);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -207,7 +198,7 @@ public class Player {
 	 */
 	public static boolean isInvisible() {
 		try {
-			return (boolean) isInvisible.invoke(player);
+			return (boolean) isInvisible.invoke(getPlayer());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
