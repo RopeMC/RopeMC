@@ -96,7 +96,7 @@ public class Utils {
 		return result.toString();
 	}
 
-	public static void InsertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException {
+	public static void insertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException {
 		method.insertAt(method.getMethodInfo().getLineNumber(0) + lineInMethod, src);
 	}
 }
