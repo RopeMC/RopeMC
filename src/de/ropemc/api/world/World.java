@@ -25,7 +25,7 @@ public class World {
             theWorld = minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theWorld"));
             theWorld.setAccessible(true);
 
-            getBlockState = getWorld().getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.world.World", "getBlockState"), blockPos);
+            getBlockState = Class.forName(Mappings.getClassName("net.minecraft.world.World")).getDeclaredMethod(Mappings.getMethodName("net.minecraft.world.World", "getBlockState"), blockPos);
             getBlockState.setAccessible(true);
 
         } catch (Exception e) {
@@ -45,13 +45,21 @@ public class World {
             blockGetter.setAccessible(true);
 
             Object block = blockGetter.invoke(blockState);
-            Class<?> blockClass = block.getClass();
+            Class<?> blockClass = Class.forName(Mappings.getClassName("net.minecraft.block.Block"));
 
-            int x = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minX")).getInt(block);
-            int y = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minY")).getInt(block);
-            int z = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minZ")).getInt(block);
+            /*Field xField = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minX"));
+            Field yField = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minY"));
+            Field zField = blockClass.getDeclaredField(Mappings.getFieldName("net.minecraft.block.Block", "minZ"));
+            xField.setAccessible(true);
+            yField.setAccessible(true);
+            zField.setAccessible(true);
 
-            return new Block(new Vector3i(x, y, z));
+            int x = (int) xField.getDouble(block);
+            int y = (int) yField.getDouble(block);
+            int z = (int) zField.getDouble(block);
+
+            return new Block(new Vector3i(x, y, z));*/
+            return new Block(new Vector3i(0, 0, 0));
         } catch (Exception e) {
             e.printStackTrace();
         }
