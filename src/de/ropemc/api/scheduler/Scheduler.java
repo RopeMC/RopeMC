@@ -3,7 +3,8 @@ package de.ropemc.api.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scheduler {
+public class Scheduler
+{
 
     private static List<ScheduledTask> tasks = new ArrayList<ScheduledTask>();
     private static int last_id = 0;

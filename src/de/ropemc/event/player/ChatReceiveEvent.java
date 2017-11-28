@@ -3,7 +3,8 @@ package de.ropemc.event.player;
 import de.ropemc.event.Cancellable;
 import de.ropemc.event.Event;
 
-public class ChatReceiveEvent extends Event implements Cancellable {
+public class ChatReceiveEvent extends Event implements Cancellable
+{
 
     private boolean cancelled = false;
     private String message;

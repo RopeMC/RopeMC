@@ -6,7 +6,8 @@ import java.lang.reflect.Method;
 import de.ropemc.Mappings;
 import de.ropemc.utils.Vector3d;
 
-public class Player {
+public class Player
+{
 
 	private static Class minecraft;
 	private static Field thePlayer;
@@ -26,8 +27,10 @@ public class Player {
 	private static Method setSneaking;
 	private static Method isInvisible;
 
-	static {
-		try {
+	static
+	{
+		try
+		{
 			minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
 			thePlayer = minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
 			thePlayer.setAccessible(true);
@@ -62,7 +65,9 @@ public class Player {
 			isSneaking.setAccessible(true);
 			setSneaking.setAccessible(true);
 			isInvisible.setAccessible(true);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -73,10 +78,12 @@ public class Player {
 	 */
 	private static Object getPlayer()
 	{
-		try {
+		try
+		{
 			return thePlayer.get(Minecraft.getMinecraft());
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -89,10 +96,12 @@ public class Player {
 	 */
 	public static int getHurtTime()
 	{
-		try {
+		try
+		{
 			return hurtTime.getInt(getPlayer());
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return 0;
@@ -104,10 +113,12 @@ public class Player {
 	 */
 	public static Vector3d getMotion()
 	{
-		try {
+		try
+		{
 			return new Vector3d(motionX.getDouble(getPlayer()),motionY.getDouble(getPlayer()),motionZ.getDouble(getPlayer()));
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return new Vector3d(0.0,0.0,0.0);
@@ -117,10 +128,14 @@ public class Player {
 	 *
 	 * @return position of the own player as a three dimensional double-vector
 	 */
-	public static Vector3d getPosition() {
-		try {
+	public static Vector3d getPosition()
+	{
+		try
+		{
 			return new Vector3d(posX.getDouble(getPlayer()), posY.getDouble(getPlayer()), posZ.getDouble(getPlayer()));
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return new Vector3d(0.0, 0.0, 0.0);
@@ -132,12 +147,14 @@ public class Player {
 	 */
 	public static void setMotion(Vector3d motion)
 	{
-		try {
+		try
+		{
 			motionX.set(getPlayer(), motion.getX());
 			motionY.set(getPlayer(), motion.getY());
 			motionZ.set(getPlayer(), motion.getZ());
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -146,10 +163,14 @@ public class Player {
 	 *
 	 * @return if the own player is sprinting
 	 */
-	public static boolean isSprinting() {
-		try {
+	public static boolean isSprinting()
+	{
+		try
+		{
 			return (boolean) isSprinting.invoke(getPlayer());
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return false;
@@ -159,10 +180,14 @@ public class Player {
 	 * sets the own player's sprinting state
 	 * @param flag sprinting state
 	 */
-	public static void setSprinting(boolean flag) {
-		try {
+	public static void setSprinting(boolean flag)
+	{
+		try
+		{
 			setSprinting.invoke(getPlayer(), flag);
-		} catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -171,10 +196,14 @@ public class Player {
 	 *
 	 * @return if the own player is sneaking
 	 */
-	public static boolean isSneaking() {
-		try {
+	public static boolean isSneaking()
+	{
+		try
+		{
 			return (boolean) isSneaking.invoke(getPlayer());
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return false;
@@ -184,10 +213,14 @@ public class Player {
 	 * sets the own player's sneaking state
 	 * @param flag sneaking state
 	 */
-	public static void setSneaking(boolean flag) {
-		try {
+	public static void setSneaking(boolean flag)
+	{
+		try
+		{
 			setSneaking.invoke(getPlayer(), flag);
-		} catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -196,10 +229,14 @@ public class Player {
 	 *
 	 * @return if the own player is invisible
 	 */
-	public static boolean isInvisible() {
-		try {
+	public static boolean isInvisible()
+	{
+		try
+		{
 			return (boolean) isInvisible.invoke(getPlayer());
-		} catch(Exception e) {
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return false;

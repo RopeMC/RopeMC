@@ -24,22 +24,29 @@ public class Mapping
 	
 	private static InputStream getStream(File file)
 	{
-		try {
+		try
+		{
 			return new FileInputStream(file);
-		}catch(Exception ex){}
+		}
+		catch(Exception ex){}
 		return null;
 	}
 	
 	public Mapping(InputStream stream)
 	{
-		try {
+		try
+		{
             BufferedReader br = new BufferedReader(new InputStreamReader(stream));
             String line = null;
-            while ((line = br.readLine()) != null) {
-                if (line.startsWith("CL:")) {
+            while ((line = br.readLine()) != null)
+			{
+                if (line.startsWith("CL:"))
+                {
                     String[] split = line.split(" ");
                     classes.put(split[1].replace('/', '.'), split[2].replace('/', '.'));
-                } else if (line.startsWith("FD:")) {
+                }
+                else if (line.startsWith("FD:"))
+                {
                 	String[] split = line.split(" ");
                 	String[] orig_split = split[1].split("/");
                     String orig_clazz = "";
@@ -55,12 +62,16 @@ public class Mapping
                     if(fields.containsKey(orig_clazz))
                     {
                     	fm = fields.get(orig_clazz);
-                    }else{
+                    }
+                    else
+					{
                     	fm = new HashMap<String,String>();
                     }
                     fm.put(orig_field, new_field);
                     fields.put(orig_clazz, fm);
-                } else if (line.startsWith("MD:")) {
+                }
+                else if (line.startsWith("MD:"))
+                {
                 	String[] split = line.split(" ");
                 	String[] orig_split = split[1].split("/");
                     String orig_clazz = "";
@@ -76,7 +87,9 @@ public class Mapping
                     if(methods.containsKey(orig_clazz))
                     {
                     	mm = methods.get(orig_clazz);
-                    }else{
+                    }
+                    else
+					{
                     	mm = new HashMap<String,String>();
                     }
                     mm.put(orig_method, new_method);
@@ -84,7 +97,9 @@ public class Mapping
                 }
             }
             br.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+		{
             e.printStackTrace();
         }
 	}

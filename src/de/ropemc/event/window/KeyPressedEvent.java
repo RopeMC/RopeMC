@@ -3,7 +3,8 @@ package de.ropemc.event.window;
 import de.ropemc.api.Player;
 import de.ropemc.event.Event;
 
-public class KeyPressedEvent extends Event {
+public class KeyPressedEvent extends Event
+{
 
     private int key;
 
@@ -11,7 +12,5 @@ public class KeyPressedEvent extends Event {
         this.key = key;
     }
 
-    public int getKey() {
-        return key;
-    }
+    public int getKey() { return key; }
 }

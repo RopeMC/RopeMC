@@ -23,11 +23,11 @@ public class VersionFile
 		mappings=0;
 		if(!file.exists())
 		{
-			try {
+			try
+			{
 				file.createNewFile();
-			}catch(Exception ex){
-
 			}
+			catch(Exception ex){}
 			save();
 		}
 		load();
@@ -62,7 +62,8 @@ public class VersionFile
 
 	protected JsonObject read()
 	{
-		try {
+		try
+		{
 			JsonElement e = parser.parse(new FileReader(file));
 			if(e!=null)
 			{
@@ -71,7 +72,8 @@ public class VersionFile
 					return e.getAsJsonObject();
 				}
 			}
-		}catch(Exception ex){}
+		}
+		catch(Exception ex){}
 		return new JsonObject();
 	}
 	
@@ -84,9 +86,6 @@ public class VersionFile
 			fr.flush();
 			fr.close();
 		}
-		catch(IOException e)
-		{
-		}
+		catch(IOException e) {}
 	}
-	
 }

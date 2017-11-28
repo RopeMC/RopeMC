@@ -9,13 +9,15 @@ import de.ropemc.event.window.KeyPressedEvent;
 import de.ropemc.event.window.WindowTitleChangeEvent;
 import de.ropemc.mods.ModManager;
 
-public class Hooks {
+public class Hooks
+{
 
     /**
      *
      * @param title
      */
-    public static void titleHook(String title) {
+    public static void titleHook(String title)
+    {
     	Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+Minecraft.getMinecraftVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
         EventManager.callEvent(new WindowTitleChangeEvent(title));
     }
@@ -31,7 +33,5 @@ public class Hooks {
     /**
      * Triggers a Draw2DEvent
      */
-    public static void draw2DHook() {
-        EventManager.callEvent(new Draw2DEvent());
-    }
+    public static void draw2DHook() { EventManager.callEvent(new Draw2DEvent()); }
 }

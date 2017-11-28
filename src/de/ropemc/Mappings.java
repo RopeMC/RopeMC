@@ -11,7 +11,8 @@ import de.ropemc.utils.Mapping;
 import de.ropemc.utils.UpdateGUI;
 import de.ropemc.utils.Utils;
 
-public class Mappings {
+public class Mappings
+{
 	
 	private static Mapping mapping = null;
 
@@ -33,9 +34,12 @@ public class Mappings {
     /**
      * updates the mappings if necessary
      */
-	public static void update() {
-		try {
-			for(MCVersion version : MCVersion.values()) {
+	public static void update()
+	{
+		try
+		{
+			for(MCVersion version : MCVersion.values())
+			{
 				File file = new File(RopeMC.rope_mappings_directory,version+".srg");
 				if (file.exists())
 				{
@@ -48,7 +52,9 @@ public class Mappings {
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 				UpdateGUI.frame.setVisible(false);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -77,8 +83,9 @@ public class Mappings {
 	/**
 	 * represents the Minecraft-version
 	 */
-    public enum MCVersion {
-        MC1_8_8
+    public enum MCVersion
+	{
+        MC1_8_8		// 1.8.8
     }
 
 }

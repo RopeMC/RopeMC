@@ -3,7 +3,8 @@ package de.ropemc.api.scheduler;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ScheduledTask extends TimerTask {
+public class ScheduledTask extends TimerTask
+{
 
     private Timer timer;
     private int id;

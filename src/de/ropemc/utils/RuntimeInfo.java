@@ -1,7 +1,8 @@
 package de.ropemc.utils;
 
-public class RuntimeInfo {
-    public static Runtime mcrt = Runtime.getRuntime();
+public class RuntimeInfo
+{
+    private static Runtime mcrt = Runtime.getRuntime();
 
     public static Long getMaxMemory() {
         return mcrt.maxMemory();

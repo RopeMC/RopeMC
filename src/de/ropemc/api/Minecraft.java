@@ -20,8 +20,10 @@ public class Minecraft
     private static Method printChatMessage;
     private static Object chatGui;
 
-    static {
-        try {
+    static
+	{
+        try
+		{
 
         	Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
 
@@ -43,7 +45,9 @@ public class Minecraft
 
             printChatMessage = chatGui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
             printChatMessage.setAccessible(true);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+		{
             e.printStackTrace();
         }
     }
@@ -66,42 +70,55 @@ public class Minecraft
 			e.printStackTrace();
 		}
 	}
-	public static String getWindowTitle() {
-		try {
+	public static String getWindowTitle()
+	{
+		try
+		{
 			Field f = Class.forName("org.lwjgl.opengl.Display").getDeclaredField("title");
 			f.setAccessible(true);
 			return f.get(null).toString();
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
 	}
-	public static void setWindowIcon(InputStream icon1, InputStream icon2) {
-		try {
+	public static void setWindowIcon(InputStream icon1, InputStream icon2)
+	{
+		try
+		{
 			ByteBuffer[] bb = new ByteBuffer[] { Utils.readImageToBuffer(icon1), Utils.readImageToBuffer(icon2)};
 			Method m = Class.forName("org.lwjgl.opengl.Display").getDeclaredMethod("setIcon", ByteBuffer.class);
 			m.invoke(null, bb);
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 	
 	public static Object getMinecraft()
 	{
-		try {
+		try
+		{
             return minecraft.get(null);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+		{
 		    e.printStackTrace();
         }
         return null;
 	}
 	
-	public static String getMinecraftVersion() {
-		try {
+	public static String getMinecraftVersion()
+	{
+		try
+		{
             return launchedVersion.get(getMinecraft()).toString();
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -109,7 +126,8 @@ public class Minecraft
 	
 	public static void printChatMessage(String msg)
 	{
-		try {
+		try
+		{
 			Object cc = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText")).getConstructor(String.class).newInstance(msg);
 			Object mc = getMinecraft();
 			Field f = mc.getClass().getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
@@ -119,7 +137,8 @@ public class Minecraft
 			Method m2 = chatgui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
 			m2.invoke(chatgui, cc);
 		}
-		catch(Exception e) {
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}

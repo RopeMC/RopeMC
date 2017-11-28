@@ -1,4 +1,6 @@
 package de.ropemc.api.world;
 
-public class Entity {
+public class Entity
+{
+
 }
