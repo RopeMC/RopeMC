@@ -56,7 +56,8 @@ public class Utils {
 		}
 		return -1;
 	}
-	public static String getGitHubPushedAt(String owner,String repo) {
+	public static String getGitHubPushedAt(String owner,String repo)
+	{
 		String content = getContent("https://api.github.com/repos/" + owner + "/" + repo, null);
 		if (content == null) return null;
 		if (content.length() < 1) return null;
@@ -68,7 +69,8 @@ public class Utils {
 		return null;
 	}
 
-	public static String getContent(String urlToRead,HashMap<String,String> header){
+	public static String getContent(String urlToRead,HashMap<String,String> header)
+	{
 		StringBuilder result = new StringBuilder();
 		try
 		{
@@ -96,7 +98,8 @@ public class Utils {
 		return result.toString();
 	}
 
-	public static void insertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException {
+	public static void insertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException
+	{
 		method.insertAt(method.getMethodInfo().getLineNumber(0) + lineInMethod, src);
 	}
 }
