@@ -26,7 +26,6 @@ import javassist.CannotCompileException;
 import javassist.CtMethod;
 
 public class Utils {
-
 	public static ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException
     {
         BufferedImage var2 = ImageIO.read(imageStream);
@@ -44,7 +43,6 @@ public class Utils {
         var4.flip();
         return var4;
     }
-
 	public static long convertGitHubTimestamp(String stamp)
 	{
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -58,9 +56,7 @@ public class Utils {
 		}
 		return -1;
 	}
-
-	public static String getGitHubPushedAt(String owner,String repo)
-	{
+	public static String getGitHubPushedAt(String owner,String repo) {
 		String content = getContent("https://api.github.com/repos/" + owner + "/" + repo, null);
 		if (content == null) return null;
 		if (content.length() < 1) return null;
@@ -72,8 +68,7 @@ public class Utils {
 		return null;
 	}
 
-	public static String getContent(String urlToRead,HashMap<String,String> header)
-	{
+	public static String getContent(String urlToRead,HashMap<String,String> header){
 		StringBuilder result = new StringBuilder();
 		try
 		{
@@ -101,8 +96,7 @@ public class Utils {
 		return result.toString();
 	}
 
-	public static void InsertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException
-	{
+	public static void insertAtMethod(CtMethod method, int lineInMethod, String src) throws CannotCompileException {
 		method.insertAt(method.getMethodInfo().getLineNumber(0) + lineInMethod, src);
 	}
 }
