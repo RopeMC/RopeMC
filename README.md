@@ -14,4 +14,4 @@ For now these are the credits for the used libraries: <br/>
 [DebugMod](https://github.com/RopeMC/DebugMod)
 
 ## Contact Us
-[Our Discord](https://discord.gg/ReT5HwE)
+[Our Discord](https://discord.io/ropemc)
