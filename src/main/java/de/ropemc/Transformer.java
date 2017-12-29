@@ -1,5 +1,6 @@
 package de.ropemc;
 
+import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -45,11 +46,11 @@ public class Transformer implements ClassFileTransformer
             try
             {
                 ClassPool cp = ClassPool.getDefault();
-                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP"));
-                CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "sendChatMessage"));
-                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
+                CtClass cc = cp.get(Mappings.getClassName(EntityPlayerSP.CLASSNAME));
+                CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName(EntityPlayerSP.CLASSNAME, "sendChatMessage"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName(EntityPlayerSP.CLASSNAME, "onLivingUpdate"));
                 m.insertBefore("de.ropemc.api.event.EventManager.callEvent(new de.ropemc.api.event.player.PlayerUpdateEvent());");
-                m1.insertBefore("de.ropemc.api.event.chat.PlayerChatEvent event = new de.ropemc.api.event.chat.PlayerChatEvent($1);" +
+                m1.insertBefore("de.ropemc.api.event.chat.ChatEvent event = new de.ropemc.api.event.chat.ChatEvent($1);" +
                 "de.ropemc.api.event.EventManager.callEvent(event);" +
                 "$1 = event.getMessage();" +
                 "if (event.isCancelled()) return;");

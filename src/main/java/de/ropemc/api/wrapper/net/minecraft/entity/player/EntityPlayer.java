@@ -5,7 +5,7 @@ import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 
 public class EntityPlayer {
 
-    public static final String CLASSNAME = "net.minecraft.entity.chat.EntityPlayer";
+    public static final String CLASSNAME = "net.minecraft.entity.player.EntityPlayer";
 
     private Object handle;
 
