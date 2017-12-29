@@ -27,6 +27,8 @@ public class EntityPlayerSP {
     private static Method setSneaking;
     private static Method isInvisible;
 
+    private static Method getNameMethod;
+
     private static EntityPlayerSP thePlayerObject = null;
 
     static
@@ -59,6 +61,9 @@ public class EntityPlayerSP {
             isSneaking.setAccessible(true);
             setSneaking.setAccessible(true);
             isInvisible.setAccessible(true);
+            Class entityPlayerClass = Class.forName(Mappings.getClassName("net.minecraft.entity.player.EntityPlayer"));
+            getNameMethod = entityPlayerClass.getMethod(Mappings.getMethodName("net.minecraft.entity.player.EntityPlayer","getName"));
+            getNameMethod.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -76,6 +81,19 @@ public class EntityPlayerSP {
     public Object getHandle()
     {
         return handle;
+    }
+
+    public String getName()
+    {
+        try
+        {
+            return (String)getNameMethod.invoke(getHandle());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
