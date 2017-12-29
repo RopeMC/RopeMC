@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Premain-Class: de.ropemc.RopeMC
-Can-Redefine-Classes: true
-Can-Retransform-Classes: true
-Can-Set-Native-Method-Prefix: true
-Implementation-Title: RopeMC
-Implementation-Version: 1.0
