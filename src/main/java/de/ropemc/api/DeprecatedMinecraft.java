@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import de.ropemc.Mappings;
 import de.ropemc.utils.Utils;
 
-public class Minecraft
+public class DeprecatedMinecraft
 {
 
     private static Field minecraft;

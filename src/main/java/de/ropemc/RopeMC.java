@@ -1,8 +1,8 @@
 package de.ropemc;
 
 import de.ropemc.Mappings.MCVersion;
-import de.ropemc.event.EventManager;
-import de.ropemc.event.instrumentation.InstrumentationEvent;
+import de.ropemc.api.event.EventManager;
+import de.ropemc.api.event.instrumentation.InstrumentationEvent;
 import de.ropemc.mods.ModManager;
 import de.ropemc.utils.VersionFile;
 

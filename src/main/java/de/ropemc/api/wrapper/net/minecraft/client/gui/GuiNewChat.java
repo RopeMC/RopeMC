@@ -7,15 +7,17 @@ import java.lang.reflect.Method;
 
 public class GuiNewChat {
 
+    public static final String CLASSNAME = "net.minecraft.client.gui.GuiNewChat";
+
     private static Method printChatMessageMethod;
 
     static
     {
         try
         {
-            Class thisClass = Class.forName(Mappings.getClassName("net.minecraft.client.gui.GuiNewChat"));
+            Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
             Class chatComponentClass = Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent"));
-            printChatMessageMethod = thisClass.getMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"),chatComponentClass);
+            printChatMessageMethod = thisClass.getMethod(Mappings.getMethodName(CLASSNAME, "printChatMessage"),chatComponentClass);
             printChatMessageMethod.setAccessible(true);
         }
         catch (Exception e)

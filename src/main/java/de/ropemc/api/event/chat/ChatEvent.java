@@ -1,15 +1,15 @@
-package de.ropemc.event.player;
+package de.ropemc.api.event.chat;
 
-import de.ropemc.event.Cancellable;
-import de.ropemc.event.Event;
+import de.ropemc.api.event.Cancellable;
+import de.ropemc.api.event.Event;
 
-public class PlayerChatEvent extends Event implements Cancellable
+public class ChatEvent extends Event implements Cancellable
 {
 
     private boolean cancelled = false;
     private String message;
 
-    public PlayerChatEvent(String msg) {  message = msg; }
+    public ChatEvent(String msg) {  message = msg; }
 
     public String getMessage() {
         return message;

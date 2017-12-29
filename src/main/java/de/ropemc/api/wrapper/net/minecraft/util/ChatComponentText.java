@@ -6,12 +6,12 @@ import java.lang.reflect.Constructor;
 
 public class ChatComponentText {
 
-    private static Class thisClass;
+    public static final String CLASSNAME = "net.minecraft.util.ChatComponentText";
     private static Constructor stringConstructor;
 
     static {
         try {
-            thisClass = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText"));
+            Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
             stringConstructor = thisClass.getDeclaredConstructor(String.class);
             stringConstructor.setAccessible(true);
         }catch(Exception ex){ex.printStackTrace();}

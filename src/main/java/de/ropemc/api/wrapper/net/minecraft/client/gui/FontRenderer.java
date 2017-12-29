@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 
 public class FontRenderer {
 
+    public static final String CLASSNAME = "net.minecraft.client.gui.FontRenderer";
+
     private static Method drawString;
     private static Method drawStringWithShadow;
 
@@ -12,10 +14,10 @@ public class FontRenderer {
     {
         try
         {
-            Class fontRendererClass = Class.forName(Mappings.getClassName("net.minecraft.client.gui.FontRenderer"));
-            drawString = fontRendererClass.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.FontRenderer", "drawString"), String.class, float.class, float.class, int.class);
+            Class fontRendererClass = Class.forName(Mappings.getClassName(CLASSNAME));
+            drawString = fontRendererClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "drawString"), String.class, float.class, float.class, int.class);
             drawString.setAccessible(true);
-            drawStringWithShadow = fontRendererClass.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.FontRenderer", "drawStringWithShadow"), String.class, float.class, float.class, int.class);
+            drawStringWithShadow = fontRendererClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "drawStringWithShadow"), String.class, float.class, float.class, int.class);
             drawStringWithShadow.setAccessible(true);
         }
         catch (Exception e)

@@ -1,7 +1,7 @@
-package de.ropemc.event.window;
+package de.ropemc.api.event.gui;
 
-import de.ropemc.event.Cancellable;
-import de.ropemc.event.Event;
+import de.ropemc.api.event.Cancellable;
+import de.ropemc.api.event.Event;
 
 public class WindowTitleChangeEvent extends Event implements Cancellable
 {

@@ -1,4 +1,4 @@
-package de.ropemc.event;
+package de.ropemc.api.event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

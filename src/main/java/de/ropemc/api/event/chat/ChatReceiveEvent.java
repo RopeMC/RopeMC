@@ -1,7 +1,7 @@
-package de.ropemc.event.player;
+package de.ropemc.api.event.chat;
 
-import de.ropemc.event.Cancellable;
-import de.ropemc.event.Event;
+import de.ropemc.api.event.Cancellable;
+import de.ropemc.api.event.Event;
 
 public class ChatReceiveEvent extends Event implements Cancellable
 {

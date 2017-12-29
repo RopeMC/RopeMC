@@ -1,13 +1,11 @@
 package de.ropemc;
 
 import de.ropemc.api.Keyboard;
-import de.ropemc.api.Minecraft;
-import de.ropemc.event.EventManager;
-import de.ropemc.event.player.ChatReceiveEvent;
-import de.ropemc.event.player.PlayerChatEvent;
-import de.ropemc.event.window.Draw2DEvent;
-import de.ropemc.event.window.KeyPressedEvent;
-import de.ropemc.event.window.WindowTitleChangeEvent;
+import de.ropemc.api.DeprecatedMinecraft;
+import de.ropemc.api.event.EventManager;
+import de.ropemc.api.event.gui.Render2DEvent;
+import de.ropemc.api.event.input.KeyPressedEvent;
+import de.ropemc.api.event.gui.WindowTitleChangeEvent;
 import de.ropemc.mods.ModManager;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class Hooks
      */
     public static void titleHook(String title)
     {
-    	Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
+    	DeprecatedMinecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " ("+de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion()+") [" + ModManager.getModules().size() + " mods loaded]");
         EventManager.callEvent(new WindowTitleChangeEvent(title));
     }
 
@@ -56,5 +54,5 @@ public class Hooks
     /**
      * Triggers a Draw2DEvent
      */
-    public static void draw2DHook() { EventManager.callEvent(new Draw2DEvent()); }
+    public static void draw2DHook() { EventManager.callEvent(new Render2DEvent()); }
 }

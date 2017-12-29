@@ -2,15 +2,19 @@ package de.ropemc.api.wrapper.net.minecraft.client.entity;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.wrapper.net.minecraft.client.Minecraft;
+import de.ropemc.api.wrapper.net.minecraft.entity.Entity;
+import de.ropemc.api.wrapper.net.minecraft.entity.player.EntityPlayer;
 import de.ropemc.api.wrapper.net.minecraft.util.ChatComponentText;
 import de.ropemc.utils.Vector3d;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 public class EntityPlayerSP {
 
-    private static Class minecraft;
+    public static final String CLASSNAME = "net.minecraft.client.entity.EntityPlayerSP";
+
     private static Field hurtTime;
 
     private static Field posX;
@@ -28,6 +32,9 @@ public class EntityPlayerSP {
     private static Method isInvisible;
 
     private static Method getNameMethod;
+    private static Method swingItemMethod;
+    private static Method respawnPlayerMethod;
+    private static Method sendChatMessageMethod;
 
     private static EntityPlayerSP thePlayerObject = null;
 
@@ -35,35 +42,41 @@ public class EntityPlayerSP {
     {
         try
         {
-            minecraft = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
             hurtTime = Class.forName(Mappings.getClassName("net.minecraft.entity.EntityLivingBase")).getDeclaredField(Mappings.getFieldName("net.minecraft.entity.EntityLivingBase", "hurtTime"));
             hurtTime.setAccessible(true);
-            Class<?> entityClass = Class.forName(Mappings.getClassName("net.minecraft.entity.Entity"));
-            posX = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posX"));
-            posY = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posY"));
-            posZ = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "posZ"));
+            Class<?> entityClass = Class.forName(Mappings.getClassName(Entity.CLASSNAME));
+            posX = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "posX"));
+            posY = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "posY"));
+            posZ = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "posZ"));
             posX.setAccessible(true);
             posY.setAccessible(true);
             posZ.setAccessible(true);
-            motionX = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionX"));
-            motionY = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionY"));
-            motionZ = entityClass.getDeclaredField(Mappings.getFieldName("net.minecraft.entity.Entity", "motionZ"));
+            motionX = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "motionX"));
+            motionY = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "motionY"));
+            motionZ = entityClass.getDeclaredField(Mappings.getFieldName(Entity.CLASSNAME, "motionZ"));
             motionX.setAccessible(true);
             motionY.setAccessible(true);
             motionZ.setAccessible(true);
-            isSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSprinting"));
-            setSprinting = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSprinting"));
-            isSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isSneaking"));
-            setSneaking = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "setSneaking"));
-            isInvisible = entityClass.getMethod(Mappings.getMethodName("net.minecraft.entity.Entity", "isInvisible"));
+            isSprinting = entityClass.getMethod(Mappings.getMethodName(Entity.CLASSNAME, "isSprinting"));
+            setSprinting = entityClass.getMethod(Mappings.getMethodName(Entity.CLASSNAME, "setSprinting"));
+            isSneaking = entityClass.getMethod(Mappings.getMethodName(Entity.CLASSNAME, "isSneaking"));
+            setSneaking = entityClass.getMethod(Mappings.getMethodName(Entity.CLASSNAME, "setSneaking"));
+            isInvisible = entityClass.getMethod(Mappings.getMethodName(Entity.CLASSNAME, "isInvisible"));
             isSprinting.setAccessible(true);
             setSprinting.setAccessible(true);
             isSneaking.setAccessible(true);
             setSneaking.setAccessible(true);
             isInvisible.setAccessible(true);
-            Class entityPlayerClass = Class.forName(Mappings.getClassName("net.minecraft.entity.player.EntityPlayer"));
-            getNameMethod = entityPlayerClass.getMethod(Mappings.getMethodName("net.minecraft.entity.player.EntityPlayer","getName"));
+            Class entityPlayerClass = Class.forName(Mappings.getClassName(EntityPlayer.CLASSNAME));
+            getNameMethod = entityPlayerClass.getDeclaredMethod(Mappings.getMethodName(EntityPlayer.CLASSNAME,"getName"));
             getNameMethod.setAccessible(true);
+            Class entityPlayerSPClass = Class.forName(Mappings.getClassName(CLASSNAME));
+            swingItemMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"swingItem"));
+            swingItemMethod.setAccessible(true);
+            respawnPlayerMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"respawnPlayer"));
+            respawnPlayerMethod.setAccessible(true);
+            sendChatMessageMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"sendChatMessage"),String.class);
+            sendChatMessageMethod.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -96,9 +109,59 @@ public class EntityPlayerSP {
         return null;
     }
 
+    public void swingItem()
+    {
+        try
+        {
+            swingItemMethod.invoke(getHandle());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void respawnPlayer()
+    {
+        try
+        {
+            respawnPlayerMethod.invoke(getHandle());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendChatMessage(String message)
+    {
+        try
+        {
+            sendChatMessageMethod.invoke(getHandle(),message);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Deprecated
+    public UUID getUUID()
+    {
+        try
+        {
+            //return (String)getUUIDMethod.invoke(getHandle());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      *
-     * @return hurttime of the own player
+     * @return hurttime of the own chat
      */
     public int getHurtTime()
     {
@@ -115,7 +178,7 @@ public class EntityPlayerSP {
 
     /**
      *
-     * @return motion of the own player as a three dimensional double-vector
+     * @return motion of the own chat as a three dimensional double-vector
      */
     public Vector3d getMotion()
     {
@@ -132,7 +195,7 @@ public class EntityPlayerSP {
 
     /**
      *
-     * @return position of the own player as a three dimensional double-vector
+     * @return position of the own chat as a three dimensional double-vector
      */
     public Vector3d getPosition()
     {
@@ -148,7 +211,7 @@ public class EntityPlayerSP {
     }
 
     /**
-     * sets the motion of the own player
+     * sets the motion of the own chat
      * @param motion three dimensional double-vector which represents the motion
      */
     public void setMotion(Vector3d motion)
@@ -167,7 +230,7 @@ public class EntityPlayerSP {
 
     /**
      *
-     * @return if the own player is sprinting
+     * @return if the own chat is sprinting
      */
     public boolean isSprinting()
     {
@@ -183,7 +246,7 @@ public class EntityPlayerSP {
     }
 
     /**
-     * sets the own player's sprinting state
+     * sets the own chat's sprinting state
      * @param flag sprinting state
      */
     public void setSprinting(boolean flag)
@@ -200,7 +263,7 @@ public class EntityPlayerSP {
 
     /**
      *
-     * @return if the own player is sneaking
+     * @return if the own chat is sneaking
      */
     public boolean isSneaking()
     {
@@ -216,7 +279,7 @@ public class EntityPlayerSP {
     }
 
     /**
-     * sets the own player's sneaking state
+     * sets the own chat's sneaking state
      * @param flag sneaking state
      */
     public void setSneaking(boolean flag)
@@ -233,7 +296,7 @@ public class EntityPlayerSP {
 
     /**
      *
-     * @return if the own player is invisible
+     * @return if the own chat is invisible
      */
     public boolean isInvisible()
     {

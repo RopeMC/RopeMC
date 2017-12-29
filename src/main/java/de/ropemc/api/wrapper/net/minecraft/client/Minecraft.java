@@ -1,6 +1,7 @@
 package de.ropemc.api.wrapper.net.minecraft.client;
 
 import de.ropemc.Mappings;
+import de.ropemc.api.DeprecatedMinecraft;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
@@ -8,6 +9,8 @@ import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import java.lang.reflect.Field;
 
 public class Minecraft {
+
+    public static final String CLASSNAME = "net.minecraft.client.Minecraft";
 
     private static Field theMinecraftField;
     private static Field launchedVersionField;
@@ -72,7 +75,7 @@ public class Minecraft {
         if(thePlayer==null)
         {
             try {
-                Object handle = thePlayerField.get(de.ropemc.api.Minecraft.getMinecraft());
+                Object handle = thePlayerField.get(DeprecatedMinecraft.getMinecraft());
                 if(handle!=null)
                     thePlayer=new EntityPlayerSP(handle);
             } catch (IllegalAccessException e) {
@@ -87,7 +90,7 @@ public class Minecraft {
         if(fontRenderer==null)
         {
             try {
-                Object handle = fontRendererField.get(de.ropemc.api.Minecraft.getMinecraft());
+                Object handle = fontRendererField.get(DeprecatedMinecraft.getMinecraft());
                 if(handle!=null)
                     fontRenderer = new FontRenderer(handle);
             } catch (IllegalAccessException e) {

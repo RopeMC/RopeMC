@@ -1,6 +1,6 @@
-package de.ropemc.event.instrumentation;
+package de.ropemc.api.event.instrumentation;
 
-import de.ropemc.event.Event;
+import de.ropemc.api.event.Event;
 
 import java.lang.instrument.Instrumentation;
 

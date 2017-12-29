@@ -1,6 +1,6 @@
-package de.ropemc.event.player;
+package de.ropemc.api.event.player;
 
-import de.ropemc.event.Event;
+import de.ropemc.api.event.Event;
 
 public class PlayerUpdateEvent extends Event
 {

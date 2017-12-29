@@ -6,12 +6,14 @@ import java.lang.reflect.Method;
 
 public class GuiIngame {
 
+    public static final String CLASSNAME = "net.minecraft.client.gui.GuiIngame";
+
     private static Method getChatGUIMethod;
 
     static {
         try {
-            Class thisClass = Class.forName(Mappings.getClassName("net.minecraft.client.gui.GuiIngame"));
-            getChatGUIMethod = thisClass.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));
+            Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
+            getChatGUIMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getChatGUI"));
             getChatGUIMethod.setAccessible(true);
         }catch(Exception ex){ex.printStackTrace();}
     }

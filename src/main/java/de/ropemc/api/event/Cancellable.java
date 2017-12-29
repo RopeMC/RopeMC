@@ -1,4 +1,4 @@
-package de.ropemc.event;
+package de.ropemc.api.event;
 
 public interface Cancellable
 {
