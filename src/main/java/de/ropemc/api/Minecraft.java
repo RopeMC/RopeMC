@@ -12,39 +12,14 @@ public class Minecraft
 {
 
     private static Field minecraft;
-    private static Field launchedVersion;
-
-    private static Class<?> chatComponentText;
-    private static Field ingameGui;
-    private static Method getChatGui;
-    private static Method printChatMessage;
-    private static Object chatGui;
 
     static
 	{
         try
 		{
-
         	Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-
             minecraft = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
             minecraft.setAccessible(true);
-
-            launchedVersion = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
-            launchedVersion.setAccessible(true);
-
-            chatComponentText = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText"));
-
-            ingameGui = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
-            ingameGui.setAccessible(true);
-
-            getChatGui = ingameGui.getType().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));
-            getChatGui.setAccessible(true);
-
-            chatGui = getChatGui.invoke(ingameGui.get(getMinecraft()));
-
-            printChatMessage = chatGui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
-            printChatMessage.setAccessible(true);
         }
         catch (Exception e)
 		{
@@ -109,38 +84,6 @@ public class Minecraft
 		    e.printStackTrace();
         }
         return null;
-	}
-	
-	public static String getMinecraftVersion()
-	{
-		try
-		{
-            return launchedVersion.get(getMinecraft()).toString();
-        }
-        catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static void printChatMessage(String msg)
-	{
-		try
-		{
-			Object cc = Class.forName(Mappings.getClassName("net.minecraft.util.ChatComponentText")).getConstructor(String.class).newInstance(msg);
-			Object mc = getMinecraft();
-			Field f = mc.getClass().getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
-			f.setAccessible(true);
-			Method m1 = f.getType().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "getChatGUI"));
-			Object chatgui = m1.invoke(f.get(mc));
-			Method m2 = chatgui.getClass().getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiNewChat", "printChatMessage"), Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent")));
-			m2.invoke(chatgui, cc);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 }

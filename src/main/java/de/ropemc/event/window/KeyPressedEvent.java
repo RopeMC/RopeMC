@@ -1,6 +1,5 @@
 package de.ropemc.event.window;
 
-import de.ropemc.api.Player;
 import de.ropemc.event.Event;
 
 public class KeyPressedEvent extends Event
