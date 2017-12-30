@@ -25,7 +25,7 @@ public abstract class Mod
 	}
 	public File getDataFolder()
 	{
-		File f = new File(RopeMC.getModDataDirectory(), getName());
+		File f = new File(RopeMC.ropeModDataDirectory, getName());
 		if(!f.exists())f.mkdir();
 		return f;
 	}

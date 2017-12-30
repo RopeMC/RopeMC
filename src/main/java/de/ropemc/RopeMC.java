@@ -13,13 +13,13 @@ public class RopeMC
 {
 
 	public static final Float ROPE_VERSION = 1.0F;
-	private static MCVersion version;
-	private static File ropeDirectory;
-	private static File ropeModsDirectory;
-	private static File ropeConfigDirectory;
-	private static File ropeMappingsDirectory;
-	private static File ropeModDataDirectory;
-	private static VersionFile versions;
+	public static MCVersion version;
+	public static File ropeDirectory;
+	public static File ropeModsDirectory;
+	public static File ropeConfigDirectory;
+	public static File ropeMappingsDirectory;
+	public static File ropeModDataDirectory;
+	public static VersionFile versions;
 
 	/**
 	 * project main-class, executed before minecraft is started
@@ -50,9 +50,5 @@ public class RopeMC
 		ModManager.loadModules(ropeModsDirectory);
 		EventManager.callEvent(new InstrumentationEvent(instrumentation));
 		instrumentation.addTransformer(new Transformer());
-	}
-
-	public static File getModDataDirectory() {
-		return ropeModDataDirectory;
 	}
 }

@@ -27,7 +27,7 @@ public class Mappings
 			update();
 			RopeMC.versions.setMappings(github_version);
 		}
-		File file = new File(RopeMC.rope_mappings_directory,RopeMC.version+".srg");
+		File file = new File(RopeMC.ropeMappingsDirectory,RopeMC.version+".srg");
 		mapping = new Mapping(file);
 	}
 
@@ -40,7 +40,7 @@ public class Mappings
 		{
 			for(MCVersion version : MCVersion.values())
 			{
-				File file = new File(RopeMC.rope_mappings_directory,version+".srg");
+				File file = new File(RopeMC.ropeMappingsDirectory,version+".srg");
 				if (file.exists())
 				{
 					file.delete();
