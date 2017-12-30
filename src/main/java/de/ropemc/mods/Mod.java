@@ -1,5 +1,7 @@
 package de.ropemc.mods;
 
+import de.ropemc.RopeMC;
+
 import java.io.File;
 
 public abstract class Mod
@@ -23,8 +25,8 @@ public abstract class Mod
 	}
 	public File getDataFolder()
 	{
-		File f = new File(new File(System.getProperty("user.dir"),"modules"),getName());
-		if(!f.exists())f.mkdirs();
+		File f = new File(RopeMC.getModDataDirectory(), getName());
+		if(!f.exists())f.mkdir();
 		return f;
 	}
 	public void onEnable(){}

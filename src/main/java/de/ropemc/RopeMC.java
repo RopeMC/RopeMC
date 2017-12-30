@@ -11,14 +11,15 @@ import java.lang.instrument.Instrumentation;
 
 public class RopeMC
 {
-	
+
 	public static final Float ROPE_VERSION = 1.0F;
-	public static MCVersion version;
-	public static File rope_directory;
-	public static File rope_mods_directory;
-	public static File rope_config_directory;
-	public static File rope_mappings_directory;
-	public static VersionFile versions;
+	private static MCVersion version;
+	private static File ropeDirectory;
+	private static File ropeModsDirectory;
+	private static File ropeConfigDirectory;
+	private static File ropeMappingsDirectory;
+	private static File ropeModDataDirectory;
+	private static VersionFile versions;
 
 	/**
 	 * project main-class, executed before minecraft is started
@@ -29,19 +30,29 @@ public class RopeMC
 	{
 		version = MCVersion.MC1_8_8;
 		//creating folders
-		rope_directory = new File("RopeMC");
-		if(!rope_directory.exists()) rope_directory.mkdir();
-		rope_mods_directory = new File(rope_directory,"Mods");
-		if(!rope_mods_directory.exists()) rope_mods_directory.mkdir();
-		rope_config_directory = new File(rope_directory,"Config");
-		if(!rope_config_directory.exists()) rope_config_directory.mkdir();
-		rope_mappings_directory = new File(rope_directory, "Mappings");
-		if(!rope_mappings_directory.exists()) rope_mappings_directory.mkdir();
-		versions = new VersionFile(new File(rope_directory,"versions.json"));
+		ropeDirectory = new File("RopeMC");
+		if(!ropeDirectory.exists()) ropeDirectory.mkdir();
+
+		ropeModsDirectory = new File(ropeDirectory,"Mods");
+		if(!ropeModsDirectory.exists()) ropeModsDirectory.mkdir();
+
+		ropeConfigDirectory = new File(ropeDirectory,"Config");
+		if(!ropeConfigDirectory.exists()) ropeConfigDirectory.mkdir();
+
+		ropeMappingsDirectory = new File(ropeDirectory, "Mappings");
+		if(!ropeMappingsDirectory.exists()) ropeMappingsDirectory.mkdir();
+
+		ropeModDataDirectory = new File(ropeDirectory, "ModData");
+		if(!ropeModDataDirectory.exists()) ropeModDataDirectory.mkdir();
+
+		versions = new VersionFile(new File(ropeDirectory,"versions.json"));
 		Mappings.load();
-		ModManager.loadModules(rope_mods_directory);
+		ModManager.loadModules(ropeModsDirectory);
 		EventManager.callEvent(new InstrumentationEvent(instrumentation));
 		instrumentation.addTransformer(new Transformer());
 	}
-	
+
+	public static File getModDataDirectory() {
+		return ropeModDataDirectory;
+	}
 }
