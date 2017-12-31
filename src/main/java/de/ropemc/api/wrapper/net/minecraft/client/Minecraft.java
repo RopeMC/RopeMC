@@ -5,6 +5,7 @@ import de.ropemc.api.DeprecatedMinecraft;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
+import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 
 import java.lang.reflect.Field;
 
@@ -16,6 +17,7 @@ public class Minecraft {
     private static Field launchedVersionField;
     private static Field ingameGuiField;
     private static Field thePlayerField;
+    private static Field theWorldField;
     private static Field fontRendererField;
 
     static
@@ -27,6 +29,8 @@ public class Minecraft {
             theMinecraftField.setAccessible(true);
             thePlayerField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
             thePlayerField.setAccessible(true);
+            theWorldField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theWorld"));
+            theWorldField.setAccessible(true);
             launchedVersionField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
             launchedVersionField.setAccessible(true);
             ingameGuiField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
@@ -83,6 +87,16 @@ public class Minecraft {
             }
         }
         return thePlayer;
+    }
+
+    public WorldClient getTheWorld()
+    {
+        try {
+            return new WorldClient(theWorldField.get(getHandle()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public FontRenderer getFontRenderer()
