@@ -6,19 +6,24 @@ import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class World {
+public class World
+{
 
     public static final String CLASSNAME = "net.minecraft.world.World";
 
     private static Class thisClass;
     private static Method getLoadedEntityListMethod;
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
-            getLoadedEntityListMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"getLoadedEntityList"));
+            getLoadedEntityListMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getLoadedEntityList"));
             getLoadedEntityListMethod.setAccessible(true);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
@@ -30,20 +35,26 @@ public class World {
 
     private Object handle;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public World(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public List getLoadedEntityList()
     {
-        try {
-            return (List)getLoadedEntityListMethod.invoke(getHandle());
-        }catch(Exception ex){ex.printStackTrace();}
+        try
+        {
+            return (List) getLoadedEntityListMethod.invoke(getHandle());
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         return null;
     }
 

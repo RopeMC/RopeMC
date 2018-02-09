@@ -2,28 +2,34 @@ package de.ropemc.api.wrapper.net.minecraft.util;
 
 import de.ropemc.Mappings;
 
-public class BlockPos {
+public class BlockPos
+{
 
     public static final String CLASSNAME = "net.minecraft.util.BlockPos";
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
 
     private Object handle;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public BlockPos(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public int getX()

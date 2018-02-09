@@ -4,38 +4,47 @@ import de.ropemc.Mappings;
 
 import java.lang.reflect.Method;
 
-public class GuiIngame {
+public class GuiIngame
+{
 
     public static final String CLASSNAME = "net.minecraft.client.gui.GuiIngame";
 
     private static Method getChatGUIMethod;
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
             getChatGUIMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getChatGUI"));
             getChatGUIMethod.setAccessible(true);
-        }catch(Exception ex){ex.printStackTrace();}
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     private Object handle;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public GuiIngame(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
-    public GuiNewChat getChatGUI() {
+    public GuiNewChat getChatGUI()
+    {
         try
         {
             Object guiHandle = getChatGUIMethod.invoke(getHandle());
             return new GuiNewChat(guiHandle);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

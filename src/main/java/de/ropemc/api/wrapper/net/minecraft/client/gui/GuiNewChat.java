@@ -5,7 +5,8 @@ import de.ropemc.api.wrapper.net.minecraft.util.ChatComponentText;
 
 import java.lang.reflect.Method;
 
-public class GuiNewChat {
+public class GuiNewChat
+{
 
     public static final String CLASSNAME = "net.minecraft.client.gui.GuiNewChat";
 
@@ -17,7 +18,7 @@ public class GuiNewChat {
         {
             Class thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
             Class chatComponentClass = Class.forName(Mappings.getClassName("net.minecraft.util.IChatComponent"));
-            printChatMessageMethod = thisClass.getMethod(Mappings.getMethodName(CLASSNAME, "printChatMessage"),chatComponentClass);
+            printChatMessageMethod = thisClass.getMethod(Mappings.getMethodName(CLASSNAME, "printChatMessage"), chatComponentClass);
             printChatMessageMethod.setAccessible(true);
         }
         catch (Exception e)
@@ -28,22 +29,23 @@ public class GuiNewChat {
 
     private Object handle;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public GuiNewChat(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public void printChatMessage(ChatComponentText message)
     {
         try
         {
-            printChatMessageMethod.invoke(getHandle(),message.getHandle());
+            printChatMessageMethod.invoke(getHandle(), message.getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

@@ -4,10 +4,10 @@ import de.ropemc.api.event.Event;
 
 public class PlayerUpdateEvent extends Event
 {
-	
-	public PlayerUpdateEvent()
-	{
-		
-	}
-	
+
+    public PlayerUpdateEvent()
+    {
+
+    }
+
 }

@@ -11,7 +11,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-public class EntityPlayerSP {
+public class EntityPlayerSP
+{
 
     public static final String CLASSNAME = "net.minecraft.client.entity.EntityPlayerSP";
 
@@ -68,14 +69,14 @@ public class EntityPlayerSP {
             setSneaking.setAccessible(true);
             isInvisible.setAccessible(true);
             Class entityPlayerClass = Class.forName(Mappings.getClassName(EntityPlayer.CLASSNAME));
-            getNameMethod = entityPlayerClass.getDeclaredMethod(Mappings.getMethodName(EntityPlayer.CLASSNAME,"getName"));
+            getNameMethod = entityPlayerClass.getDeclaredMethod(Mappings.getMethodName(EntityPlayer.CLASSNAME, "getName"));
             getNameMethod.setAccessible(true);
             Class entityPlayerSPClass = Class.forName(Mappings.getClassName(CLASSNAME));
-            swingItemMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"swingItem"));
+            swingItemMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "swingItem"));
             swingItemMethod.setAccessible(true);
-            respawnPlayerMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"respawnPlayer"));
+            respawnPlayerMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "respawnPlayer"));
             respawnPlayerMethod.setAccessible(true);
-            sendChatMessageMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"sendChatMessage"),String.class);
+            sendChatMessageMethod = entityPlayerSPClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "sendChatMessage"), String.class);
             sendChatMessageMethod.setAccessible(true);
         }
         catch (Exception e)
@@ -88,7 +89,7 @@ public class EntityPlayerSP {
 
     public EntityPlayerSP(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public Object getHandle()
@@ -100,9 +101,9 @@ public class EntityPlayerSP {
     {
         try
         {
-            return (String)getNameMethod.invoke(getHandle());
+            return (String) getNameMethod.invoke(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -115,7 +116,7 @@ public class EntityPlayerSP {
         {
             swingItemMethod.invoke(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -127,7 +128,7 @@ public class EntityPlayerSP {
         {
             respawnPlayerMethod.invoke(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -137,9 +138,9 @@ public class EntityPlayerSP {
     {
         try
         {
-            sendChatMessageMethod.invoke(getHandle(),message);
+            sendChatMessageMethod.invoke(getHandle(), message);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -152,7 +153,7 @@ public class EntityPlayerSP {
         {
             //return (String)getUUIDMethod.invoke(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -160,7 +161,6 @@ public class EntityPlayerSP {
     }
 
     /**
-     *
      * @return hurttime of the own chat
      */
     public int getHurtTime()
@@ -169,7 +169,7 @@ public class EntityPlayerSP {
         {
             return hurtTime.getInt(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -177,24 +177,22 @@ public class EntityPlayerSP {
     }
 
     /**
-     *
      * @return motion of the own chat as a three dimensional double-vector
      */
     public Vector3d getMotion()
     {
         try
         {
-            return new Vector3d(motionX.getDouble(getHandle()),motionY.getDouble(getHandle()),motionZ.getDouble(getHandle()));
+            return new Vector3d(motionX.getDouble(getHandle()), motionY.getDouble(getHandle()), motionZ.getDouble(getHandle()));
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        return new Vector3d(0.0,0.0,0.0);
+        return new Vector3d(0.0, 0.0, 0.0);
     }
 
     /**
-     *
      * @return position of the own chat as a three dimensional double-vector
      */
     public Vector3d getPosition()
@@ -212,6 +210,7 @@ public class EntityPlayerSP {
 
     /**
      * sets the motion of the own chat
+     *
      * @param motion three dimensional double-vector which represents the motion
      */
     public void setMotion(Vector3d motion)
@@ -222,14 +221,13 @@ public class EntityPlayerSP {
             motionY.set(getHandle(), motion.getY());
             motionZ.set(getHandle(), motion.getZ());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
     }
 
     /**
-     *
      * @return if the own chat is sprinting
      */
     public boolean isSprinting()
@@ -247,6 +245,7 @@ public class EntityPlayerSP {
 
     /**
      * sets the own chat's sprinting state
+     *
      * @param flag sprinting state
      */
     public void setSprinting(boolean flag)
@@ -255,14 +254,13 @@ public class EntityPlayerSP {
         {
             setSprinting.invoke(getHandle(), flag);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
     }
 
     /**
-     *
      * @return if the own chat is sneaking
      */
     public boolean isSneaking()
@@ -280,6 +278,7 @@ public class EntityPlayerSP {
 
     /**
      * sets the own chat's sneaking state
+     *
      * @param flag sneaking state
      */
     public void setSneaking(boolean flag)
@@ -288,14 +287,13 @@ public class EntityPlayerSP {
         {
             setSneaking.invoke(getHandle(), flag);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
     }
 
     /**
-     *
      * @return if the own chat is invisible
      */
     public boolean isInvisible()
@@ -304,7 +302,7 @@ public class EntityPlayerSP {
         {
             return (boolean) isInvisible.invoke(getHandle());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

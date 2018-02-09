@@ -23,14 +23,16 @@ public class ChatReceiveEvent extends Event implements Cancellable
     @Deprecated
     public void setMessage(String message)
     {
-        this.message=message;
+        this.message = message;
     }
 
-    public boolean isCancelled() {
+    public boolean isCancelled()
+    {
         return cancelled;
     }
 
-    public void setCancelled(boolean cancelled) {
-        this.cancelled=cancelled;
+    public void setCancelled(boolean cancelled)
+    {
+        this.cancelled = cancelled;
     }
 }

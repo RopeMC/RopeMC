@@ -24,7 +24,7 @@ public class World
 
             blockPos = Class.forName(Mappings.getClassName("net.minecraft.util.BlockPos"));
 
-            theWorld = minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theWorld"));
+            theWorld = minecraft.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "theWorld"));
             theWorld.setAccessible(true);
 
             getBlockState = Class.forName(Mappings.getClassName("net.minecraft.world.World")).getDeclaredMethod(Mappings.getMethodName("net.minecraft.world.World", "getBlockState"), blockPos);
@@ -38,7 +38,6 @@ public class World
     }
 
     /**
-     *
      * @return block at a specific position
      */
     public static Block getBlock(Vector3i pos)
@@ -73,8 +72,8 @@ public class World
         }
         return null;
     }
+
     /**
-     *
      * @return instance of the world object
      */
     private static Object getWorld()

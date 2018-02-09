@@ -13,7 +13,7 @@ public class UpdateGUI
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             JOptionPane.showMessageDialog(frame, e);
         }

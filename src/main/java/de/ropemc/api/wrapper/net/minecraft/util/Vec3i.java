@@ -4,7 +4,8 @@ import de.ropemc.Mappings;
 
 import java.lang.reflect.Method;
 
-public class Vec3i {
+public class Vec3i
+{
 
     public static final String CLASSNAME = "net.minecraft.util.Vec3i";
 
@@ -14,24 +15,32 @@ public class Vec3i {
     private static Method getYMethod;
     private static Method getZMethod;
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             Class thisClass = Class.forName(CLASSNAME);
-            getXMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"getX"));
+            getXMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getX"));
             getXMethod.setAccessible(true);
-            getYMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"getY"));
+            getYMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getY"));
             getYMethod.setAccessible(true);
-            getZMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME,"getZ"));
+            getZMethod = thisClass.getDeclaredMethod(Mappings.getMethodName(CLASSNAME, "getZ"));
             getZMethod.setAccessible(true);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
     }
@@ -43,36 +52,49 @@ public class Vec3i {
 
     private Object handle;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public Vec3i(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public int getX()
     {
-        try {
-            return (int)getXMethod.invoke(getHandle());
-        }catch(Exception ex){}
+        try
+        {
+            return (int) getXMethod.invoke(getHandle());
+        }
+        catch (Exception ex)
+        {
+        }
         return 0;
     }
 
     public int getY()
     {
-        try {
-            return (int)getYMethod.invoke(getHandle());
-        }catch(Exception ex){}
+        try
+        {
+            return (int) getYMethod.invoke(getHandle());
+        }
+        catch (Exception ex)
+        {
+        }
         return 0;
     }
 
     public int getZ()
     {
-        try {
-            return (int)getZMethod.invoke(getHandle());
-        }catch(Exception ex){}
+        try
+        {
+            return (int) getZMethod.invoke(getHandle());
+        }
+        catch (Exception ex)
+        {
+        }
         return 0;
     }
 

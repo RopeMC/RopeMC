@@ -2,14 +2,15 @@ package de.ropemc.api.wrapper.net.minecraft.client;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.DeprecatedMinecraft;
-import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
+import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 
 import java.lang.reflect.Field;
 
-public class Minecraft {
+public class Minecraft
+{
 
     public static final String CLASSNAME = "net.minecraft.client.Minecraft";
 
@@ -25,13 +26,13 @@ public class Minecraft {
         try
         {
             Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-            theMinecraftField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theMinecraft"));
+            theMinecraftField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "theMinecraft"));
             theMinecraftField.setAccessible(true);
-            thePlayerField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","thePlayer"));
+            thePlayerField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "thePlayer"));
             thePlayerField.setAccessible(true);
-            theWorldField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","theWorld"));
+            theWorldField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "theWorld"));
             theWorldField.setAccessible(true);
-            launchedVersionField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft","launchedVersion"));
+            launchedVersionField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "launchedVersion"));
             launchedVersionField.setAccessible(true);
             ingameGuiField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "ingameGUI"));
             ingameGuiField.setAccessible(true);
@@ -48,13 +49,16 @@ public class Minecraft {
 
     public static Minecraft getTheMinecraft()
     {
-        if(theMinecraft==null)
+        if (theMinecraft == null)
         {
-            try {
+            try
+            {
                 Object handle = theMinecraftField.get(null);
-                if(handle!=null)
-                    theMinecraft=new Minecraft(handle);
-            } catch (IllegalAccessException e) {
+                if (handle != null)
+                    theMinecraft = new Minecraft(handle);
+            }
+            catch (IllegalAccessException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -65,24 +69,28 @@ public class Minecraft {
     private EntityPlayerSP thePlayer;
     private FontRenderer fontRenderer;
 
-    public Object getHandle() {
+    public Object getHandle()
+    {
         return handle;
     }
 
     public Minecraft(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public EntityPlayerSP getThePlayer()
     {
-        if(thePlayer==null)
+        if (thePlayer == null)
         {
-            try {
+            try
+            {
                 Object handle = thePlayerField.get(DeprecatedMinecraft.getMinecraft());
-                if(handle!=null)
-                    thePlayer=new EntityPlayerSP(handle);
-            } catch (IllegalAccessException e) {
+                if (handle != null)
+                    thePlayer = new EntityPlayerSP(handle);
+            }
+            catch (IllegalAccessException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -91,9 +99,12 @@ public class Minecraft {
 
     public WorldClient getTheWorld()
     {
-        try {
+        try
+        {
             return new WorldClient(theWorldField.get(getHandle()));
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             ex.printStackTrace();
         }
         return null;
@@ -101,13 +112,16 @@ public class Minecraft {
 
     public FontRenderer getFontRenderer()
     {
-        if(fontRenderer==null)
+        if (fontRenderer == null)
         {
-            try {
+            try
+            {
                 Object handle = fontRendererField.get(DeprecatedMinecraft.getMinecraft());
-                if(handle!=null)
+                if (handle != null)
                     fontRenderer = new FontRenderer(handle);
-            } catch (IllegalAccessException e) {
+            }
+            catch (IllegalAccessException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -120,7 +134,7 @@ public class Minecraft {
         {
             return launchedVersionField.get(getHandle()).toString();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -133,7 +147,7 @@ public class Minecraft {
         {
             return new GuiIngame(ingameGuiField.get(getHandle()));
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

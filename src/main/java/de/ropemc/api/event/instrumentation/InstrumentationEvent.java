@@ -10,7 +10,7 @@ public class InstrumentationEvent extends Event
 
     public InstrumentationEvent(Instrumentation instrumentation)
     {
-        this.instrumentation=instrumentation;
+        this.instrumentation = instrumentation;
     }
 
     public Instrumentation getInstrumentation()

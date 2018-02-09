@@ -1,9 +1,11 @@
 package de.ropemc.api.wrapper.net.minecraft.client.gui;
 
 import de.ropemc.Mappings;
+
 import java.lang.reflect.Method;
 
-public class FontRenderer {
+public class FontRenderer
+{
 
     public static final String CLASSNAME = "net.minecraft.client.gui.FontRenderer";
 
@@ -35,7 +37,7 @@ public class FontRenderer {
 
     public FontRenderer(Object handle)
     {
-        this.handle=handle;
+        this.handle = handle;
     }
 
     public void drawString(String text, float x, float y, int color)
