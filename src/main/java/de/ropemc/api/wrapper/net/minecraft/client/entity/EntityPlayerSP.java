@@ -36,7 +36,7 @@ public interface EntityPlayerSP
      *
      * @param motion three dimensional double-vector which represents the motion
      */
-    void setMotion(Vector3d motion);
+    //void setMotion(Vector3d motion);
 
     /**
      * @return if the own chat is sprinting

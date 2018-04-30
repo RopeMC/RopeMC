@@ -31,20 +31,19 @@ public class WrapperSystem
             {
                 e.printStackTrace();
             }
-
             for(Method meths : clazz.getDeclaredMethods())
             {
                 System.out.println(meths.getName());
                 try
                 {
-                    Method targetMethod = callClazzMcp.getMethod(Mappings.getMethodName(clazz.getAnnotation(RootClass.class).value(), meths.getName()));
+                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(RootClass.class).value(), meths.getName()),meths.getParameterTypes());
                     targetMethod.setAccessible(true);
                     if(targetMethod != null)
                     {
                         methods.put(meths, targetMethod);
                     }
                 }
-                catch (NoSuchMethodException e)
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
