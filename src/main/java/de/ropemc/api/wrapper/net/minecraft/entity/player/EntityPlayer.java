@@ -20,18 +20,18 @@ public class EntityPlayer
         this.handle = handle;
     }
 
-    public static EntityPlayer castFrom(EntityPlayerSP from)
-    {
-        Class thisClass = null;
-        try
-        {
-            thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        return new EntityPlayer(thisClass.cast(from.getHandle()));
-    }
+//    public static EntityPlayer castFrom(EntityPlayerSP from)
+//    {
+//        Class thisClass = null;
+//        try
+//        {
+//            thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
+//        }
+//        catch (ClassNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return new EntityPlayer(thisClass.cast(from.getHandle()));
+//    }
 
 }

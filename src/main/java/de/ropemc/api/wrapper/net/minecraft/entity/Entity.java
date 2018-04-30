@@ -21,19 +21,19 @@ public class Entity
         this.handle = handle;
     }
 
-    public static Entity castFrom(EntityPlayerSP from)
-    {
-        Class thisClass = null;
-        try
-        {
-            thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        return new Entity(thisClass.cast(from.getHandle()));
-    }
+//    public static Entity castFrom(EntityPlayerSP from)
+//    {
+//        Class thisClass = null;
+//        try
+//        {
+//            thisClass = Class.forName(Mappings.getClassName(CLASSNAME));
+//        }
+//        catch (ClassNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return new Entity(thisClass.cast(from.getHandle()));
+//    }
 
     public static Entity castFrom(EntityPlayer from)
     {

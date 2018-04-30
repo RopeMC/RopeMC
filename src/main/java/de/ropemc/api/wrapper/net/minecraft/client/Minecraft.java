@@ -6,6 +6,8 @@ import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
+import de.ropemc.utils.wrapper.WrapperClass;
+import de.ropemc.utils.wrapper.WrapperSystem;
 
 import java.lang.reflect.Field;
 
@@ -87,7 +89,10 @@ public class Minecraft
             {
                 Object handle = thePlayerField.get(DeprecatedMinecraft.getMinecraft());
                 if (handle != null)
-                    thePlayer = new EntityPlayerSP(handle);
+                {
+                    WrapperSystem ws = new WrapperSystem(EntityPlayerSP.class);
+                    thePlayer = (EntityPlayerSP) ws.createInstance(handle);
+                }
             }
             catch (IllegalAccessException e)
             {
