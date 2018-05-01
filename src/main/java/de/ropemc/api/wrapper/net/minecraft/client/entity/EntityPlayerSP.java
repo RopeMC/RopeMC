@@ -17,19 +17,14 @@ public interface EntityPlayerSP
     void sendChatMessage(String message);
 
     /**
-     * @return hurttime of the own chat
-     */
-    int getHurtTime();
-
-    /**
      * @return motion of the own chat as a three dimensional double-vector
      */
-    Vector3d getMotion();
+    //Vector3d getMotion();
 
     /**
      * @return position of the own chat as a three dimensional double-vector
      */
-    Vector3d getPosition();
+    //Vector3d getPosition();
 
     /**
      * sets the motion of the own chat
@@ -41,7 +36,7 @@ public interface EntityPlayerSP
     /**
      * @return if the own chat is sprinting
      */
-    boolean isSprinting();
+    //boolean isSprinting();
 
     /**
      * sets the own chat's sprinting state
@@ -60,12 +55,15 @@ public interface EntityPlayerSP
      *
      * @param flag sneaking state
      */
-    void setSneaking(boolean flag);
+    //void setSneaking(boolean flag);
 
     /**
      * @return if the own chat is invisible
      */
-    boolean isInvisible();
+    //boolean isInvisible();
 
-    void printChatMessage(String message);
+    /**
+     * Doesnt even Exist
+     */
+    //void printChatMessage(String message);
 }

@@ -33,7 +33,6 @@ public class WrapperSystem
             }
             for(Method meths : clazz.getDeclaredMethods())
             {
-                System.out.println(meths.getName());
                 try
                 {
                     Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(RootClass.class).value(), meths.getName()),meths.getParameterTypes());
