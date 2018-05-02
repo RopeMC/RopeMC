@@ -37,10 +37,8 @@ public class WrapperSystem
                 {
                     Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(RootClass.class).value(), meths.getName()),meths.getParameterTypes());
                     targetMethod.setAccessible(true);
-                    if(targetMethod != null)
-                    {
-                        methods.put(meths, targetMethod);
-                    }
+
+                    methods.put(meths, targetMethod);
                 }
                 catch (Exception e)
                 {
@@ -55,7 +53,6 @@ public class WrapperSystem
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
         {
             Method targetMethod = methods.get(method);
-            targetMethod.setAccessible(true);
 
             return targetMethod.invoke(handle, args);
         });
