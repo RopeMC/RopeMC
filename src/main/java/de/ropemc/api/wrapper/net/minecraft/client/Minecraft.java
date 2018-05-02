@@ -6,8 +6,8 @@ import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
-import de.ropemc.utils.wrapper.WrapperClass;
-import de.ropemc.utils.wrapper.WrapperSystem;
+import de.ropemc.api.wrapper.WrapperClass;
+import de.ropemc.api.wrapper.WrapperSystem;
 
 import java.lang.reflect.Field;
 

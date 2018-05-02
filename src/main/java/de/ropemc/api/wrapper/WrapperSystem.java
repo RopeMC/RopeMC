@@ -1,4 +1,4 @@
-package de.ropemc.utils.wrapper;
+package de.ropemc.api.wrapper;
 
 
 import de.ropemc.Mappings;
@@ -22,10 +22,7 @@ public class WrapperSystem
         {
             try
             {
-                if(clazz.isAnnotationPresent(RootClass.class))
-                {
-                    callClazzMcp = Class.forName(Mappings.getClassName(clazz.getAnnotation(RootClass.class).value()));
-                }
+                callClazzMcp = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrapperClass.class).value()));
             }
             catch (ClassNotFoundException e)
             {
@@ -35,7 +32,7 @@ public class WrapperSystem
             {
                 try
                 {
-                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(RootClass.class).value(), meths.getName()),meths.getParameterTypes());
+                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrapperClass.class).value(), meths.getName()),meths.getParameterTypes());
                     targetMethod.setAccessible(true);
 
                     methods.put(meths, targetMethod);

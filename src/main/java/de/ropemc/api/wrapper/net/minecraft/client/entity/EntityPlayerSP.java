@@ -1,11 +1,9 @@
 package de.ropemc.api.wrapper.net.minecraft.client.entity;
 
-import de.ropemc.utils.Vector3d;
-import de.ropemc.utils.wrapper.RootClass;
-import de.ropemc.utils.wrapper.WrapperClass;
 
-@WrapperClass
-@RootClass("net.minecraft.client.entity.EntityPlayerSP")
+import de.ropemc.api.wrapper.WrapperClass;
+
+@WrapperClass("net.minecraft.client.entity.EntityPlayerSP")
 public interface EntityPlayerSP
 {
     String CLASSNAME = "net.minecraft.client.entity.EntityPlayerSP";
