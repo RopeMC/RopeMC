@@ -2,6 +2,8 @@ package de.ropemc.api.wrapper;
 
 
 import de.ropemc.Mappings;
+import de.ropemc.api.exceptions.MissingAnnotationException;
+import de.ropemc.api.inject.InjectIntoClass;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -12,27 +14,28 @@ public class WrapperSystem
 {
     private Map<Method, Method> methods = new HashMap<>();
     private Class callClazzMcp;
-    private Class calledFromClass;
+    private Class<?> calledFromClass;
 
-    public WrapperSystem(Class<?> clazz)
+    public WrapperSystem(Class<?> clazz) throws MissingAnnotationException
     {
         this.calledFromClass = clazz;
 
-        if(clazz.isAnnotationPresent(WrapperClass.class))
+        if(calledFromClass.isAnnotationPresent(WrappedClass.class))
         {
             try
             {
-                callClazzMcp = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrapperClass.class).value()));
+                callClazzMcp = Class.forName(Mappings.getClassName(calledFromClass.getAnnotation(WrappedClass.class).value()));
             }
             catch (ClassNotFoundException e)
             {
                 e.printStackTrace();
             }
-            for(Method meths : clazz.getDeclaredMethods())
+
+            for(Method meths : calledFromClass.getDeclaredMethods())
             {
                 try
                 {
-                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrapperClass.class).value(), meths.getName()),meths.getParameterTypes());
+                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(calledFromClass.getAnnotation(WrappedClass.class).value(), meths.getName()),meths.getParameterTypes());
                     targetMethod.setAccessible(true);
 
                     methods.put(meths, targetMethod);
@@ -43,8 +46,18 @@ public class WrapperSystem
                 }
             }
         }
+        else
+        {
+            throw new MissingAnnotationException("Missing Annotation: " + WrappedClass.class.getName() + " in Class: " + calledFromClass.getName());
+        }
     }
 
+    /**
+     * Creates an instance which will be "redirected" to the Minecraft Code
+     *
+     * @param handle the instance Object
+     * @return the return value of the Minecraft code
+     */
     public Object createInstance(Object handle)
     {
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->

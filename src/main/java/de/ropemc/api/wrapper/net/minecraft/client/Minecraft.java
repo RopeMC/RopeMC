@@ -2,11 +2,11 @@ package de.ropemc.api.wrapper.net.minecraft.client;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.DeprecatedMinecraft;
+import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
-import de.ropemc.api.wrapper.WrapperClass;
 import de.ropemc.api.wrapper.WrapperSystem;
 
 import java.lang.reflect.Field;
@@ -22,6 +22,7 @@ public class Minecraft
     private static Field thePlayerField;
     private static Field theWorldField;
     private static Field fontRendererField;
+    private static WrapperSystem wrapperSystemEntityPlayerSP;
 
     static
     {
@@ -42,6 +43,15 @@ public class Minecraft
             fontRendererField.setAccessible(true);
         }
         catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
+        }
+        catch (MissingAnnotationException e)
         {
             e.printStackTrace();
         }
@@ -90,8 +100,7 @@ public class Minecraft
                 Object handle = thePlayerField.get(DeprecatedMinecraft.getMinecraft());
                 if (handle != null)
                 {
-                    WrapperSystem ws = new WrapperSystem(EntityPlayerSP.class);
-                    thePlayer = (EntityPlayerSP) ws.createInstance(handle);
+                    thePlayer = (EntityPlayerSP) wrapperSystemEntityPlayerSP.createInstance(handle);
                 }
             }
             catch (IllegalAccessException e)
