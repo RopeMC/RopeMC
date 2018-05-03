@@ -60,7 +60,7 @@
                 <configuration>
                     <description>Automated release</description>
                     <releaseName>0.0.1</releaseName>
-                    <tag>${project.version}</tag>
+                    <tag>${project.version}-${build.counter}</tag>
                     <repositoryId>RopeMC/RopeMC</repositoryId>
                     <fileSets>
                         <fileSet>
