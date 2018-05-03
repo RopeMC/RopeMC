@@ -61,6 +61,7 @@
                     <description>Automated release</description>
                     <releaseName>0.0.1</releaseName>
                     <tag>${project.version}</tag>
+                    <repositoryId>github</repositoryId>
                     <fileSets>
                         <fileSet>
                             <directory>${project.build.directory}</directory>
