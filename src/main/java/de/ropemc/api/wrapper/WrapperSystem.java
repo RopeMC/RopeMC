@@ -3,7 +3,6 @@ package de.ropemc.api.wrapper;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
-import de.ropemc.api.inject.InjectIntoClass;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -31,20 +30,7 @@ public class WrapperSystem
                 e.printStackTrace();
             }
 
-            for(Method meths : calledFromClass.getDeclaredMethods())
-            {
-                try
-                {
-                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(calledFromClass.getAnnotation(WrappedClass.class).value(), meths.getName()),meths.getParameterTypes());
-                    targetMethod.setAccessible(true);
-
-                    methods.put(meths, targetMethod);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
+            addMethodsViaClassTree(calledFromClass);
         }
         else
         {
@@ -62,9 +48,35 @@ public class WrapperSystem
     {
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
         {
-            Method targetMethod = methods.get(method);
+            System.out.println(method.getName());
+//            Method targetMethod = methods.get(method);
+//
+//            return targetMethod.invoke(handle, args);
 
-            return targetMethod.invoke(handle, args);
+            return null;
         });
+    }
+
+    private void addMethodsViaClassTree(Class<?> clazz)
+    {
+        for(Method meths : clazz.getDeclaredMethods())
+        {
+            try
+            {
+                Method targetMethod = clazz.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()),meths.getParameterTypes());
+                targetMethod.setAccessible(true);
+
+                methods.put(meths, targetMethod);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        if(clazz.getSuperclass() != null)
+        {
+            addMethodsViaClassTree(clazz.getSuperclass());
+        }
     }
 }

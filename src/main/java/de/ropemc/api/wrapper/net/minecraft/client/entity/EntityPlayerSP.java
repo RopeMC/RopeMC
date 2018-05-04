@@ -4,7 +4,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.entity;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.client.entity.EntityPlayerSP")
-public interface EntityPlayerSP
+public interface EntityPlayerSP extends AbstractClientPlayer
 {
     String CLASSNAME = "net.minecraft.client.entity.EntityPlayerSP";
 
@@ -13,6 +13,25 @@ public interface EntityPlayerSP
     void respawnPlayer();
 
     void sendChatMessage(String message);
+
+    void closeScreenAndDropStack();
+
+    void sendHorseJump();
+
+    void sendHorseInventory();
+
+    void setClientBrand(String brand);
+
+    String getClientBrand();
+
+    void setXPStats(float currentXP, int maxXP, int level);
+
+    /**
+     * Updates health locally.
+     *
+     * @param health the health
+     */
+    void setPlayerSPHealth(float health);
 
     /**
      * @return motion of the own chat as a three dimensional double-vector
