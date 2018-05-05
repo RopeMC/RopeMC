@@ -41,6 +41,10 @@ public class Transformer implements ClassFileTransformer
             {
                 ex.printStackTrace();
             }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
         }
 
         if (Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s))

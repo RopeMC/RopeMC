@@ -3,7 +3,6 @@ package de.ropemc.api.wrapper;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
-import de.ropemc.utils.Mapping;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -73,8 +72,9 @@ public class WrapperSystem
             e.printStackTrace();
         }
 
-        try {
+        if(clazz.getInterfaces().length != 0)
+        {
             addMethodsViaClassTree(clazz.getInterfaces()[0]);
-        } catch (Exception e) { }
+        }
     }
 }

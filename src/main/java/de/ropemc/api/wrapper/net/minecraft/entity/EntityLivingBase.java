@@ -50,8 +50,6 @@ public interface EntityLivingBase extends Entity
 
     void clearActivePotions();
 
-    boolean isPotionActive(int potionId);
-
     /**
      * Returns true if this entity is undead.
      */
