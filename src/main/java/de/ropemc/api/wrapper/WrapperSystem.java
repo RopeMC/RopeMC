@@ -3,6 +3,7 @@ package de.ropemc.api.wrapper;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
+import de.ropemc.utils.Mapping;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -48,35 +49,32 @@ public class WrapperSystem
     {
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
         {
-            System.out.println(method.getName());
-//            Method targetMethod = methods.get(method);
-//
-//            return targetMethod.invoke(handle, args);
+            Method targetMethod = methods.get(method);
 
-            return null;
+            return targetMethod.invoke(handle, args);
         });
     }
 
     private void addMethodsViaClassTree(Class<?> clazz)
     {
-        for(Method meths : clazz.getDeclaredMethods())
+        try
         {
-            try
+            Class mcpClass = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrappedClass.class).value()));
+            for (Method meths : clazz.getDeclaredMethods())
             {
-                Method targetMethod = clazz.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()),meths.getParameterTypes());
+                Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), meths.getParameterTypes());
                 targetMethod.setAccessible(true);
 
                 methods.put(meths, targetMethod);
             }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
 
-        if(clazz.getSuperclass() != null)
-        {
-            addMethodsViaClassTree(clazz.getSuperclass());
-        }
+        try {
+            addMethodsViaClassTree(clazz.getInterfaces()[0]);
+        } catch (Exception e) { }
     }
 }
