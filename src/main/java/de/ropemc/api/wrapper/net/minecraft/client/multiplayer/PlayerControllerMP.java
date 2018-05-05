@@ -40,17 +40,4 @@ public class PlayerControllerMP
     {
         this.handle = handle;
     }
-
-    public void attackEntity(EntityPlayer player, Entity entity)
-    {
-        try
-        {
-            attackEntityMethod.invoke(player.getHandle(), entity.getHandle());
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
 }

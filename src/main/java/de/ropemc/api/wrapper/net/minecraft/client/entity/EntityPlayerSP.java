@@ -12,6 +12,9 @@ public interface EntityPlayerSP extends AbstractClientPlayer
 
     void respawnPlayer();
 
+    /**
+     * Sends a chat message from the player. Args: chatMessage
+     */
     void sendChatMessage(String message);
 
     void closeScreenAndDropStack();
@@ -32,6 +35,12 @@ public interface EntityPlayerSP extends AbstractClientPlayer
      * @param health the health
      */
     void setPlayerSPHealth(float health);
+
+    boolean isRidingHorse();
+
+    float getHorseJumpPower();
+
+    boolean isCurrentViewEntity();
 
     /**
      * @return motion of the own chat as a three dimensional double-vector
