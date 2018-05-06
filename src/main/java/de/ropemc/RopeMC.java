@@ -12,7 +12,7 @@ import java.lang.instrument.Instrumentation;
 public class RopeMC
 {
 
-    public static final Float ROPE_VERSION = 1.0F;
+    public static final String ROPE_VERSION = "0.0.1";
     public static MCVersion version;
     public static File ropeDirectory;
     public static File ropeModsDirectory;
