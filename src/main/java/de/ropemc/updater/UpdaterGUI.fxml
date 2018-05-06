@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #001f3f;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.ropemc.updater.UpdaterGUIController">
+    <children>
+        <Text fill="WHITE" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Updating RopeMC..." textAlignment="CENTER" wrappingWidth="200.0000014603138">
+         <font>
+            <Font name="Segoe UI" size="15.0" />
+         </font></Text>
+        <ImageView fitHeight="56.0" fitWidth="78.0" layoutX="66.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@RopeMC.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="22.0" layoutX="91.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@LoadingAnimation.gif" />
+            </image>
+        </ImageView>
+    </children>
+</Pane>
