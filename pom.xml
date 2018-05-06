@@ -61,6 +61,7 @@
                     <description>Automated release</description>
                     <releaseName>${project.version}b${env.buildnumber}</releaseName>
                     <tag>${project.version}b${env.buildnumber}</tag>
+                    <prerelease>true</prerelease>
                     <repositoryId>RopeMC/RopeMC</repositoryId>
                     <fileSets>
                         <fileSet>
