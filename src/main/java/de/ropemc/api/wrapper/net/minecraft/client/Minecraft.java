@@ -23,6 +23,7 @@ public class Minecraft
     private static Field theWorldField;
     private static Field fontRendererField;
     private static WrapperSystem wrapperSystemEntityPlayerSP;
+    private static WrapperSystem wrapperSystemFontRenderer;
 
     static
     {
@@ -50,6 +51,7 @@ public class Minecraft
         try
         {
             wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
+            wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
         }
         catch (MissingAnnotationException e)
         {
@@ -132,7 +134,7 @@ public class Minecraft
             {
                 Object handle = fontRendererField.get(DeprecatedMinecraft.getMinecraft());
                 if (handle != null)
-                    fontRenderer = new FontRenderer(handle);
+                    fontRenderer = (FontRenderer) wrapperSystemFontRenderer.createInstance(handle);
             }
             catch (IllegalAccessException e)
             {
