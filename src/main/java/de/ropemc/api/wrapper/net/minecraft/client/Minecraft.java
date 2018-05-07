@@ -4,8 +4,6 @@ import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
-import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
-import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 import de.ropemc.api.wrapper.WrapperSystem;
 import de.ropemc.api.wrapper.net.minecraft.client.settings.GameSettings;
 import de.ropemc.api.wrapper.net.minecraft.util.Session;
@@ -126,19 +124,6 @@ public class Minecraft
         return thePlayer;
     }
 
-    public WorldClient getTheWorld()
-    {
-        try
-        {
-            return new WorldClient(theWorldField.get(getHandle()));
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
     public FontRenderer getFontRenderer()
     {
         if (fontRenderer == null)
@@ -207,19 +192,5 @@ public class Minecraft
         }
         return null;
     }
-
-    public GuiIngame getIngameGUI()
-    {
-        try
-        {
-            return new GuiIngame(ingameGuiField.get(getHandle()));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
 }
