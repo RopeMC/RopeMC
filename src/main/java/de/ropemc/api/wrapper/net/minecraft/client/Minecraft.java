@@ -1,17 +1,16 @@
 package de.ropemc.api.wrapper.net.minecraft.client;
 
 import de.ropemc.Mappings;
-import de.ropemc.api.DeprecatedMinecraft;
 import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 import de.ropemc.api.wrapper.WrapperSystem;
+import de.ropemc.api.wrapper.net.minecraft.client.settings.GameSettings;
 import de.ropemc.api.wrapper.net.minecraft.util.Session;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 
 public class Minecraft
 {
@@ -25,9 +24,11 @@ public class Minecraft
     private static Field theWorldField;
     private static Field fontRendererField;
     private static Field sessionField;
+    private static Field gameSettingsField;
     private static WrapperSystem wrapperSystemEntityPlayerSP;
     private static WrapperSystem wrapperSystemFontRenderer;
     private static WrapperSystem wrapperSystemSession;
+    private static WrapperSystem wrapperSystemGameSettings;
 
     static
     {
@@ -48,6 +49,8 @@ public class Minecraft
             fontRendererField.setAccessible(true);
             sessionField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "session"));
             sessionField.setAccessible(true);
+            gameSettingsField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "gameSettings"));
+            gameSettingsField.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -59,6 +62,7 @@ public class Minecraft
             wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
             wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
             wrapperSystemSession = new WrapperSystem(Session.class);
+            wrapperSystemGameSettings = new WrapperSystem(GameSettings.class);
         }
         catch (MissingAnnotationException e)
         {
@@ -90,6 +94,7 @@ public class Minecraft
     private EntityPlayerSP thePlayer;
     private FontRenderer fontRenderer;
     private Session session;
+    private GameSettings gameSettings;
 
     public Object getHandle()
     {
@@ -171,6 +176,25 @@ public class Minecraft
         return session;
     }
 
+    public GameSettings getGameSettings()
+    {
+        if(gameSettings == null)
+        {
+            try
+            {
+                Object handle = gameSettingsField.get(getHandle());
+                if(handle != null)
+                    gameSettings = (GameSettings) wrapperSystemGameSettings.createInstance(handle);
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return gameSettings;
+    }
+
     public String getLaunchedVersion()
     {
         try
@@ -196,5 +220,6 @@ public class Minecraft
         }
         return null;
     }
+
 
 }
