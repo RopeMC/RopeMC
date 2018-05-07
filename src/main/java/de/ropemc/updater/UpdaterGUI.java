@@ -13,14 +13,6 @@ import javafx.stage.StageStyle;
 
 public class UpdaterGUI extends Application {
 
-    private static Stage stage;
-    private static Thread thread;
-
-    public static void createGUI() {
-        thread = new Thread(() -> Application.launch(UpdaterGUI.class));
-        thread.start();
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("UpdaterGUI.fxml"));
@@ -36,12 +28,6 @@ public class UpdaterGUI extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         primaryStage.setX((screenBounds.getWidth() - primaryStage.getWidth()) / 2);
         primaryStage.setY((screenBounds.getHeight() - primaryStage.getHeight()) / 2);
-
-        stage = primaryStage;
-    }
-
-    public static Stage getStage() {
-        return stage;
     }
 
 }
