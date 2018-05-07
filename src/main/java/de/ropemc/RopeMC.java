@@ -1,6 +1,7 @@
 package de.ropemc;
 
 import de.ropemc.Mappings.MCVersion;
+import de.ropemc.api.DeprecatedMinecraft;
 import de.ropemc.api.event.EventManager;
 import de.ropemc.api.event.instrumentation.InstrumentationEvent;
 import de.ropemc.mods.ModManager;

@@ -10,16 +10,11 @@ import java.nio.ByteBuffer;
 
 public class DeprecatedMinecraft
 {
-
-    private static Field minecraft;
-
     static
     {
         try
         {
             Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
-            minecraft = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "theMinecraft"));
-            minecraft.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -74,18 +69,4 @@ public class DeprecatedMinecraft
             e.printStackTrace();
         }
     }
-
-    public static Object getMinecraft()
-    {
-        try
-        {
-            return minecraft.get(null);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 }

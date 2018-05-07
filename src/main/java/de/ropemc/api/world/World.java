@@ -2,6 +2,7 @@ package de.ropemc.api.world;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.DeprecatedMinecraft;
+import de.ropemc.api.wrapper.net.minecraft.client.Minecraft;
 import de.ropemc.utils.Vector3i;
 
 import java.lang.reflect.Field;
@@ -80,7 +81,7 @@ public class World
     {
         try
         {
-            return theWorld.get(DeprecatedMinecraft.getMinecraft());
+            return theWorld.get(Minecraft.getTheMinecraft().getHandle());
         }
         catch (Exception e)
         {

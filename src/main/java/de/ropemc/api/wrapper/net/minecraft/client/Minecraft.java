@@ -99,7 +99,7 @@ public class Minecraft
         {
             try
             {
-                Object handle = thePlayerField.get(DeprecatedMinecraft.getMinecraft());
+                Object handle = thePlayerField.get(getHandle());
                 if (handle != null)
                 {
                     thePlayer = (EntityPlayerSP) wrapperSystemEntityPlayerSP.createInstance(handle);
@@ -132,7 +132,7 @@ public class Minecraft
         {
             try
             {
-                Object handle = fontRendererField.get(DeprecatedMinecraft.getMinecraft());
+                Object handle = fontRendererField.get(getHandle());
                 if (handle != null)
                     fontRenderer = (FontRenderer) wrapperSystemFontRenderer.createInstance(handle);
             }
