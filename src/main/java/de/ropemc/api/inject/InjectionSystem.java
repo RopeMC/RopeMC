@@ -31,10 +31,13 @@ public class InjectionSystem
 
                 for(Method meths : calledFromClass.getDeclaredMethods())
                 {
-                    Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(mcClassName, meths.getName()),meths.getParameterTypes());
-                    targetMethod.setAccessible(true);
+                    if(meths.getReturnType() == AfterInjectAction.class)
+                    {
+                        Method targetMethod = callClazzMcp.getDeclaredMethod(Mappings.getMethodName(mcClassName, meths.getName()),meths.getParameterTypes());
+                        targetMethod.setAccessible(true);
 
-                    methods.put(meths, targetMethod);
+                        methods.put(meths, targetMethod);
+                    }
                 }
             }
             catch (Exception e)

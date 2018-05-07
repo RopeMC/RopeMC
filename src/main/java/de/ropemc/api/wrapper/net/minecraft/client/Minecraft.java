@@ -8,8 +8,10 @@ import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.GuiIngame;
 import de.ropemc.api.wrapper.net.minecraft.client.multiplayer.WorldClient;
 import de.ropemc.api.wrapper.WrapperSystem;
+import de.ropemc.api.wrapper.net.minecraft.util.Session;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 public class Minecraft
 {
@@ -22,8 +24,10 @@ public class Minecraft
     private static Field thePlayerField;
     private static Field theWorldField;
     private static Field fontRendererField;
+    private static Field sessionField;
     private static WrapperSystem wrapperSystemEntityPlayerSP;
     private static WrapperSystem wrapperSystemFontRenderer;
+    private static WrapperSystem wrapperSystemSession;
 
     static
     {
@@ -42,6 +46,8 @@ public class Minecraft
             ingameGuiField.setAccessible(true);
             fontRendererField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "fontRendererObj"));
             fontRendererField.setAccessible(true);
+            sessionField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "session"));
+            sessionField.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -52,6 +58,7 @@ public class Minecraft
         {
             wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
             wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
+            wrapperSystemSession = new WrapperSystem(Session.class);
         }
         catch (MissingAnnotationException e)
         {
@@ -82,6 +89,7 @@ public class Minecraft
     private Object handle;
     private EntityPlayerSP thePlayer;
     private FontRenderer fontRenderer;
+    private Session session;
 
     public Object getHandle()
     {
@@ -142,6 +150,25 @@ public class Minecraft
             }
         }
         return fontRenderer;
+    }
+
+    public Session getSession()
+    {
+        if(session == null)
+        {
+            try
+            {
+                Object handle = sessionField.get(getHandle());
+                if(handle != null)
+                    session = (Session) wrapperSystemSession.createInstance(handle);
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return session;
     }
 
     public String getLaunchedVersion()
