@@ -1,24 +1,26 @@
 # RopeMC
-RopeMC is a fast and lightweight Modding-API for Minecraft.
 
-##Table of Contents
-- [Information](#Information)
-    - [Getting started](#Getting started)
-        - [Dependencies](#Dependencies)
-    - [Installation](#Installation)
-        - [Windows](#Windows)
+RopeMC is an easy, fast and lightweight Modding-API for Minecraft.
+
+## Table of Contents
+
+- [Information](#information)
+    - [Getting started](#getting-started)
+        - [Dependencies](#dependencies)
+    - [Installation](#installation)
+        - [Windows](#windows)
         - [macOS](#macOS)
-        - [GNU/Linux](#GNU/Linux)
-    - [Continue the installation](#Continue the installation)
-- [Information for developers](#Information for developers)
-- [Highlighted Mods](#Highlighted Mods)
+        - [GNU/Linux](#linux)
+    - [Continue the installation](#continue-the-installation)
+- [Information for developers](#information-for-developers)
+- [Highlighted Mods](#highlighted-mods)
 - [To-Do](#To-Do)
-- [Server](#Server)
-- [Credits](#Credits)
-    - [Used libraries](#Used libraries)
-    - [Authors](#Authors)
+- [Server](#server)
+- [Credits](#credits)
+    - [Used libraries](#used-libraries)
+    - [Authors](#authors)
 - [License](#license)
-- [Contact us](#Contact us)
+- [Contact us](#Contact-us)
     
 ## Information
 We're working on a Installer which should make the installation process alot easier. 
@@ -73,7 +75,7 @@ Your profile should look something like this:
 ![alt text](https://image.ibb.co/eKtQRJ/snap0012.png "Screenshot - Example")<br/>
 Save your changes. You should be ready to go! :thumbsup:
 
-##How to add mods
+## How to add mods
 Tip: You need to launch RopeMC at least once to continue.
 
 After launching RopeMC, the programm created a folder named RopeMC in your Minecraft-directory. Place your mod in 
@@ -82,31 +84,32 @@ RopeMC &rarr Mods
 ```
 Launch Minecraft and you should be ready to go!
 
-##Information for developers
+## Information for developers
 If you want to know how to create mods, or how to modify the source code for your own needs, check out the [wiki](https://github.com/RopeMC/RopeMC/wiki)! 
 
 ## Highlighted Mods
 [ConsoleMod](https://github.com/RopeMC/ConsoleMod) <br/>
 [DebugMod](https://github.com/RopeMC/DebugMod)
 
-##To-Do
-- [] Installer
-- [] License
-- [] Insert all members
-- [] Troubleshooting
+## To-Do
+- [ ] Installer
+- [ ] License
+- [ ] Insert all members
+- [ ] Troubleshooting
+
 ## Server
 
-The server isn´t ready yet, but [the repo](https://github.com/RopeMC/RopeMC-ServerPlugin) is ;)
+The server is coming soon, and [the repo](https://github.com/RopeMC/RopeMC-ServerPlugin) is already available!
 
 ## Credits
-###Used libraries <br/>
+### Used libraries <br/>
 [Gson](https://github.com/google/gson) by Google <br/>
 [Javassist](http://jboss-javassist.github.io/javassist/) by jboss-javassist
 ### Authors
 **RopeMC is created by**<br/>
 Todo: Insert Names
 
-##License
+## License
 
 
 ## Contact us
