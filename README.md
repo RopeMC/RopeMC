@@ -40,10 +40,10 @@ Download the latest version of RopeMC from the [releases](https://github.com/Rop
 #### Windows
 Open your .minecraft folder, which is located in Roaming. You can access it through these two methods:
 ```
-Windows &rarr Run &rarr Prompt %appdata% &rarr Enter &rarr .minecraft
+Windows → Run → Prompt %appdata% → Enter → .minecraft
 ```
 ```
-Windows + R &rarr Prompt %appdata% &rarr Enter &rarr .minecraft
+Windows + R → Prompt %appdata% → Enter → .minecraft
 ```
 Place your downloaded .jar file into the .minecraft-directory and rename it to **RopeMC.jar**.
 #### macOS
@@ -58,7 +58,7 @@ Access it through the terminal or a File Manager (e.g. Nemo).
 Your .minecraft-folder may be hidden because it is a dotfile-directory. 
 You can toggle the visibility either through
 ```
-View &rarr Show hidden Files
+View → Show hidden Files
 ```
 or just use Ctrl+H as a shortcut. These methods should work in almost every file manager on GNU/Linux.
 
@@ -80,7 +80,7 @@ Tip: You need to launch RopeMC at least once to continue.
 
 After launching RopeMC, the programm created a folder named RopeMC in your Minecraft-directory. Place your mod in 
 ```
-RopeMC &rarr Mods
+RopeMC → Mods
 ```
 Launch Minecraft and you should be ready to go!
 
@@ -94,7 +94,7 @@ If you want to know how to create mods, or how to modify the source code for you
 ## To-Do
 - [ ] Installer
 - [ ] License
-- [ ] Insert all members
+- [x] Insert all members
 - [ ] Troubleshooting
 
 ## Server
@@ -106,9 +106,11 @@ The server is coming soon, and [the repo](https://github.com/RopeMC/RopeMC-Serve
 [Gson](https://github.com/google/gson) by Google <br/>
 [Javassist](http://jboss-javassist.github.io/javassist/) by jboss-javassist
 ### Authors
-**RopeMC is created by**<br/>
-Todo: Insert Names
-
+**RopeMC is created by:**<br/>
+- x7airworker
+- Prezise
+- JanHolger
+- HGGamers
 ## License
 
 
