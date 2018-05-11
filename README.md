@@ -112,7 +112,7 @@ The server is coming soon, and [the repo](https://github.com/RopeMC/RopeMC-Serve
 - JanHolger
 - HGGamers
 ## License
-
+We're using the MIT-License.
 
 ## Contact us
 [Our Discord](https://discord.io/ropemc)
