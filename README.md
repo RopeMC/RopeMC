@@ -93,13 +93,13 @@ If you want to know how to create mods, or how to modify the source code for you
 
 ## To-Do
 - [ ] Installer
-- [ ] License
+- [x] License
 - [x] Insert all members
 - [ ] Troubleshooting
 
 ## Server
 
-The server is coming soon, and [the repo](https://github.com/RopeMC/RopeMC-ServerPlugin) is already available!
+The server is coming soon™
 
 ## Credits
 ### Used libraries <br/>
