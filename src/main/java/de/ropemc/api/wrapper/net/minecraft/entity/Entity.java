@@ -2,6 +2,7 @@ package de.ropemc.api.wrapper.net.minecraft.entity;
 
 
 import de.ropemc.api.wrapper.WrappedClass;
+import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
 
 @WrappedClass("net.minecraft.entity.Entity")
 public interface Entity
@@ -355,4 +356,6 @@ public interface Entity
     void setOutsideBorder(boolean outsideBorder);
 
     boolean isImmuneToExplosions();
+
+    BlockPos getPosition();
 }

@@ -4,7 +4,6 @@ package de.ropemc.api.wrapper;
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.exceptions.WrongTypeException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,6 +15,8 @@ public class WrapperSystem
 {
     private Map<Method, Method> methods = new HashMap<>();
     private Map<Method, Field> fieldMethods = new HashMap<>();
+    private Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
+
     private Class<?> calledFromClass;
 
     public WrapperSystem(Class<?> clazz) throws MissingAnnotationException
@@ -65,6 +66,12 @@ public class WrapperSystem
             {
                 Method targetMethod = methods.get(method);
 
+                if(method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class))
+                {
+                    System.out.println("CALL");
+                    return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(handle, args));
+                }
+
                 return targetMethod.invoke(handle, args);
             }
         });
@@ -99,6 +106,11 @@ public class WrapperSystem
                     {
                         Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), meths.getParameterTypes());
                         targetMethod.setAccessible(true);
+
+                        if(meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class))
+                        {
+                            classWrappers.put(meths.getReturnType(), new WrapperSystem(meths.getReturnType()));
+                        }
 
                         methods.put(meths, targetMethod);
                     }
