@@ -8,7 +8,9 @@ import de.ropemc.api.exceptions.WrongTypeException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WrapperSystem
@@ -36,10 +38,10 @@ public class WrapperSystem
     {
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
         {
-            if(method.isAnnotationPresent(WrappedField.Getter.class))
+            if (method.isAnnotationPresent(WrappedField.Getter.class))
             {
                 Field targetField = fieldMethods.get(method);
-                if(method.getReturnType() == targetField.getType())
+                if (method.getReturnType() == targetField.getType())
                 {
                     return targetField.get(handle);
                 }
@@ -48,10 +50,10 @@ public class WrapperSystem
                     throw new WrongTypeException("In Class: " + method.getDeclaringClass().getName() + " with Getter Field: " + targetField.getName());
                 }
             }
-            else if(method.isAnnotationPresent(WrappedField.Setter.class))
+            else if (method.isAnnotationPresent(WrappedField.Setter.class))
             {
                 Field targetField = fieldMethods.get(method);
-                if(method.getParameterTypes()[0] == targetField.getType())
+                if (method.getParameterTypes()[0] == targetField.getType())
                 {
                     targetField.set(handle, args[0]);
 
@@ -66,7 +68,7 @@ public class WrapperSystem
             {
                 Method targetMethod = methods.get(method);
 
-                if(method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class))
+                if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class))
                 {
                     System.out.println("CALL");
                     return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(handle, args));
@@ -79,14 +81,14 @@ public class WrapperSystem
 
     private void addMethodsViaClassTree(Class<?> clazz) throws MissingAnnotationException
     {
-        if(clazz.isAnnotationPresent(WrappedClass.class))
+        if (clazz.isAnnotationPresent(WrappedClass.class))
         {
             try
             {
                 Class mcpClass = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrappedClass.class).value()));
                 for (Method meths : clazz.getDeclaredMethods())
                 {
-                    if(meths.isAnnotationPresent(WrappedField.Getter.class))
+                    if (meths.isAnnotationPresent(WrappedField.Getter.class))
                     {
                         WrappedField.Getter getterAnnotation = meths.getAnnotation(WrappedField.Getter.class);
                         Field targetField = mcpClass.getDeclaredField(Mappings.getFieldName(clazz.getAnnotation(WrappedClass.class).value(), getterAnnotation.value()));
@@ -94,7 +96,7 @@ public class WrapperSystem
 
                         fieldMethods.put(meths, targetField);
                     }
-                    else if(meths.isAnnotationPresent(WrappedField.Setter.class))
+                    else if (meths.isAnnotationPresent(WrappedField.Setter.class))
                     {
                         WrappedField.Setter setterAnnotation = meths.getAnnotation(WrappedField.Setter.class);
                         Field targetField = mcpClass.getDeclaredField(Mappings.getFieldName(clazz.getAnnotation(WrappedClass.class).value(), setterAnnotation.value()));
@@ -107,9 +109,12 @@ public class WrapperSystem
                         Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), meths.getParameterTypes());
                         targetMethod.setAccessible(true);
 
-                        if(meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class))
+                        if (meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class))
                         {
-                            classWrappers.put(meths.getReturnType(), new WrapperSystem(meths.getReturnType()));
+                            if (!classWrappers.containsKey(meths.getReturnType()))
+                            {
+                                classWrappers.put(meths.getReturnType(), new WrapperSystem(meths.getReturnType()));
+                            }
                         }
 
                         methods.put(meths, targetMethod);
@@ -127,7 +132,7 @@ public class WrapperSystem
             throw new MissingAnnotationException("Missing Annotation: " + WrappedClass.class.getName() + " in Class: " + calledFromClass.getName());
         }
 
-        if(clazz.getInterfaces().length != 0)
+        if (clazz.getInterfaces().length != 0)
         {
             addMethodsViaClassTree(clazz.getInterfaces()[0]);
         }
