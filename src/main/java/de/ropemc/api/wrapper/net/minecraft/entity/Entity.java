@@ -357,5 +357,5 @@ public interface Entity
 
     boolean isImmuneToExplosions();
 
-    BlockPos getPosition();
+    //BlockPos getPosition();
 }
