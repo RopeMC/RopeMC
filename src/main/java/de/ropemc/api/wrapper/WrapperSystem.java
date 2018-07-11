@@ -4,20 +4,19 @@ package de.ropemc.api.wrapper;
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.exceptions.WrongTypeException;
+import de.ropemc.utils.Mapping;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WrapperSystem
 {
     private Map<Method, Method> methods = new HashMap<>();
     private Map<Method, Field> fieldMethods = new HashMap<>();
-    private Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
+    private static Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
+    private Map<Object, Object> handles = new HashMap<>();
 
     private Class<?> calledFromClass;
 
@@ -36,7 +35,7 @@ public class WrapperSystem
      */
     public Object createInstance(Object handle)
     {
-        return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
+        Object obj = Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
         {
             if (method.isAnnotationPresent(WrappedField.Getter.class))
             {
@@ -44,6 +43,10 @@ public class WrapperSystem
                 if (method.getReturnType() == targetField.getType())
                 {
                     return targetField.get(handle);
+                }
+                else if(method.getReturnType().isInterface())
+                {
+                    return classWrappers.get(method.getReturnType()).createInstance(targetField.get(handle));
                 }
                 else
                 {
@@ -66,17 +69,31 @@ public class WrapperSystem
             }
             else
             {
+                int index = 0;
+                for(Object argObj : args)
+                {
+                    if(argObj.getClass().isInterface() && argObj.getClass().isAnnotationPresent(WrappedClass.class))
+                    {
+                        args[index] = handles.get(proxy);
+                    }
+
+                    index++;
+                }
+
                 Method targetMethod = methods.get(method);
 
                 if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class))
                 {
-                    System.out.println("CALL");
                     return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(handle, args));
                 }
 
                 return targetMethod.invoke(handle, args);
             }
         });
+
+        handles.put(obj, handle);
+
+        return obj;
     }
 
     private void addMethodsViaClassTree(Class<?> clazz) throws MissingAnnotationException
@@ -106,7 +123,19 @@ public class WrapperSystem
                     }
                     else
                     {
-                        Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), meths.getParameterTypes());
+                        Class<?>[] parameters = meths.getParameterTypes();
+                        int index = 0;
+                        for(Class<?> paramClazz : parameters)
+                        {
+                            if(paramClazz.isInterface() && paramClazz.isAnnotationPresent(WrappedClass.class))
+                            {
+                                parameters[index] = Class.forName(Mappings.getClassName(paramClazz.getAnnotation(WrappedClass.class).value()));
+                            }
+
+                            index ++;
+                        }
+
+                        Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), parameters);
                         targetMethod.setAccessible(true);
 
                         if (meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class))
