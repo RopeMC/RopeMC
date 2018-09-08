@@ -10,8 +10,7 @@ import de.ropemc.utils.VersionFile;
 import java.io.File;
 import java.lang.instrument.Instrumentation;
 
-public class RopeMC
-{
+public class RopeMC {
 
     public static final String ROPE_VERSION = "0.0.1";
     public static MCVersion version;
@@ -28,8 +27,7 @@ public class RopeMC
      * @param args
      * @param instrumentation
      */
-    public static void premain(String args, Instrumentation instrumentation)
-    {
+    public static void premain(String args, Instrumentation instrumentation) {
         version = MCVersion.MC1_8_8;
         //creating folders
         ropeDirectory = new File("RopeMC");

@@ -5,19 +5,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-public class WrappedField
-{
+public class WrappedField {
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface Setter
-    {
+    public @interface Setter {
         String value();
     }
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface  Getter
-    {
+    public @interface Getter {
         String value();
     }
 }

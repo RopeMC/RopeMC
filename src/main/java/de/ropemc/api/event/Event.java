@@ -1,7 +1,6 @@
 package de.ropemc.api.event;
 
-public abstract class Event
-{
+public abstract class Event {
 
 
 }

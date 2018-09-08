@@ -10,8 +10,7 @@ import de.ropemc.api.wrapper.net.minecraft.util.Session;
 
 import java.lang.reflect.Field;
 
-public class Minecraft
-{
+public class Minecraft {
 
     public static final String CLASSNAME = "net.minecraft.client.Minecraft";
 
@@ -28,10 +27,8 @@ public class Minecraft
     private static WrapperSystem wrapperSystemSession;
     private static WrapperSystem wrapperSystemGameSettings;
 
-    static
-    {
-        try
-        {
+    static {
+        try {
             Class<?> mcClass = Class.forName(Mappings.getClassName("net.minecraft.client.Minecraft"));
             theMinecraftField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "theMinecraft"));
             theMinecraftField.setAccessible(true);
@@ -49,39 +46,29 @@ public class Minecraft
             sessionField.setAccessible(true);
             gameSettingsField = mcClass.getDeclaredField(Mappings.getFieldName("net.minecraft.client.Minecraft", "gameSettings"));
             gameSettingsField.setAccessible(true);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        try
-        {
+        try {
             wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
             wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
             wrapperSystemSession = new WrapperSystem(Session.class);
             wrapperSystemGameSettings = new WrapperSystem(GameSettings.class);
-        }
-        catch (MissingAnnotationException e)
-        {
+        } catch (MissingAnnotationException e) {
             e.printStackTrace();
         }
     }
 
     private static Minecraft theMinecraft = null;
 
-    public static Minecraft getTheMinecraft()
-    {
-        if (theMinecraft == null)
-        {
-            try
-            {
+    public static Minecraft getTheMinecraft() {
+        if (theMinecraft == null) {
+            try {
                 Object handle = theMinecraftField.get(null);
                 if (handle != null)
                     theMinecraft = new Minecraft(handle);
-            }
-            catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -94,66 +81,48 @@ public class Minecraft
     private Session session;
     private GameSettings gameSettings;
 
-    public Object getHandle()
-    {
+    public Object getHandle() {
         return handle;
     }
 
-    public Minecraft(Object handle)
-    {
+    public Minecraft(Object handle) {
         this.handle = handle;
     }
 
-    public EntityPlayerSP getThePlayer()
-    {
-        if (thePlayer == null)
-        {
-            try
-            {
+    public EntityPlayerSP getThePlayer() {
+        if (thePlayer == null) {
+            try {
                 Object handle = thePlayerField.get(getHandle());
-                if (handle != null)
-                {
+                if (handle != null) {
                     thePlayer = (EntityPlayerSP) wrapperSystemEntityPlayerSP.createInstance(handle);
                 }
-            }
-            catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         return thePlayer;
     }
 
-    public FontRenderer getFontRenderer()
-    {
-        if (fontRenderer == null)
-        {
-            try
-            {
+    public FontRenderer getFontRenderer() {
+        if (fontRenderer == null) {
+            try {
                 Object handle = fontRendererField.get(getHandle());
                 if (handle != null)
                     fontRenderer = (FontRenderer) wrapperSystemFontRenderer.createInstance(handle);
-            }
-            catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         return fontRenderer;
     }
 
-    public Session getSession()
-    {
-        if(session == null)
-        {
-            try
-            {
+    public Session getSession() {
+        if (session == null) {
+            try {
                 Object handle = sessionField.get(getHandle());
-                if(handle != null)
+                if (handle != null)
                     session = (Session) wrapperSystemSession.createInstance(handle);
-            }
-            catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -161,18 +130,13 @@ public class Minecraft
         return session;
     }
 
-    public GameSettings getGameSettings()
-    {
-        if(gameSettings == null)
-        {
-            try
-            {
+    public GameSettings getGameSettings() {
+        if (gameSettings == null) {
+            try {
                 Object handle = gameSettingsField.get(getHandle());
-                if(handle != null)
+                if (handle != null)
                     gameSettings = (GameSettings) wrapperSystemGameSettings.createInstance(handle);
-            }
-            catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -180,14 +144,10 @@ public class Minecraft
         return gameSettings;
     }
 
-    public String getLaunchedVersion()
-    {
-        try
-        {
+    public String getLaunchedVersion() {
+        try {
             return launchedVersionField.get(getHandle()).toString();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

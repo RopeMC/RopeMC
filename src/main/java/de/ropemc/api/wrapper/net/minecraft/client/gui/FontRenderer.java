@@ -3,8 +3,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.gui;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.client.gui.FontRenderer")
-public interface FontRenderer
-{
+public interface FontRenderer {
     /**
      * Render a single character with the default.png font at current (posX,posY) location...
      */

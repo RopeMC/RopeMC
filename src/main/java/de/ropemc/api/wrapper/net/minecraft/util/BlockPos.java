@@ -3,8 +3,7 @@ package de.ropemc.api.wrapper.net.minecraft.util;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.util.BlockPos")
-public interface BlockPos extends Vec3i
-{
+public interface BlockPos extends Vec3i {
     /**
      * Serialize this BlockPos into a long value
      */

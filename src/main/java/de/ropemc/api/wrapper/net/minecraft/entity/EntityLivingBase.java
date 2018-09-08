@@ -3,8 +3,7 @@ package de.ropemc.api.wrapper.net.minecraft.entity;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.entity.EntityLivingBase")
-public interface EntityLivingBase extends Entity
-{
+public interface EntityLivingBase extends Entity {
     String CLASSNAME = "net.minecraft.entity.EntityLivingBase";
 
     boolean canBreatheUnderwater();

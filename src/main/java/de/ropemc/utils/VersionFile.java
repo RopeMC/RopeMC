@@ -7,91 +7,70 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class VersionFile
-{
+public class VersionFile {
 
     private File file;
     private JsonParser parser;
     private Gson gson;
     private long mappings;
 
-    public VersionFile(File file)
-    {
+    public VersionFile(File file) {
         parser = new JsonParser();
         gson = new GsonBuilder().setPrettyPrinting().create();
         this.file = file;
         mappings = 0;
-        if (!file.exists())
-        {
-            try
-            {
+        if (!file.exists()) {
+            try {
                 file.createNewFile();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
             }
             save();
         }
         load();
     }
 
-    public void setMappings(long mappings)
-    {
+    public void setMappings(long mappings) {
         this.mappings = mappings;
         save();
     }
 
-    public long getMappings()
-    {
+    public long getMappings() {
         return this.mappings;
     }
 
-    public void save()
-    {
+    public void save() {
         JsonObject root = new JsonObject();
         root.addProperty("mappings", mappings);
         write(root);
     }
 
-    public void load()
-    {
+    public void load() {
         JsonObject root = read();
-        if (root != null)
-        {
+        if (root != null) {
             if (root.has("mappings")) mappings = root.get("mappings").getAsLong();
         }
     }
 
-    protected JsonObject read()
-    {
-        try
-        {
+    protected JsonObject read() {
+        try {
             JsonElement e = parser.parse(new FileReader(file));
-            if (e != null)
-            {
-                if (e.isJsonObject())
-                {
+            if (e != null) {
+                if (e.isJsonObject()) {
                     return e.getAsJsonObject();
                 }
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
         }
         return new JsonObject();
     }
 
-    protected void write(JsonObject object)
-    {
-        try
-        {
+    protected void write(JsonObject object) {
+        try {
             FileWriter fr = new FileWriter(file);
             fr.write(gson.toJson(object));
             fr.flush();
             fr.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
         }
     }
 }

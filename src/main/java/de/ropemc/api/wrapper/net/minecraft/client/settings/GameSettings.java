@@ -2,11 +2,9 @@ package de.ropemc.api.wrapper.net.minecraft.client.settings;
 
 import de.ropemc.api.wrapper.WrappedClass;
 import de.ropemc.api.wrapper.WrappedField;
-import jdk.nashorn.internal.objects.annotations.Setter;
 
 @WrappedClass("net.minecraft.client.settings.GameSettings")
-public interface GameSettings
-{
+public interface GameSettings {
     @WrappedField.Getter("chatColours")
     boolean isChatColours();
 

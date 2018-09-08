@@ -5,8 +5,7 @@ import de.ropemc.api.wrapper.net.minecraft.entity.EntityLivingBase;
 import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
 
 @WrappedClass("net.minecraft.entity.player.EntityPlayer")
-public interface EntityPlayer extends EntityLivingBase
-{
+public interface EntityPlayer extends EntityLivingBase {
     String CLASSNAME = "net.minecraft.entity.player.EntityPlayer";
 
     /**

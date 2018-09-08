@@ -3,8 +3,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.gui;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.client.gui.Gui")
-public interface Gui
-{
+public interface Gui {
     void drawHorizontalLine(int startX, int endX, int y, int color);
 
     void drawVerticalLine(int x, int startY, int endY, int color);

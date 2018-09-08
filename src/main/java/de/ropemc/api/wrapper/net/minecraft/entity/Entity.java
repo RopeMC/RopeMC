@@ -5,8 +5,7 @@ import de.ropemc.api.wrapper.WrappedClass;
 import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
 
 @WrappedClass("net.minecraft.entity.Entity")
-public interface Entity
-{
+public interface Entity {
     String CLASSNAME = "net.minecraft.entity.Entity";
 
     int getEntityId();

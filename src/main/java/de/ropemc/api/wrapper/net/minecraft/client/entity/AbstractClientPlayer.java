@@ -4,8 +4,7 @@ import de.ropemc.api.wrapper.WrappedClass;
 import de.ropemc.api.wrapper.net.minecraft.entity.player.EntityPlayer;
 
 @WrappedClass("net.minecraft.client.entity.AbstractClientPlayer")
-public interface AbstractClientPlayer extends EntityPlayer
-{
+public interface AbstractClientPlayer extends EntityPlayer {
     /**
      * Checks if this instance of AbstractClientPlayer has any associated player data.
      */

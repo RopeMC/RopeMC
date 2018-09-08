@@ -4,8 +4,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.entity;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.client.entity.EntityPlayerSP")
-public interface EntityPlayerSP extends AbstractClientPlayer
-{
+public interface EntityPlayerSP extends AbstractClientPlayer {
     String CLASSNAME = "net.minecraft.client.entity.EntityPlayerSP";
 
     void swingItem();

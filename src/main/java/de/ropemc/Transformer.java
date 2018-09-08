@@ -9,8 +9,7 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
-public class Transformer implements ClassFileTransformer
-{
+public class Transformer implements ClassFileTransformer {
 
     /**
      * called when a class is transformed
@@ -23,12 +22,9 @@ public class Transformer implements ClassFileTransformer
      * @return the bytecode to transform, if null nothing will happen
      * @throws IllegalClassFormatException
      */
-    public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException
-    {
-        if ("org/lwjgl/opengl/Display".equals(s))
-        {
-            try
-            {
+    public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException {
+        if ("org/lwjgl/opengl/Display".equals(s)) {
+            try {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get("org.lwjgl.opengl.Display");
                 CtMethod m = cc.getDeclaredMethod("setTitle");
@@ -36,21 +32,15 @@ public class Transformer implements ClassFileTransformer
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-            catch (Throwable e)
-            {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
 
-        if (Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s))
-        {
-            try
-            {
+        if (Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s)) {
+            try {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName(EntityPlayerSP.CLASSNAME));
                 CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName(EntityPlayerSP.CLASSNAME, "sendChatMessage"));
@@ -63,17 +53,13 @@ public class Transformer implements ClassFileTransformer
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-        if (Mappings.getClassName("net.minecraft.client.gui.GuiIngame").equals(s))
-        {
-            try
-            {
+        if (Mappings.getClassName("net.minecraft.client.gui.GuiIngame").equals(s)) {
+            try {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.gui.GuiIngame"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.gui.GuiIngame", "renderGameOverlay"), new CtClass[]{CtClass.floatType});
@@ -81,17 +67,13 @@ public class Transformer implements ClassFileTransformer
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-        if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s))
-        {
-            try
-            {
+        if (Mappings.getClassName("net.minecraft.client.Minecraft").equals(s)) {
+            try {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.Minecraft"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.Minecraft", "runTick"));
@@ -100,9 +82,7 @@ public class Transformer implements ClassFileTransformer
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

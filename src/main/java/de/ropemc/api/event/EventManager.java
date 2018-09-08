@@ -7,25 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventManager
-{
+public class EventManager {
 
     private static Map<Listener, List<Method>> events = new HashMap<Listener, List<Method>>();
 
-    public static void callEvent(Event e)
-    {
-        for (Listener l : events.keySet())
-        {
-            for (Method m : events.get(l))
-            {
-                if (m.getParameterTypes()[0].equals(e.getClass()))
-                {
-                    try
-                    {
+    public static void callEvent(Event e) {
+        for (Listener l : events.keySet()) {
+            for (Method m : events.get(l)) {
+                if (m.getParameterTypes()[0].equals(e.getClass())) {
+                    try {
                         m.invoke(l, e);
-                    }
-                    catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1)
-                    {
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
                         e1.printStackTrace();
                     }
                 }
@@ -33,16 +25,12 @@ public class EventManager
         }
     }
 
-    public static void registerListener(Listener listener)
-    {
+    public static void registerListener(Listener listener) {
         if (events.containsKey(listener)) return;
         List<Method> ml = new ArrayList<Method>();
-        for (Method m : listener.getClass().getDeclaredMethods())
-        {
-            if (m.getAnnotation(EventHandler.class) != null)
-            {
-                if (m.getParameterCount() == 1)
-                {
+        for (Method m : listener.getClass().getDeclaredMethods()) {
+            if (m.getAnnotation(EventHandler.class) != null) {
+                if (m.getParameterCount() == 1) {
                     ml.add(m);
                 }
             }
@@ -50,8 +38,7 @@ public class EventManager
         events.put(listener, ml);
     }
 
-    public static void unregisterListener(Listener listener)
-    {
+    public static void unregisterListener(Listener listener) {
         if (!events.containsKey(listener)) return;
         events.remove(listener);
     }

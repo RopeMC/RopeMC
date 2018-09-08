@@ -17,36 +17,28 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 
 
-public class ModManager
-{
+public class ModManager {
 
     private static List<Mod> mods = new ArrayList<Mod>();
 
-    public static void loadModules(File folder)
-    {
+    public static void loadModules(File folder) {
         mods.clear();
         Map<File, ModDescription> modfiles = new HashMap<File, ModDescription>();
         JsonParser parser = new JsonParser();
-        for (File f : folder.listFiles())
-        {
+        for (File f : folder.listFiles()) {
             if (!f.isDirectory())
-                if (f.getName().endsWith(".jar"))
-                {
+                if (f.getName().endsWith(".jar")) {
                     String error = null;
-                    try
-                    {
+                    try {
                         JarInputStream s = new JarInputStream(new FileInputStream(f));
                         String data = null;
-                        while (data == null)
-                        {
+                        while (data == null) {
                             JarEntry je = s.getNextJarEntry();
                             if (je == null) break;
-                            if (je.getName().equals("modinfo.json"))
-                            {
+                            if (je.getName().equals("modinfo.json")) {
                                 data = "";
                                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                                while (true)
-                                {
+                                while (true) {
                                     int qwe = s.read();
                                     if (qwe == -1)
                                         break;
@@ -58,141 +50,101 @@ public class ModManager
                                 break;
                             }
                         }
-                        if (data != null)
-                        {
+                        if (data != null) {
                             JsonObject root = null;
-                            try
-                            {
+                            try {
                                 JsonElement roote = parser.parse(data);
                                 root = roote.getAsJsonObject();
-                            }
-                            catch (Exception ex)
-                            {
+                            } catch (Exception ex) {
 
                             }
-                            if (root != null)
-                            {
-                                if (root.has("name") && root.has("version") && root.has("main"))
-                                {
+                            if (root != null) {
+                                if (root.has("name") && root.has("version") && root.has("main")) {
                                     String name = root.get("name").getAsString();
                                     String version = root.get("version").getAsString();
                                     String main = root.get("main").getAsString();
                                     ModDescription desc = new ModDescription(name, version, main);
                                     modfiles.put(f, desc);
-                                }
-                                else
-                                {
+                                } else {
                                     error = "The modinfo.json does not contain all required information (name,version,main)!";
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 error = "The modinfo.json has an invalid json syntax!";
                             }
-                        }
-                        else
-                        {
+                        } else {
                             error = "The jarfile does not contain a modinfo.json!";
                         }
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         error = "Couldn't read the jarfile!";
                     }
-                    if (error != null)
-                    {
+                    if (error != null) {
                         System.out.println(error + " (" + f.getName() + ")");
                     }
                 }
         }
         URL[] urls = new URL[modfiles.size()];
         int i = 0;
-        for (File f : modfiles.keySet())
-        {
-            try
-            {
+        for (File f : modfiles.keySet()) {
+            try {
                 urls[i] = f.toURL();
-            }
-            catch (MalformedURLException e)
-            {
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             i++;
         }
         URLClassLoader loader = new URLClassLoader(urls);
-        for (File f : modfiles.keySet())
-        {
+        for (File f : modfiles.keySet()) {
             String error = null;
             String mainclassfile = modfiles.get(f).getMain().replace(".", "/") + ".class";
-            if (loader.findResource(mainclassfile) != null)
-            {
-                try
-                {
+            if (loader.findResource(mainclassfile) != null) {
+                try {
                     JarFile jf = new JarFile(f);
                     Enumeration<JarEntry> en = jf.entries();
-                    while (en.hasMoreElements())
-                    {
+                    while (en.hasMoreElements()) {
                         JarEntry je = en.nextElement();
-                        if (je.getName().endsWith(".class"))
-                        {
+                        if (je.getName().endsWith(".class")) {
                             loader.loadClass(je.getName().replace("/", ".").substring(0, je.getName().length() - 6));
                         }
                     }
                     Class<?> mainclass = loader.loadClass(modfiles.get(f).getMain());
-                    if (mainclass.getSuperclass() != null)
-                    {
-                        if (mainclass.getSuperclass().equals(Mod.class))
-                        {
+                    if (mainclass.getSuperclass() != null) {
+                        if (mainclass.getSuperclass().equals(Mod.class)) {
                             Mod m = (Mod) mainclass.newInstance();
                             m.setDescription(modfiles.get(f));
                             mods.add(m);
-                        }
-                        else
-                        {
+                        } else {
                             error = "The main class is not module!";
                         }
-                    }
-                    else
-                    {
+                    } else {
                         error = "The main class is not module!";
                     }
-                }
-                catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IOException e)
-                {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IOException e) {
                     error = "Error while loading classes!";
                 }
             }
-            if (error != null)
-            {
+            if (error != null) {
                 System.out.println(error + " (" + f.getName() + ")");
             }
         }
-        try
-        {
+        try {
             loader.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        for (Mod m : mods)
-        {
+        for (Mod m : mods) {
             System.out.println(m.getName() + " (" + m.getVersion() + ") has been loaded!");
             m.onEnable();
         }
     }
 
-    public static void unloadModules()
-    {
-        for (Mod m : mods)
-        {
+    public static void unloadModules() {
+        for (Mod m : mods) {
             m.onDisable();
             System.out.println(m.getName() + " (" + m.getVersion() + ") has been unloaded!");
         }
     }
 
-    public static List<Mod> getModules()
-    {
+    public static List<Mod> getModules() {
         return mods;
     }
 
