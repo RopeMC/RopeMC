@@ -33,7 +33,7 @@ RopeMC supports Minecraft 1.8.8 at the moment only.<br/>
 - Java Runtime Enviroment 8
 - JavaFX
     - This depends on your operating system. 
-    On GNU/Linux, it is called most likely "java-openjfx" (i.e. Arch Linux), but this depends on your distribution. 
+    On GNU/Linux, it is called most likely "openjfx" or "java-openjfx" (i.e. Debian/Ubuntu/Mint or Arch), but this depends on your distribution. 
     Otherwise it should be included in every JDK.
 ### Installation
 Download the latest version of RopeMC from the [releases](https://github.com/RopeMC/RopeMC/releases) tab.
