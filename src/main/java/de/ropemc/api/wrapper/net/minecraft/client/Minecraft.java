@@ -5,7 +5,6 @@ import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.WrapperSystem;
-import de.ropemc.api.wrapper.net.minecraft.client.settings.GameSettings;
 import de.ropemc.api.wrapper.net.minecraft.util.Session;
 
 import java.lang.reflect.Field;
@@ -25,7 +24,6 @@ public class Minecraft {
     private static WrapperSystem wrapperSystemEntityPlayerSP;
     private static WrapperSystem wrapperSystemFontRenderer;
     private static WrapperSystem wrapperSystemSession;
-    private static WrapperSystem wrapperSystemGameSettings;
 
     static {
         try {
@@ -54,7 +52,6 @@ public class Minecraft {
             wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
             wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
             wrapperSystemSession = new WrapperSystem(Session.class);
-            wrapperSystemGameSettings = new WrapperSystem(GameSettings.class);
         } catch (MissingAnnotationException e) {
             e.printStackTrace();
         }
@@ -79,7 +76,6 @@ public class Minecraft {
     private EntityPlayerSP thePlayer;
     private FontRenderer fontRenderer;
     private Session session;
-    private GameSettings gameSettings;
 
     public Object getHandle() {
         return handle;
@@ -128,20 +124,6 @@ public class Minecraft {
         }
 
         return session;
-    }
-
-    public GameSettings getGameSettings() {
-        if (gameSettings == null) {
-            try {
-                Object handle = gameSettingsField.get(getHandle());
-                if (handle != null)
-                    gameSettings = (GameSettings) wrapperSystemGameSettings.createInstance(handle);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return gameSettings;
     }
 
     public String getLaunchedVersion() {
