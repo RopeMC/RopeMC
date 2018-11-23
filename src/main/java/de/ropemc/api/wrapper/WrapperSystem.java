@@ -5,6 +5,7 @@ import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.exceptions.WrongTypeException;
 import de.ropemc.utils.Mapping;
+import jdk.internal.org.objectweb.asm.Handle;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -32,29 +33,34 @@ public class WrapperSystem {
      */
     public Object createInstance(Object handle) {
         return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, new HandledInvocationHandler() {
+            private Object theHandle = handle;
+
             @Override
             public Object getHandle() {
-                return handle;
+                return theHandle;
             }
 
             @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
                 int index = 0;
-                for (Object argObj : args) {
-                    if (argObj.getClass().isInterface() && argObj.getClass().isAnnotationPresent(WrappedClass.class)) {
-                        args[index] = ((HandledInvocationHandler) Proxy.getInvocationHandler(argObj)).getHandle();
+                if (args != null) {
+                    for (Object argObj : args) {
+                        if (method.getParameterTypes()[index].isInterface() && method.getParameterTypes()[index].isAnnotationPresent(WrappedClass.class)) {
+                            HandledInvocationHandler handler = (HandledInvocationHandler) Proxy.getInvocationHandler(argObj);
+                            args[index] = handler.getHandle();
+                        }
+
+                        index++;
                     }
-
-                    index++;
                 }
-
                 Method targetMethod = methods.get(method);
 
+                Object newHandle = targetMethod.invoke(getHandle(), args);
+                System.out.println(newHandle);
                 if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
-                    return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(getHandle(), args));
+                    return classWrappers.get(method.getReturnType()).createInstance(newHandle);
                 }
-
-                return targetMethod.invoke(getHandle(), args);
+                return newHandle;
             }
         });
     }
@@ -64,7 +70,7 @@ public class WrapperSystem {
             try {
                 Class mcpClass = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrappedClass.class).value()));
                 for (Method meths : clazz.getDeclaredMethods()) {
-                    Class<?>[] parameters = meths.getParameterTypes();
+                          Class<?>[] parameters = meths.getParameterTypes();
                     int index = 0;
                     for (Class<?> paramClazz : parameters) {
                         if (paramClazz.isInterface() && paramClazz.isAnnotationPresent(WrappedClass.class)) {
