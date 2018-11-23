@@ -56,7 +56,6 @@ public class WrapperSystem {
                 Method targetMethod = methods.get(method);
 
                 Object newHandle = targetMethod.invoke(getHandle(), args);
-                System.out.println(newHandle);
                 if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
                     return classWrappers.get(method.getReturnType()).createInstance(newHandle);
                 }
@@ -85,7 +84,9 @@ public class WrapperSystem {
 
                     if (meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class)) {
                         if (!classWrappers.containsKey(meths.getReturnType())) {
-                            classWrappers.put(meths.getReturnType(), new WrapperSystem(meths.getReturnType()));
+                            classWrappers.put(meths.getReturnType(), null);
+                            WrapperSystem wrapperSystem = new WrapperSystem(meths.getReturnType());
+                            classWrappers.put(meths.getReturnType(),wrapperSystem);
                         }
                     }
 
