@@ -7,14 +7,14 @@ import de.ropemc.api.exceptions.WrongTypeException;
 import de.ropemc.utils.Mapping;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
 
 public class WrapperSystem {
     private Map<Method, Method> methods = new HashMap<>();
-    private static Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
-    private Map<Object, Object> handles = new HashMap<>();
+    static Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
 
     private Class<?> calledFromClass;
 
@@ -31,29 +31,32 @@ public class WrapperSystem {
      * @return the return value of the Minecraft code
      */
     public Object createInstance(Object handle) {
-        Object obj = Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, (proxy, method, args) ->
-        {
-            int index = 0;
-            for (Object argObj : args) {
-                if (argObj.getClass().isInterface() && argObj.getClass().isAnnotationPresent(WrappedClass.class)) {
-                    args[index] = handles.get(proxy);
+        return Proxy.newProxyInstance(calledFromClass.getClassLoader(), new Class[]{calledFromClass}, new HandledInvocationHandler() {
+            @Override
+            public Object getHandle() {
+                return handle;
+            }
+
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                int index = 0;
+                for (Object argObj : args) {
+                    if (argObj.getClass().isInterface() && argObj.getClass().isAnnotationPresent(WrappedClass.class)) {
+                        args[index] = ((HandledInvocationHandler) Proxy.getInvocationHandler(argObj)).getHandle();
+                    }
+
+                    index++;
                 }
 
-                index++;
+                Method targetMethod = methods.get(method);
+
+                if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
+                    return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(getHandle(), args));
+                }
+
+                return targetMethod.invoke(getHandle(), args);
             }
-
-            Method targetMethod = methods.get(method);
-
-            if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
-                return classWrappers.get(method.getReturnType()).createInstance(targetMethod.invoke(handle, args));
-            }
-
-            return targetMethod.invoke(handle, args);
         });
-
-        handles.put(obj, handle);
-
-        return obj;
     }
 
     private void addMethodsViaClassTree(Class<?> clazz) throws MissingAnnotationException {
