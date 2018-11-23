@@ -2,6 +2,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.entity;
 
 
 import de.ropemc.api.wrapper.WrappedClass;
+import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
 
 @WrappedClass("net.minecraft.client.entity.EntityPlayerSP")
 public interface EntityPlayerSP extends AbstractClientPlayer {
@@ -86,7 +87,7 @@ public interface EntityPlayerSP extends AbstractClientPlayer {
     //boolean isInvisible();
 
     /**
-     * Doesnt even Exist
+     * Returns true if the block at the given BlockPos and the block above it are NOT full cubes.
      */
-    //void printChatMessage(String message);
+    boolean isOpenBlockSpace(BlockPos pos);
 }

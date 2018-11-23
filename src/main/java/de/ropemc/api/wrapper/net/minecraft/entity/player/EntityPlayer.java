@@ -2,10 +2,12 @@ package de.ropemc.api.wrapper.net.minecraft.entity.player;
 
 import de.ropemc.api.wrapper.WrappedClass;
 import de.ropemc.api.wrapper.net.minecraft.entity.EntityLivingBase;
+import de.ropemc.api.wrapper.net.minecraft.entity.item.EntityItem;
 import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
 
 @WrappedClass("net.minecraft.entity.player.EntityPlayer")
 public interface EntityPlayer extends EntityLivingBase {
+    EntityItem dropItem(ItemStack droppedItem, boolean dropAround, boolean traceItem);
     /**
      * Returns the item in use count
      */

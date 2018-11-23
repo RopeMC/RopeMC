@@ -8,4 +8,9 @@ public interface BlockPos extends Vec3i {
      * Serialize this BlockPos into a long value
      */
     long toLong();
+
+    /**
+     * Offset this BlockPos 1 block up
+     */
+    BlockPos up();
 }
