@@ -1,26 +1,16 @@
 package de.ropemc;
 
-import de.ropemc.api.DeprecatedMinecraft;
 import de.ropemc.api.Keyboard;
 import de.ropemc.api.event.EventManager;
+import de.ropemc.api.event.game.GameStartEvent;
 import de.ropemc.api.event.gui.Render2DEvent;
-import de.ropemc.api.event.gui.WindowTitleChangeEvent;
 import de.ropemc.api.event.input.KeyPressedEvent;
-import de.ropemc.mods.ModManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Hooks {
     private static List<Integer> lastkeys = new ArrayList<Integer>();
-
-    /**
-     * @param title
-     */
-    public static void titleHook(String title) {
-        DeprecatedMinecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " (" + de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion() + ") [" + ModManager.getModules().size() + " mods loaded]");
-        EventManager.callEvent(new WindowTitleChangeEvent(title));
-    }
 
     /**
      * Triggers a KeyPressedEvent
@@ -44,6 +34,10 @@ public class Hooks {
                     lastkeys.remove(new Integer(i));
             }
         }
+    }
+
+    public static void onGameStartHook() {
+        EventManager.callEvent(new GameStartEvent());
     }
 
     /**
