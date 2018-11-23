@@ -6,8 +6,6 @@ import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
 
 @WrappedClass("net.minecraft.entity.player.EntityPlayer")
 public interface EntityPlayer extends EntityLivingBase {
-    String CLASSNAME = "net.minecraft.entity.player.EntityPlayer";
-
     /**
      * Returns the item in use count
      */

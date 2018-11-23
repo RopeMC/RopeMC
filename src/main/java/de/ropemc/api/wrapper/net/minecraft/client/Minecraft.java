@@ -11,8 +11,6 @@ import java.lang.reflect.Field;
 
 public class Minecraft {
 
-    public static final String CLASSNAME = "net.minecraft.client.Minecraft";
-
     private static Field theMinecraftField;
     private static Field launchedVersionField;
     private static Field ingameGuiField;
