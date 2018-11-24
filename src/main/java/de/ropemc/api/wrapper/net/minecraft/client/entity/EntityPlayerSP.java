@@ -1,96 +1,116 @@
 package de.ropemc.api.wrapper.net.minecraft.client.entity;
 
-
-import de.ropemc.api.wrapper.WrappedClass;
-import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
 import de.ropemc.api.wrapper.net.minecraft.util.IChatComponent;
+import de.ropemc.api.wrapper.net.minecraft.stats.StatBase;
+import de.ropemc.api.wrapper.net.minecraft.util.DamageSource;
+import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
+import de.ropemc.api.wrapper.net.minecraft.inventory.IInventory;
+import de.ropemc.api.wrapper.net.minecraft.entity.passive.EntityHorse;
+import de.ropemc.api.wrapper.net.minecraft.world.IInteractionObject;
+import de.ropemc.api.wrapper.net.minecraft.entity.IMerchant;
+import de.ropemc.api.wrapper.net.minecraft.entity.item.EntityItem;
+import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
+import de.ropemc.api.wrapper.net.minecraft.stats.StatFileWriter;
+import de.ropemc.api.wrapper.net.minecraft.entity.Entity;
+import de.ropemc.api.wrapper.net.minecraft.command.server.CommandBlockLogic;
+import de.ropemc.api.wrapper.net.minecraft.tileentity.TileEntitySign;
+import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.client.entity.EntityPlayerSP")
 public interface EntityPlayerSP extends AbstractClientPlayer {
-    void swingItem();
 
-    void respawnPlayer();
+    void addChatComponentMessage(IChatComponent var0);
 
-    /**
-     * Sends a chat message from the player. Args: chatMessage
-     */
-    void sendChatMessage(String message);
+    void addChatMessage(IChatComponent var0);
+
+    void addStat(StatBase var0, int var1);
+
+    boolean attackEntityFrom(DamageSource var0, float var1);
+
+    boolean canCommandSenderUseCommand(int var0, String var1);
+
+    void closeScreen();
 
     void closeScreenAndDropStack();
 
-    void sendHorseJump();
+    void damageEntity(DamageSource var0, float var1);
 
-    void sendHorseInventory();
+    void displayGUIBook(ItemStack var0);
 
-    void setClientBrand(String brand);
+    void displayGUIChest(IInventory var0);
+
+    void displayGUIHorse(EntityHorse var0, IInventory var1);
+
+    void displayGui(IInteractionObject var0);
+
+    void displayVillagerTradeGui(IMerchant var0);
+
+    EntityItem dropOneItem(boolean var0);
 
     String getClientBrand();
 
-    void setXPStats(float currentXP, int maxXP, int level);
-
-    /**
-     * Updates health locally.
-     *
-     * @param health the health
-     */
-    void setPlayerSPHealth(float health);
-
-    boolean isRidingHorse();
-
     float getHorseJumpPower();
+
+    BlockPos getPosition();
+
+    StatFileWriter getStatFileWriter();
+
+    void heal(float var0);
 
     boolean isCurrentViewEntity();
 
-    /**
-     * @return motion of the own chat as a three dimensional double-vector
-     */
-    //Vector3d getMotion();
+    boolean isOpenBlockSpace(BlockPos var0);
 
-    /**
-     * @return position of the own chat as a three dimensional double-vector
-     */
-    //Vector3d getPosition();
+    boolean isRidingHorse();
 
-    /**
-     * sets the motion of the own chat
-     *
-     * @param motion three dimensional double-vector which represents the motion
-     */
-    //void setMotion(Vector3d motion);
+    boolean isServerWorld();
 
-    /**
-     * @return if the own chat is sprinting
-     */
-    //boolean isSprinting();
-
-    /**
-     * sets the own chat's sprinting state
-     *
-     * @param flag sprinting state
-     */
-    void setSprinting(boolean flag);
-
-    /**
-     * @return if the own chat is sneaking
-     */
     boolean isSneaking();
 
-    /**
-     * sets the own chat's sneaking state
-     *
-     * @param flag sneaking state
-     */
-    //void setSneaking(boolean flag);
+    boolean isUser();
 
-    /**
-     * @return if the own chat is invisible
-     */
-    //boolean isInvisible();
+    void joinEntityItemWithWorld(EntityItem var0);
 
-    /**
-     * Returns true if the block at the given BlockPos and the block above it are NOT full cubes.
-     */
-    boolean isOpenBlockSpace(BlockPos pos);
+    void mountEntity(Entity var0);
 
-    void addChatMessage(IChatComponent component);
+    void onCriticalHit(Entity var0);
+
+    void onEnchantmentCritical(Entity var0);
+
+    void onLivingUpdate();
+
+    void onUpdate();
+
+    void onUpdateWalkingPlayer();
+
+    void openEditCommandBlock(CommandBlockLogic var0);
+
+    void openEditSign(TileEntitySign var0);
+
+    void playSound(String var0, float var1, float var2);
+
+    boolean pushOutOfBlocks(double var0, double var1, double var2);
+
+    void respawnPlayer();
+
+    void sendChatMessage(String var0);
+
+    void sendHorseInventory();
+
+    void sendHorseJump();
+
+    void sendPlayerAbilities();
+
+    void setClientBrand(String var0);
+
+    void setPlayerSPHealth(float var0);
+
+    void setSprinting(boolean var0);
+
+    void setXPStats(float var0, int var1, int var2);
+
+    void swingItem();
+
+    void updateEntityActionState();
+
 }

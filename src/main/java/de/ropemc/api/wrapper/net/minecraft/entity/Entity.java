@@ -1,358 +1,387 @@
 package de.ropemc.api.wrapper.net.minecraft.entity;
 
-
-import de.ropemc.api.wrapper.WrappedClass;
+import de.ropemc.api.wrapper.net.minecraft.util.IChatComponent;
+import de.ropemc.api.wrapper.net.minecraft.crash.CrashReportCategory;
+import de.ropemc.api.wrapper.net.minecraft.util.DamageSource;
+import de.ropemc.api.wrapper.net.minecraft.nbt.NBTTagCompound;
+import de.ropemc.api.wrapper.net.minecraft.item.Item;
+import de.ropemc.api.wrapper.net.minecraft.entity.item.EntityItem;
+import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
+import de.ropemc.api.wrapper.net.minecraft.util.EnumFacing;
+import de.ropemc.api.wrapper.net.minecraft.util.Vec3;
+import de.ropemc.api.wrapper.net.minecraft.util.AxisAlignedBB;
+import de.ropemc.api.wrapper.net.minecraft.command.CommandResultStats;
 import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
+import de.ropemc.api.wrapper.net.minecraft.world.World;
+import de.ropemc.api.wrapper.net.minecraft.world.Explosion;
+import de.ropemc.api.wrapper.net.minecraft.block.state.IBlockState;
+import de.ropemc.api.wrapper.net.minecraft.event.HoverEvent;
+import java.util.UUID;
+import de.ropemc.api.wrapper.net.minecraft.entity.player.EntityPlayer;
+import de.ropemc.api.wrapper.net.minecraft.block.material.Material;
+import de.ropemc.api.wrapper.net.minecraft.entity.player.EntityPlayerMP;
+import de.ropemc.api.wrapper.net.minecraft.nbt.NBTTagList;
+import de.ropemc.api.wrapper.net.minecraft.entity.effect.EntityLightningBolt;
+import de.ropemc.api.wrapper.net.minecraft.block.Block;
+import de.ropemc.api.wrapper.net.minecraft.util.MovingObjectPosition;
+//import de.ropemc.api.wrapper.net.minecraft.command.CommandResultStats$Type;
+import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.entity.Entity")
 public interface Entity {
-    int getEntityId();
 
-    void setEntityId(int id);
+    void addChatMessage(IChatComponent var0);
 
-    /**
-     * Keeps moving the entity up so it isn't colliding with blocks and other requirements for this entity to be spawned
-     * (only actually used on players though its also on Entity)
-     */
-    void preparePlayerToSpawn();
+    void addEntityCrashInfo(CrashReportCategory var0);
 
-    /**
-     * Will get destroyed next tick.
-     */
-    void setDead();
+    void addToPlayerScore(Entity var0, int var1);
 
-    /**
-     * Sets the width and height of the entity. Args: width, height
-     */
-    void setSize(float width, float height);
+    void addVelocity(double var0, double var1, double var2);
 
-    /**
-     * Sets the rotation of the entity. Args: yaw, pitch (both in degrees)
-     */
-    void setRotation(float yaw, float pitch);
+    void applyEnchantments(EntityLivingBase var0, Entity var1);
 
-    /**
-     * Sets the x,y,z of the entity from the given parameters. Also seems to set up a bounding box.
-     */
-    void setPosition(double x, double y, double z);
+    void applyEntityCollision(Entity var0);
 
-    /**
-     * Adds 15% to the entity's yaw and subtracts 15% from the pitch. Clamps pitch from -90 to 90. Both arguments in
-     * degrees.
-     */
-    void setAngles(float yaw, float pitch);
+    boolean attackEntityFrom(DamageSource var0, float var1);
 
-    /**
-     * Return the amount of time this entity should stay in a portal before being transported.
-     */
-    int getMaxInPortalTime();
+    boolean canAttackWithItem();
 
-    /**
-     * Called whenever the entity is walking inside of lava.
-     */
-    void setOnFireFromLava();
+    boolean canBeCollidedWith();
 
-    /**
-     * Sets entity to burn for x amount of seconds, cannot lower amount of existing fire.
-     */
-    void setFire(int seconds);
+    boolean canBePushed();
 
-    /**
-     * Removes fire from entity.
-     */
-    void extinguish();
+    boolean canCommandSenderUseCommand(int var0, String var1);
 
-    /**
-     * sets the dead flag. Used when you fall off the bottom of the world.
-     */
-    void kill();
+    boolean canRenderOnFire();
 
-    /**
-     * Checks if the offset position from the entity's current position is inside of liquid. Args: x, y, z
-     */
-    boolean isOffsetPositionInLiquid(double x, double y, double z);
-
-    /**
-     * Tries to moves the entity by the passed in displacement. Args: x, y, z
-     */
-    void moveEntity(double x, double y, double z);
-
-    /**
-     * Resets the entity's position to the center (planar) and bottom (vertical) points of its bounding box.
-     */
-    void resetPositionToBB();
-
-    String getSwimSound();
-
-    void playSound(String name, float volume, float pitch);
-
-    /**
-     * @return True if this entity will not play sounds
-     */
-    boolean isSilent();
-
-    /**
-     * When set to true the entity will not play sounds.
-     */
-    void setSilent(boolean isSilent);
-
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
     boolean canTriggerWalking();
 
-    /**
-     * Will deal the specified amount of damage to the entity if the entity isn't immune to fire damage. Args:
-     * amountDamage
-     */
-    void dealFireDamage(int amount);
+    void clientUpdateEntityNBT(NBTTagCompound var0);
 
-    boolean isImmuneToFire();
+    void copyDataFromOld(Entity var0);
 
-    void fall(float distance, float damageMultiplier);
-
-    /**
-     * Checks if this entity is either in water or on an open air block in rain (used in wolves).
-     */
-    boolean isWet();
-
-    /**
-     * Checks if this entity is inside water (if inWater field is true as a result of handleWaterMovement() returning
-     * true)
-     */
-    boolean isInWater();
-
-    /**
-     * sets the players height back to normal after doing things like sleeping and dieing
-     */
-    void resetHeight();
-
-    /**
-     * Attempts to create sprinting particles if the entity is sprinting and not in water.
-     */
-    void spawnRunningParticles();
+    void copyLocationAndAnglesFrom(Entity var0);
 
     void createRunningParticles();
 
-    String getSplashSound();
+    void dealFireDamage(int var0);
 
-    boolean isInLava();
+    void doBlockCollisions();
 
-    /**
-     * Used in both water and by flying objects
-     */
-    void moveFlying(float strafe, float forward, float friction);
+    boolean doesEntityNotTriggerPressurePlate();
 
-    int getBrightnessForRender(float partialTicks);
+    EntityItem dropItem(Item var0, int var1);
 
-    /**
-     * Gets how bright this entity is.
-     */
-    float getBrightness(float partialTicks);
+    EntityItem dropItemWithOffset(Item var0, int var1, float var2);
 
-    /**
-     * Sets the entity's position and rotation.
-     */
-    void setPositionAndRotation(double x, double y, double z, float yaw, float pitch);
+    EntityItem entityDropItem(ItemStack var0, float var1);
 
-    /**
-     * Sets the location and Yaw/Pitch of an entity in the world
-     */
-    void setLocationAndAngles(double x, double y, double z, float yaw, float pitch);
+    void entityInit();
 
-    /**
-     * Gets the squared distance to the position. Args: x, y, z
-     */
-    double getDistanceSq(double x, double y, double z);
+    void extinguish();
 
-    /**
-     * Gets the distance to the position. Args: x, y, z
-     */
-    double getDistance(double x, double y, double z);
+    void fall(float var0, float var1);
 
-    /**
-     * Adds to the current velocity of the entity. Args: x, y, z
-     */
-    void addVelocity(double x, double y, double z);
+    void func_174817_o(Entity var0);
 
-    /**
-     * Sets that this entity has been attacked.
-     */
-    void setBeenAttacked();
+    EnumFacing func_181012_aH();
 
-    /**
-     * Returns true if other Entities should be prevented from moving through this Entity.
-     */
-    boolean canBeCollidedWith();
+    void func_181013_g(float var0);
 
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
-    boolean canBePushed();
-
-    boolean isInRangeToRender3d(double x, double y, double z);
-
-    /**
-     * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
-     * length * 64 * renderDistanceWeight Args: distance
-     */
-    boolean isInRangeToRenderDist(double distance);
-
-    /**
-     * Returns the string that identifies this Entity's class
-     */
-    String getEntityString();
-
-    /**
-     * Checks whether target entity is alive.
-     */
-    boolean isEntityAlive();
-
-    /**
-     * Checks if this entity is inside of an opaque block
-     */
-    boolean isEntityInsideOpaqueBlock();
-
-    /**
-     * Returns the Y Offset of this entity.
-     */
-    double getYOffset();
-
-    /**
-     * Returns the Y offset from the entity's position for any entity riding this one.
-     */
-    double getMountedYOffset();
-
-    float getCollisionBorderSize();
-
-    /**
-     * Return the amount of cooldown before this entity can use a portal again.
-     */
-    int getPortalCooldown();
-
-    /**
-     * Sets the velocity to the args. Args: x, y, z
-     */
-    void setVelocity(double x, double y, double z);
-
-    /**
-     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
-     */
-    boolean isBurning();
-
-    /**
-     * Returns true if the entity is riding another entity, used by render to rotate the legs to be in 'sit' position
-     * for players.
-     */
-    boolean isRiding();
-
-    /**
-     * Returns if this entity is sneaking.
-     */
-    boolean isSneaking();
-
-    /**
-     * Sets the sneaking flag.
-     */
-    void setSneaking(boolean flag);
-
-    boolean isSprinting();
-
-    /**
-     * Set sprinting switch for Entity.
-     */
-    void setSprinting(boolean flag);
-
-    boolean isInvisible();
-
-    void setInvisible(boolean flag);
-
-    boolean isEating();
-
-    void setEating(boolean flag);
-
-    /**
-     * Returns true if the flag is active for the entity. Known flags: 0) is burning; 1) is sneaking; 2) is riding
-     * something; 3) is sprinting; 4) is eating
-     */
-    boolean getFlag(int flag);
-
-    void setFlag(int flag, boolean set);
+    Vec3 func_181014_aG();
 
     int getAir();
 
-    void setAir(int air);
-
-    /**
-     * Sets the Entity inside a web block.
-     */
-    void setInWeb();
-
-    float getRotationYawHead();
-
-    /**
-     * Sets the head's yaw rotation of the entity.
-     */
-    void setRotationYawHead(float rotation);
-
-    /**
-     * If returns false, the item will not inflict any damage against entities.
-     */
-    boolean canAttackWithItem();
-
-    /**
-     * Teleports the entity to another dimension. Params: Dimension number to teleport to
-     */
-    void travelToDimension(int dimensionId);
-
-    /**
-     * The maximum height from where the entity is alowed to jump (used in pathfinder)
-     */
-    int getMaxFallHeight();
-
-    /**
-     * Return whether this entity should NOT trigger a pressure plate or a tripwire.
-     */
-    boolean doesEntityNotTriggerPressurePlate();
-
-    /**
-     * Return whether this entity should be rendered as on fire.
-     */
-    boolean canRenderOnFire();
-
-    boolean isPushedByWater();
-
-    /**
-     * Sets the custom name tag for this entity
-     */
-    void setCustomNameTag(String name);
-
-    String getCustomNameTag();
-
-    /**
-     * Returns true if this thing is named
-     */
-    boolean hasCustomName();
-
-    void setAlwaysRenderNameTag(boolean alwaysRenderNameTag);
-
     boolean getAlwaysRenderNameTag();
-
-    /**
-     * Sets the position of the entity and updates the 'last' variables
-     */
-    void setPositionAndUpdate(double x, double y, double z);
 
     boolean getAlwaysRenderNameTagForRender();
 
+    float getBrightness(float var0);
+
+    int getBrightnessForRender(float var0);
+
+    float getCollisionBorderSize();
+
+    AxisAlignedBB getCollisionBoundingBox();
+
+    AxisAlignedBB getCollisionBox(Entity var0);
+
+    Entity getCommandSenderEntity();
+
+    CommandResultStats getCommandStats();
+
+    String getCustomNameTag();
+
+    DataWatcher getDataWatcher();
+
+    IChatComponent getDisplayName();
+
+    double getDistance(double var0, double var1, double var2);
+
+    double getDistanceSq(double var0, double var1, double var2);
+
+    double getDistanceSq(BlockPos var0);
+
+    double getDistanceSqToCenter(BlockPos var0);
+
+    double getDistanceSqToEntity(Entity var0);
+
+    float getDistanceToEntity(Entity var0);
+
+    AxisAlignedBB getEntityBoundingBox();
+
+    int getEntityId();
+
+    String getEntityString();
+
+    World getEntityWorld();
+
+    float getExplosionResistance(Explosion var0, World var1, BlockPos var2, IBlockState var3);
+
     float getEyeHeight();
 
-    boolean isOutsideBorder();
+    boolean getFlag(int var0);
 
-    void setOutsideBorder(boolean outsideBorder);
+    EnumFacing getHorizontalFacing();
+
+    HoverEvent getHoverEvent();
+
+    ItemStack[] getInventory();
+
+    Vec3 getLook(float var0);
+
+    Vec3 getLookVec();
+
+    int getMaxFallHeight();
+
+    int getMaxInPortalTime();
+
+    double getMountedYOffset();
+
+    NBTTagCompound getNBTTagCompound();
+
+    String getName();
+
+    Entity[] getParts();
+
+    int getPortalCooldown();
+
+    BlockPos getPosition();
+
+    Vec3 getPositionEyes(float var0);
+
+    Vec3 getPositionVector();
+
+    float getRotationYawHead();
+
+    String getSplashSound();
+
+    String getSwimSound();
+
+    UUID getUniqueID();
+
+    Vec3 getVectorForRotation(float var0, float var1);
+
+    double getYOffset();
+
+    void handleStatusUpdate(byte var0);
+
+    boolean handleWaterMovement();
+
+    boolean hasCustomName();
+
+    boolean hitByEntity(Entity var0);
+
+    boolean interactAt(EntityPlayer var0, Vec3 var1);
+
+    boolean interactFirst(EntityPlayer var0);
+
+    boolean isBurning();
+
+    boolean isEating();
+
+    boolean isEntityAlive();
+
+    boolean isEntityEqual(Entity var0);
+
+    boolean isEntityInsideOpaqueBlock();
+
+    boolean isEntityInvulnerable(DamageSource var0);
 
     boolean isImmuneToExplosions();
 
-    BlockPos getPosition();
+    boolean isImmuneToFire();
+
+    boolean isInLava();
+
+    boolean isInRangeToRender3d(double var0, double var1, double var2);
+
+    boolean isInRangeToRenderDist(double var0);
+
+    boolean isInWater();
+
+    boolean isInsideOfMaterial(Material var0);
+
+    boolean isInvisible();
+
+    boolean isInvisibleToPlayer(EntityPlayer var0);
+
+    boolean isLiquidPresentInAABB(AxisAlignedBB var0);
+
+    boolean isOffsetPositionInLiquid(double var0, double var1, double var2);
+
+    boolean isOutsideBorder();
+
+    boolean isPushedByWater();
+
+    boolean isRiding();
+
+    boolean isSilent();
+
+    boolean isSneaking();
+
+    boolean isSpectatedByPlayer(EntityPlayerMP var0);
+
+    boolean isSprinting();
+
+    boolean isWet();
+
+    void kill();
+
+    void mountEntity(Entity var0);
+
+    void moveEntity(double var0, double var1, double var2);
+
+    void moveFlying(float var0, float var1, float var2);
+
+    void moveToBlockPosAndAngles(BlockPos var0, float var1, float var2);
+
+    NBTTagList newDoubleNBTList(double[] var0);
+
+    NBTTagList newFloatNBTList(float[] var0);
+
+    void onChunkLoad();
+
+    void onCollideWithPlayer(EntityPlayer var0);
+
+    void onDataWatcherUpdate(int var0);
+
+    void onEntityUpdate();
+
+    void onKillCommand();
+
+    void onKillEntity(EntityLivingBase var0);
+
+    void onStruckByLightning(EntityLightningBolt var0);
+
+    void onUpdate();
+
+    void performHurtAnimation();
+
+    void playSound(String var0, float var1, float var2);
+
+    void playStepSound(BlockPos var0, Block var1);
+
+    void preparePlayerToSpawn();
+
+    boolean pushOutOfBlocks(double var0, double var1, double var2);
+
+    MovingObjectPosition rayTrace(double var0, float var1);
+
+    void readEntityFromNBT(NBTTagCompound var0);
+
+    void readFromNBT(NBTTagCompound var0);
+
+    boolean replaceItemInInventory(int var0, ItemStack var1);
+
+    void resetHeight();
+
+    void resetPositionToBB();
+
+    boolean sendCommandFeedback();
+
+    void setAir(int var0);
+
+    void setAlwaysRenderNameTag(boolean var0);
+
+    void setAngles(float var0, float var1);
+
+    void setBeenAttacked();
+
+    //void setCommandStat(CommandResultStats$Type var0, int var1);
+
+    void setCurrentItemOrArmor(int var0, ItemStack var1);
+
+    void setCustomNameTag(String var0);
+
+    void setDead();
+
+    void setEating(boolean var0);
+
+    void setEntityBoundingBox(AxisAlignedBB var0);
+
+    void setEntityId(int var0);
+
+    void setFire(int var0);
+
+    void setFlag(int var0, boolean var1);
+
+    void setInWeb();
+
+    void setInvisible(boolean var0);
+
+    void setLocationAndAngles(double var0, double var1, double var2, float var3, float var4);
+
+    void setOnFireFromLava();
+
+    void setOutsideBorder(boolean var0);
+
+    void setPortal(BlockPos var0);
+
+    void setPosition(double var0, double var1, double var2);
+
+    void setPositionAndRotation(double var0, double var1, double var2, float var3, float var4);
+
+    void setPositionAndRotation2(double var0, double var1, double var2, float var3, float var4, int var5, boolean var6);
+
+    void setPositionAndUpdate(double var0, double var1, double var2);
+
+    void setRotation(float var0, float var1);
+
+    void setRotationYawHead(float var0);
+
+    void setSilent(boolean var0);
+
+    void setSize(float var0, float var1);
+
+    void setSneaking(boolean var0);
+
+    void setSprinting(boolean var0);
+
+    void setVelocity(double var0, double var1, double var2);
+
+    void setWorld(World var0);
+
+    boolean shouldSetPosAfterLoading();
+
+    void spawnRunningParticles();
+
+    void travelToDimension(int var0);
+
+    void updateFallState(double var0, boolean var1, Block var2, BlockPos var3);
+
+    void updateRidden();
+
+    void updateRiderPosition();
+
+    boolean verifyExplosion(Explosion var0, World var1, BlockPos var2, IBlockState var3, float var4);
+
+    void writeEntityToNBT(NBTTagCompound var0);
+
+    boolean writeMountToNBT(NBTTagCompound var0);
+
+    void writeToNBT(NBTTagCompound var0);
+
+    boolean writeToNBTOptional(NBTTagCompound var0);
+
 }

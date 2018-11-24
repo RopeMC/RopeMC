@@ -1,7 +1,6 @@
 package de.ropemc.api.wrapper.net.minecraft.client;
 
 import de.ropemc.Mappings;
-import de.ropemc.api.exceptions.MissingAnnotationException;
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
 import de.ropemc.api.wrapper.net.minecraft.client.gui.FontRenderer;
 import de.ropemc.api.wrapper.WrapperSystem;
@@ -70,7 +69,6 @@ public class Minecraft {
     }
 
     private Object handle;
-    private EntityPlayerSP thePlayer;
     private FontRenderer fontRenderer;
     private Session session;
 
@@ -83,17 +81,15 @@ public class Minecraft {
     }
 
     public EntityPlayerSP getThePlayer() {
-        if (thePlayer == null) {
-            try {
-                Object handle = thePlayerField.get(getHandle());
-                if (handle != null) {
-                    thePlayer = (EntityPlayerSP) wrapperSystemEntityPlayerSP.createInstance(handle);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+        try {
+            Object handle = thePlayerField.get(getHandle());
+            if (handle != null) {
+                return (EntityPlayerSP) wrapperSystemEntityPlayerSP.createInstance(handle);
             }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-        return thePlayer;
+        return null;
     }
 
     public FontRenderer getFontRenderer() {

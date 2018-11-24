@@ -56,13 +56,12 @@ public class RopeMC implements Listener {
         EventManager.callEvent(new InstrumentationEvent(instrumentation));
         instrumentation.addTransformer(new Transformer());
 
-        WrapperSystem.init();
-
         EventManager.registerListener(instance);
     }
 
     @EventHandler
     private void onGameStart(GameStartEvent event) {
+        WrapperSystem.init();
         Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " (" + de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion() + ") [" + ModManager.getModules().size() + " mods loaded]");
     }
 }

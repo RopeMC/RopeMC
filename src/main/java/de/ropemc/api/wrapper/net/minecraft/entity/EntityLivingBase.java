@@ -1,194 +1,270 @@
 package de.ropemc.api.wrapper.net.minecraft.entity;
 
+import de.ropemc.api.wrapper.net.minecraft.potion.PotionEffect;
+import de.ropemc.api.wrapper.net.minecraft.util.DamageSource;
+import de.ropemc.api.wrapper.net.minecraft.potion.Potion;
+import java.util.Collection;
+import de.ropemc.api.wrapper.net.minecraft.entity.ai.attributes.BaseAttributeMap;
+import de.ropemc.api.wrapper.net.minecraft.util.CombatTracker;
+import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
+import de.ropemc.api.wrapper.net.minecraft.entity.ai.attributes.IAttribute;
+import de.ropemc.api.wrapper.net.minecraft.entity.ai.attributes.IAttributeInstance;
+import de.ropemc.api.wrapper.net.minecraft.entity.player.EntityPlayer;
+import de.ropemc.api.wrapper.net.minecraft.util.Vec3;
+import java.util.Random;
+import de.ropemc.api.wrapper.net.minecraft.scoreboard.Team;
+import de.ropemc.api.wrapper.net.minecraft.nbt.NBTTagCompound;
+import de.ropemc.api.wrapper.net.minecraft.block.Block;
+import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
 import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.entity.EntityLivingBase")
 public interface EntityLivingBase extends Entity {
+
+    void addPotionEffect(PotionEffect var0);
+
+    void addRandomDrop();
+
+    float applyArmorCalculations(DamageSource var0, float var1);
+
+    void applyEntityAttributes();
+
+    float applyPotionDamageCalculations(DamageSource var0, float var1);
+
+    boolean attackEntityAsMob(Entity var0);
+
+    boolean attackEntityFrom(DamageSource var0, float var1);
+
+    boolean canBeCollidedWith();
+
+    boolean canBePushed();
+
     boolean canBreatheUnderwater();
 
-    /**
-     * If Animal, checks if the age timer is negative
-     */
-    boolean isChild();
-
-    /**
-     * Entity won't drop items or experience points if this returns false
-     */
     boolean canDropLoot();
 
-    /**
-     * Decrements the entity's air supply when underwater
-     */
-    int decreaseAirSupply(int p_70682_1_);
-
-    /**
-     * Only use is to identify if class is an instance of player for experience dropping
-     */
-    boolean isPlayer();
-
-    int getRevengeTimer();
-
-    int getLastAttackerTime();
-
-    int getAge();
-
-    void updatePotionEffects();
-
-    /**
-     * Clears potion metadata values if the entity has no potion effects. Otherwise, updates potion effect color,
-     * ambience, and invisibility metadata values
-     */
-    void updatePotionMetadata();
-
-    /**
-     * Resets the potion effect color and ambience metadata values
-     */
-    void resetPotionEffectMetadata();
+    boolean canEntityBeSeen(Entity var0);
 
     void clearActivePotions();
 
-    /**
-     * Returns true if this entity is undead.
-     */
-    boolean isEntityUndead();
+    void collideWithEntity(Entity var0);
 
-    /**
-     * Remove the speified potion effect from this entity.
-     */
-    void removePotionEffectClient(int potionId);
+    void collideWithNearbyEntities();
 
-    /**
-     * Remove the specified potion effect from this entity.
-     */
-    void removePotionEffect(int potionId);
+    void damageArmor(float var0);
 
-    /**
-     * Heal living entity (param: amount of half-hearts)
-     */
-    void heal(float healAmount);
+    void damageEntity(DamageSource var0, float var1);
 
-    float getHealth();
+    int decreaseAirSupply(int var0);
 
-    void setHealth(float health);
+    void dismountEntity(Entity var0);
 
-    /**
-     * Drop the equipment for this entity.
-     */
-    void dropEquipment(boolean p_82160_1_, int p_82160_2_);
+    void dropEquipment(boolean var0, int var1);
 
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
-    String getHurtSound();
+    void dropFewItems(boolean var0, int var1);
 
-    /**
-     * Returns the sound this mob makes on death.
-     */
-    String getDeathSound();
+    void entityInit();
 
-    /**
-     * Causes this Entity to drop a random item.
-     */
-    void addRandomDrop();
+    void fall(float var0, float var1);
 
-    /**
-     * Drop 0-2 items of this living's type
-     */
-    void dropFewItems(boolean p_70628_1_, int p_70628_2_);
+    float func_110146_f(float var0, float var1);
 
-    /**
-     * returns true if this entity is by a ladder, false otherwise
-     */
-    boolean isOnLadder();
+    void func_181013_g(float var0);
 
-    String getFallSoundString(int damageValue);
+    EntityLivingBase func_94060_bK();
 
-    /**
-     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
-     */
-    int getTotalArmorValue();
-
-    void damageArmor(float p_70675_1_);
-
-    float getMaxHealth();
-
-    /**
-     * counts the amount of arrows stuck in the entity. getting hit by arrows increases this, used in rendering
-     */
-    int getArrowCountInEntity();
-
-    /**
-     * sets the amount of arrows stuck in the entity. used for rendering those
-     */
-    void setArrowCountInEntity(int count);
-
-    /**
-     * Returns an integer indicating the end point of the swing animation, used by swingProgress to provide a
-     * progress indicator. Takes dig speed enchantments into account.
-     */
-    int getArmSwingAnimationEnd();
-
-    /**
-     * Swings the item the player is holding.
-     */
-    void swingItem();
-
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
-    float getSoundVolume();
-
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
-    float getSoundPitch();
-
-    /**
-     * Dead and sleeping entities cannot move
-     */
-    boolean isMovementBlocked();
-
-    float getJumpUpwardsMotion();
-
-    void jump();
-
-    void handleJumpLava();
-
-    /**
-     * Moves the entity based on the specified heading.  Args: strafe, forward
-     */
-    void moveEntityWithHeading(float strafe, float forward);
-
-    /**
-     * the movespeed used for the new AI system
-     */
     float getAIMoveSpeed();
 
-    /**
-     * set the movespeed used for the new AI system
-     */
-    void setAIMoveSpeed(float speedIn);
-
-    /**
-     * Returns whether player is sleeping or not
-     */
-    boolean isPlayerSleeping();
-
-    void setJumping(boolean p_70637_1_);
-
-    /**
-     * Returns where in the swing animation the living entity is (from 0 to 1).  Args: partialTickTime
-     */
-    float getSwingProgress(float partialTickTime);
-
-    /**
-     * Returns whether the entity is in a server world
-     */
-    boolean isServerWorld();
+    EntityLivingBase getAITarget();
 
     float getAbsorptionAmount();
 
-    void setAbsorptionAmount(float amount);
+    PotionEffect getActivePotionEffect(Potion var0);
+
+    Collection getActivePotionEffects();
+
+    int getAge();
+
+    boolean getAlwaysRenderNameTagForRender();
+
+    int getArmSwingAnimationEnd();
+
+    int getArrowCountInEntity();
+
+    BaseAttributeMap getAttributeMap();
+
+    CombatTracker getCombatTracker();
+
+    EnumCreatureAttribute getCreatureAttribute();
+
+    ItemStack getCurrentArmor(int var0);
+
+    String getDeathSound();
+
+    IAttributeInstance getEntityAttribute(IAttribute var0);
+
+    ItemStack getEquipmentInSlot(int var0);
+
+    int getExperiencePoints(EntityPlayer var0);
+
+    String getFallSoundString(int var0);
+
+    float getHealth();
+
+    ItemStack getHeldItem();
+
+    String getHurtSound();
+
+    ItemStack[] getInventory();
+
+    float getJumpUpwardsMotion();
+
+    EntityLivingBase getLastAttacker();
+
+    int getLastAttackerTime();
+
+    Vec3 getLook(float var0);
+
+    Vec3 getLookVec();
+
+    float getMaxHealth();
+
+    Random getRNG();
+
+    int getRevengeTimer();
+
+    float getRotationYawHead();
+
+    float getSoundPitch();
+
+    float getSoundVolume();
+
+    float getSwingProgress(float var0);
+
+    Team getTeam();
+
+    int getTotalArmorValue();
+
+    void handleJumpLava();
+
+    void handleStatusUpdate(byte var0);
+
+    void heal(float var0);
+
+    boolean isChild();
+
+    boolean isEntityAlive();
+
+    boolean isEntityUndead();
+
+    boolean isMovementBlocked();
+
+    boolean isOnLadder();
+
+    boolean isOnSameTeam(EntityLivingBase var0);
+
+    boolean isOnTeam(Team var0);
+
+    boolean isPlayer();
+
+    boolean isPlayerSleeping();
+
+    boolean isPotionActive(int var0);
+
+    boolean isPotionActive(Potion var0);
+
+    boolean isPotionApplicable(PotionEffect var0);
+
+    boolean isServerWorld();
+
+    void jump();
+
+    void kill();
+
+    void knockBack(Entity var0, float var1, double var2, double var3);
 
     void markPotionsDirty();
+
+    void mountEntity(Entity var0);
+
+    void moveEntityWithHeading(float var0, float var1);
+
+    void onChangedPotionEffect(PotionEffect var0, boolean var1);
+
+    void onDeath(DamageSource var0);
+
+    void onDeathUpdate();
+
+    void onEntityUpdate();
+
+    void onFinishedPotionEffect(PotionEffect var0);
+
+    void onItemPickup(Entity var0, int var1);
+
+    void onKillCommand();
+
+    void onLivingUpdate();
+
+    void onNewPotionEffect(PotionEffect var0);
+
+    void onUpdate();
+
+    void performHurtAnimation();
+
+    void readEntityFromNBT(NBTTagCompound var0);
+
+    void removePotionEffect(int var0);
+
+    void removePotionEffectClient(int var0);
+
+    void renderBrokenItemStack(ItemStack var0);
+
+    void resetPotionEffectMetadata();
+
+    void sendEndCombat();
+
+    void sendEnterCombat();
+
+    void setAIMoveSpeed(float var0);
+
+    void setAbsorptionAmount(float var0);
+
+    void setArrowCountInEntity(int var0);
+
+    void setBeenAttacked();
+
+    void setCurrentItemOrArmor(int var0, ItemStack var1);
+
+    void setHealth(float var0);
+
+    void setJumping(boolean var0);
+
+    void setLastAttacker(Entity var0);
+
+    void setPositionAndRotation2(double var0, double var1, double var2, float var3, float var4, int var5, boolean var6);
+
+    void setRevengeTarget(EntityLivingBase var0);
+
+    void setRotationYawHead(float var0);
+
+    void setSprinting(boolean var0);
+
+    void swingItem();
+
+    void updateAITick();
+
+    void updateArmSwingProgress();
+
+    void updateEntityActionState();
+
+    void updateFallState(double var0, boolean var1, Block var2, BlockPos var3);
+
+    void updatePotionEffects();
+
+    void updatePotionMetadata();
+
+    void updateRidden();
+
+    void writeEntityToNBT(NBTTagCompound var0);
+
 }

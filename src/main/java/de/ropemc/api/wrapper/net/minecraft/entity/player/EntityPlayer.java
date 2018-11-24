@@ -1,133 +1,305 @@
 package de.ropemc.api.wrapper.net.minecraft.entity.player;
 
-import de.ropemc.api.wrapper.WrappedClass;
-import de.ropemc.api.wrapper.net.minecraft.entity.EntityLivingBase;
-import de.ropemc.api.wrapper.net.minecraft.entity.item.EntityItem;
+import de.ropemc.api.wrapper.net.minecraft.util.IChatComponent;
+import de.ropemc.api.wrapper.net.minecraft.stats.StatBase;
+import de.ropemc.api.wrapper.net.minecraft.entity.Entity;
+import de.ropemc.api.wrapper.net.minecraft.util.DamageSource;
+import de.ropemc.api.wrapper.net.minecraft.block.Block;
+import de.ropemc.api.wrapper.net.minecraft.world.LockCode;
+import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
+import de.ropemc.api.wrapper.net.minecraft.util.EnumFacing;
 import de.ropemc.api.wrapper.net.minecraft.item.ItemStack;
+import de.ropemc.api.wrapper.net.minecraft.inventory.IInventory;
+import de.ropemc.api.wrapper.net.minecraft.entity.passive.EntityHorse;
+import de.ropemc.api.wrapper.net.minecraft.world.IInteractionObject;
+import de.ropemc.api.wrapper.net.minecraft.entity.IMerchant;
+import de.ropemc.api.wrapper.net.minecraft.entity.item.EntityItem;
+import java.util.Collection;
+import de.ropemc.api.wrapper.net.minecraft.world.World;
+import de.ropemc.api.wrapper.net.minecraft.util.FoodStats;
+//import com.mojang.authlib.GameProfile;
+import de.ropemc.api.wrapper.net.minecraft.inventory.InventoryEnderChest;
+import java.util.UUID;
+import de.ropemc.api.wrapper.net.minecraft.scoreboard.Team;
+import de.ropemc.api.wrapper.net.minecraft.scoreboard.Scoreboard;
+import de.ropemc.api.wrapper.net.minecraft.entity.EntityLivingBase;
+import de.ropemc.api.wrapper.net.minecraft.command.server.CommandBlockLogic;
+import de.ropemc.api.wrapper.net.minecraft.tileentity.TileEntitySign;
+import de.ropemc.api.wrapper.net.minecraft.nbt.NBTTagCompound;
+//import de.ropemc.api.wrapper.net.minecraft.world.WorldSettings$GameType;
+import de.ropemc.api.wrapper.WrappedClass;
 
 @WrappedClass("net.minecraft.entity.player.EntityPlayer")
 public interface EntityPlayer extends EntityLivingBase {
-    EntityItem dropItem(ItemStack droppedItem, boolean dropAround, boolean traceItem);
-    /**
-     * Returns the item in use count
-     */
-    int getItemInUseCount();
 
-    /**
-     * Checks if the entity is currently using an item (e.g., bow, food, sword) by holding down the useItemButton
-     */
-    boolean isUsingItem();
+    void addChatComponentMessage(IChatComponent var0);
 
-    /**
-     * gets the duration for how long the current itemInUse has been in use
-     */
-    int getItemInUseDuration();
+    void addExhaustion(float var0);
 
-    void stopUsingItem();
+    void addExperience(int var0);
+
+    void addExperienceLevel(int var0);
+
+    void addMountedMovementStat(double var0, double var1, double var2);
+
+    void addMovementStat(double var0, double var1, double var2);
+
+    void addScore(int var0);
+
+    void addStat(StatBase var0, int var1);
+
+    void addToPlayerScore(Entity var0, int var1);
+
+    void applyEntityAttributes();
+
+    boolean attackEntityFrom(DamageSource var0, float var1);
+
+    void attackTargetEntityWithCurrentItem(Entity var0);
+
+    boolean canAttackPlayer(EntityPlayer var0);
+
+    boolean canEat(boolean var0);
+
+    boolean canHarvestBlock(Block var0);
+
+    boolean canOpen(LockCode var0);
+
+    boolean canPlayerEdit(BlockPos var0, EnumFacing var1, ItemStack var2);
+
+    boolean canTriggerWalking();
 
     void clearItemInUse();
 
-    boolean isBlocking();
+    void clonePlayer(EntityPlayer var0, boolean var1);
 
-    /**
-     * When searching for vulnerable players, if a player is invisible, the return value of this is the chance of seeing
-     * them anyway.
-     */
-    float getArmorVisibility();
+    void closeScreen();
 
-    /**
-     * Destroys the currently equipped item from the player's inventory.
-     */
+    void collideWithPlayer(Entity var0);
+
+    void damageArmor(float var0);
+
+    void damageEntity(DamageSource var0, float var1);
+
     void destroyCurrentEquippedItem();
 
-    /**
-     * Returns the Y Offset of this entity.
-     */
-    double getYOffset();
+    void displayGUIBook(ItemStack var0);
 
-    /**
-     * returns true if this is an EntityPlayerSP, or the logged in player.
-     */
-    boolean isUser();
+    void displayGUIChest(IInventory var0);
 
-    /**
-     * Wake up the player if they're sleeping.
-     */
-    void wakeUpPlayer(boolean p_70999_1_, boolean updateWorldFlag, boolean setSpawn);
+    void displayGUIHorse(EntityHorse var0, IInventory var1);
 
-    boolean isInBed();
+    void displayGui(IInteractionObject var0);
 
-    /**
-     * Returns the orientation of the bed in degrees.
-     */
+    void displayVillagerTradeGui(IMerchant var0);
+
+    EntityItem dropItem(ItemStack var0, boolean var1, boolean var2);
+
+    EntityItem dropOneItem(boolean var0);
+
+    EntityItem dropPlayerItemWithRandomChoice(ItemStack var0, boolean var1);
+
+    void entityInit();
+
+    void fall(float var0, float var1);
+
+    Collection func_175137_e(Entity var0);
+
+    void func_175139_a(EnumFacing var0);
+
+    void func_175145_a(StatBase var0);
+
+    float getAIMoveSpeed();
+
+    float getAbsorptionAmount();
+
+    boolean getAlwaysRenderNameTagForRender();
+
+    float getArmorVisibility();
+
+    BlockPos getBedLocation();
+
     float getBedOrientationInDegrees();
 
-    /**
-     * Returns whether or not the player is asleep and the screen has fully faded.
-     */
-    boolean isPlayerFullyAsleep();
+    BlockPos getBedSpawnLocation(World var0, BlockPos var1, boolean var2);
+
+    ItemStack getCurrentArmor(int var0);
+
+    ItemStack getCurrentEquippedItem();
+
+    String getDeathSound();
+
+    IChatComponent getDisplayName();
+
+    ItemStack getEquipmentInSlot(int var0);
+
+    int getExperiencePoints(EntityPlayer var0);
+
+    float getEyeHeight();
+
+    String getFallSoundString(int var0);
+
+    FoodStats getFoodStats();
+
+    //GameProfile getGameProfile();
+
+    ItemStack getHeldItem();
+
+    String getHurtSound();
+
+    ItemStack[] getInventory();
+
+    InventoryEnderChest getInventoryEnderChest();
+
+    ItemStack getItemInUse();
+
+    int getItemInUseCount();
+
+    int getItemInUseDuration();
+
+    int getMaxInPortalTime();
+
+    String getName();
+
+    UUID getOfflineUUID(String var0);
+
+    int getPortalCooldown();
+
+    int getScore();
 
     int getSleepTimer();
 
-    boolean isSpawnForced();
+    String getSplashSound();
 
-    /**
-     * Adds a value to a movement statistic field - like run, walk, swin or climb.
-     */
-    void addMovementStat(double p_71000_1_, double p_71000_3_, double p_71000_5_);
+    String getSwimSound();
 
-    /**
-     * Adds a value to a mounted movement statistic field - by minecart, boat, or pig.
-     */
-    void addMountedMovementStat(double p_71015_1_, double p_71015_3_, double p_71015_5_);
+    Team getTeam();
 
-    /**
-     * Add experience points to player.
-     */
-    void addExperience(int amount);
+    float getToolDigEfficiency(Block var0);
+
+    int getTotalArmorValue();
+
+    //UUID getUUID(GameProfile var0);
+
+    Scoreboard getWorldScoreboard();
 
     int getXPSeed();
 
-    void removeExperienceLevel(int levels);
+    double getYOffset();
 
-    /**
-     * Add experience levels to this player.
-     */
-    void addExperienceLevel(int levels);
+    void handleStatusUpdate(byte var0);
 
-    /**
-     * This method returns the cap amount of experience that the experience bar can hold. With each level, the
-     * experience cap on the player's experience bar is raised by 10.
-     */
-    int xpBarCap();
+    boolean hasReducedDebug();
 
-    /**
-     * increases exhaustion level by supplied amount
-     */
-    void addExhaustion(float p_71020_1_);
-
-    boolean canEat(boolean ignoreHunger);
-
-    boolean shouldHeal();
+    boolean interactWith(Entity var0);
 
     boolean isAllowEdit();
 
-    /**
-     * Sends the player's abilities to the server (if there is one).
-     */
-    void sendPlayerAbilities();
+    boolean isBlocking();
+
+    boolean isEntityInsideOpaqueBlock();
+
+    boolean isInBed();
+
+    boolean isInvisibleToPlayer(EntityPlayer var0);
+
+    boolean isMovementBlocked();
+
+    boolean isPlayer();
+
+    boolean isPlayerFullyAsleep();
+
+    boolean isPlayerSleeping();
+
+    boolean isPushedByWater();
+
+    boolean isSpawnForced();
 
     boolean isSpectator();
 
-    /**
-     * Whether the "reducedDebugInfo" option is active for this player.
-     */
-    boolean hasReducedDebug();
+    boolean isUser();
 
-    void setReducedDebug(boolean reducedDebug);
+    boolean isUsingItem();
 
-    /**
-     * returns the ItemStack containing the itemInUse
-     */
-    ItemStack getItemInUse();
+    boolean isWearing(EnumPlayerModelParts var0);
+
+    void joinEntityItemWithWorld(EntityItem var0);
+
+    void jump();
+
+    void moveEntityWithHeading(float var0, float var1);
+
+    void onCriticalHit(Entity var0);
+
+    void onDeath(DamageSource var0);
+
+    void onEnchantmentCritical(Entity var0);
+
+    void onItemUseFinish();
+
+    void onKillEntity(EntityLivingBase var0);
+
+    void onLivingUpdate();
+
+    void onUpdate();
+
+    void openEditCommandBlock(CommandBlockLogic var0);
+
+    void openEditSign(TileEntitySign var0);
+
+    void playSound(String var0, float var1, float var2);
+
+    void preparePlayerToSpawn();
+
+    void readEntityFromNBT(NBTTagCompound var0);
+
+    void removeExperienceLevel(int var0);
+
+    boolean replaceItemInInventory(int var0, ItemStack var1);
+
+    void resetHeight();
+
+    void respawnPlayer();
+
+    boolean sendCommandFeedback();
+
+    void sendPlayerAbilities();
+
+    void setAbsorptionAmount(float var0);
+
+    void setCurrentItemOrArmor(int var0, ItemStack var1);
+
+    void setDead();
+
+    //void setGameType(WorldSettings$GameType var0);
+
+    void setInWeb();
+
+    void setItemInUse(ItemStack var0, int var1);
+
+    void setReducedDebug(boolean var0);
+
+    void setScore(int var0);
+
+    void setSpawnPoint(BlockPos var0, boolean var1);
+
+    boolean shouldHeal();
+
+    void stopUsingItem();
+
+    void triggerAchievement(StatBase var0);
+
+    //EntityPlayer$EnumStatus trySleep(BlockPos var0);
+
+    void updateEntityActionState();
+
+    void updateItemUse(ItemStack var0, int var1);
+
+    void updateRidden();
+
+    void wakeUpPlayer(boolean var0, boolean var1, boolean var2);
+
+    void writeEntityToNBT(NBTTagCompound var0);
+
+    int xpBarCap();
+
 }

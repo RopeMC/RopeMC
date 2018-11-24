@@ -29,6 +29,8 @@ public class WrapperSystem {
                 method.setAccessible(true);
                 try {
                     Class<?> mcpClass = Class.forName(Mappings.getClassName(annotation.value()));
+                    if(mcpClass==null)
+                        continue;
                     Class[] parameterTypes = method.getParameterTypes();
                     int index = 0;
                     for (Class<?> argObj : method.getParameterTypes()) {

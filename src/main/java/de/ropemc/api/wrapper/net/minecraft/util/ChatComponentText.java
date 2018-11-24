@@ -1,13 +1,14 @@
 package de.ropemc.api.wrapper.net.minecraft.util;
 
 import de.ropemc.api.wrapper.WrappedClass;
-import de.ropemc.api.wrapper.WrapperSystem;
 
 @WrappedClass("net.minecraft.util.ChatComponentText")
-public interface ChatComponentText extends IChatComponent {
-    static ChatComponentText construct(String text) { return (ChatComponentText) WrapperSystem.construct(ChatComponentText.class, text); }
+public interface ChatComponentText {
 
-    String toString();
+    ChatComponentText createCopy();
+
+    String getChatComponentText_TextValue();
 
     String getUnformattedTextForChat();
+
 }
