@@ -10,7 +10,6 @@ public class ChatReceiveEvent extends Event implements Cancellable {
 
     public ChatReceiveEvent(String message) {
         this.message = message;
-        System.out.println("Event Nachricht: " + message);
     }
 
     public String getMessage() {

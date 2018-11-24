@@ -8,6 +8,7 @@ import de.ropemc.api.wrapper.WrapperSystem;
 import de.ropemc.api.wrapper.net.minecraft.util.Session;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class Minecraft {
 
@@ -131,5 +132,20 @@ public class Minecraft {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void setWindowTitle(String title) {
+        try {
+            Field f1 = Class.forName("org.lwjgl.opengl.Display").getDeclaredField("display_impl");
+            f1.setAccessible(true);
+            Method m = f1.getType().getDeclaredMethod("setTitle", String.class);
+            m.setAccessible(true);
+            m.invoke(f1.get(null), title);
+            Field f2 = Class.forName("org.lwjgl.opengl.Display").getDeclaredField("title");
+            f2.setAccessible(true);
+            f2.set(null, title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

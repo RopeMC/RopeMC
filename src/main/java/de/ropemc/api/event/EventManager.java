@@ -31,6 +31,7 @@ public class EventManager {
         for (Method m : listener.getClass().getDeclaredMethods()) {
             if (m.getAnnotation(EventHandler.class) != null) {
                 if (m.getParameterCount() == 1) {
+                    m.setAccessible(true);
                     ml.add(m);
                 }
             }

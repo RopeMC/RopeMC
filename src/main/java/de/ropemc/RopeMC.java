@@ -1,17 +1,20 @@
 package de.ropemc;
 
 import de.ropemc.Mappings.MCVersion;
-import de.ropemc.api.DeprecatedMinecraft;
+import de.ropemc.api.event.EventHandler;
 import de.ropemc.api.event.EventManager;
+import de.ropemc.api.event.Listener;
+import de.ropemc.api.event.game.GameStartEvent;
 import de.ropemc.api.event.instrumentation.InstrumentationEvent;
+import de.ropemc.api.wrapper.net.minecraft.client.Minecraft;
 import de.ropemc.mods.ModManager;
 import de.ropemc.utils.VersionFile;
 
 import java.io.File;
 import java.lang.instrument.Instrumentation;
 
-public class RopeMC {
-
+public class RopeMC implements Listener {
+    private static RopeMC instance;
     public static final String ROPE_VERSION = "0.0.1";
     public static MCVersion version;
     public static File ropeDirectory;
@@ -28,6 +31,7 @@ public class RopeMC {
      * @param instrumentation
      */
     public static void premain(String args, Instrumentation instrumentation) {
+        instance = new RopeMC();
         version = MCVersion.MC1_8_8;
         //creating folders
         ropeDirectory = new File("RopeMC");
@@ -50,5 +54,12 @@ public class RopeMC {
         ModManager.loadModules(ropeModsDirectory);
         EventManager.callEvent(new InstrumentationEvent(instrumentation));
         instrumentation.addTransformer(new Transformer());
+
+        EventManager.registerListener(instance);
+    }
+
+    @EventHandler
+    private void onGameStart(GameStartEvent event) {
+        Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " (" + de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion() + ") [" + ModManager.getModules().size() + " mods loaded]");
     }
 }

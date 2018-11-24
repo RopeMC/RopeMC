@@ -1,6 +1,7 @@
 package de.ropemc;
 
 import de.ropemc.api.wrapper.net.minecraft.client.entity.EntityPlayerSP;
+import de.ropemc.utils.Mapping;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -23,22 +24,6 @@ public class Transformer implements ClassFileTransformer {
      * @throws IllegalClassFormatException
      */
     public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes) throws IllegalClassFormatException {
-        if ("org/lwjgl/opengl/Display".equals(s)) {
-            try {
-                ClassPool cp = ClassPool.getDefault();
-                CtClass cc = cp.get("org.lwjgl.opengl.Display");
-                CtMethod m = cc.getDeclaredMethod("setTitle");
-                m.insertBefore("{de.ropemc.Hooks.titleHook(newTitle);return;}");
-                byte[] byteCode = cc.toBytecode();
-                cc.detach();
-                return byteCode;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
-
         if (Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s)) {
             try {
                 ClassPool cp = ClassPool.getDefault();
@@ -77,8 +62,9 @@ public class Transformer implements ClassFileTransformer {
                 ClassPool cp = ClassPool.getDefault();
                 CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.Minecraft"));
                 CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.Minecraft", "runTick"));
-                //m.insertAt(1691, "de.ropemc.Hooks.keyHook(org.lwjgl.input.Keyboard.getEventKey());");
                 m.insertBefore("if($0." + Mappings.getFieldName("net.minecraft.client.Minecraft", "currentScreen") + "==null)de.ropemc.Hooks.runTickHook();");
+                CtMethod startGameMethod = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.Minecraft", "startGame"));
+                startGameMethod.insertAt(562, "de.ropemc.Hooks.onGameStartHook();");
                 byte[] byteCode = cc.toBytecode();
                 cc.detach();
                 return byteCode;
