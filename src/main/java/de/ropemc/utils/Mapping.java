@@ -93,6 +93,8 @@ public class Mapping {
     }
 
     public String getMethodName(String clazz, String method) {
+        if (method.equals("toString")) return method;
+        if (method.equals("equals")) return method;
         if (methods.containsKey(clazz)) {
             Map<String, String> mm = methods.get(clazz);
             if (mm.containsKey(method)) {
@@ -102,4 +104,7 @@ public class Mapping {
         return null;
     }
 
+    public Map<String, String> getClasses() {
+        return classes;
+    }
 }

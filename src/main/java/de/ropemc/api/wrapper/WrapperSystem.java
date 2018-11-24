@@ -3,26 +3,49 @@ package de.ropemc.api.wrapper;
 
 import de.ropemc.Mappings;
 import de.ropemc.api.exceptions.MissingAnnotationException;
-import de.ropemc.api.exceptions.WrongTypeException;
-import de.ropemc.utils.Mapping;
-import jdk.internal.org.objectweb.asm.Handle;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WrapperSystem {
-    private Map<Method, Method> methods = new HashMap<>();
-    static Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
+    private static Map<Method, Method> methods = new HashMap<>();
+    private static Map<Class<?>, WrapperSystem> classWrappers = new HashMap<>();
 
     private Class<?> calledFromClass;
 
-    public WrapperSystem(Class<?> clazz) throws MissingAnnotationException {
+    private WrapperSystem(Class<?> clazz) {
         this.calledFromClass = clazz;
+        scanMethods();
+        classWrappers.put(clazz, this);
+    }
 
-        addMethodsViaClassTree(calledFromClass);
+    private void scanMethods() {
+        if (this.calledFromClass.isAnnotationPresent(WrappedClass.class)) {
+            WrappedClass annotation = this.calledFromClass.getAnnotation(WrappedClass.class);
+            for (Method method : Arrays.stream(this.calledFromClass.getDeclaredMethods()).filter(m -> !Modifier.isStatic(m.getModifiers())).collect(Collectors.toList())) {
+                method.setAccessible(true);
+                try {
+                    Class<?> mcpClass = Class.forName(Mappings.getClassName(annotation.value()));
+                    Class[] parameterTypes = method.getParameterTypes();
+                    int index = 0;
+                    for (Class<?> argObj : method.getParameterTypes()) {
+                        if (argObj.isInterface() && argObj.isAnnotationPresent(WrappedClass.class)) {
+                            parameterTypes[index] = Class.forName(Mappings.getClassName(argObj.getAnnotation(WrappedClass.class).value()));
+                        }
+                        index++;
+                    }
+                    String mcpMethodName = Mappings.getMethodName(annotation.value(), method.getName());
+                    if (mcpMethodName != null) {
+                        Method mcpMethod = mcpClass.getDeclaredMethod(mcpMethodName, parameterTypes);
+                        mcpMethod.setAccessible(true);
+                        methods.put(method, mcpMethod);
+                    }
+                } catch (ClassNotFoundException | NoSuchMethodException e) { }
+            }
+        }
     }
 
     /**
@@ -54,54 +77,58 @@ public class WrapperSystem {
                     }
                 }
                 Method targetMethod = methods.get(method);
-
-                Object newHandle = targetMethod.invoke(getHandle(), args);
-                if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
-                    return classWrappers.get(method.getReturnType()).createInstance(newHandle);
+                if (targetMethod != null) {
+                    Object newHandle = targetMethod.invoke(getHandle(), args);
+                    if (method.getReturnType().isInterface() && method.getReturnType().isAnnotationPresent(WrappedClass.class)) {
+                        return classWrappers.get(method.getReturnType()).createInstance(newHandle);
+                    }
+                    return newHandle;
                 }
-                return newHandle;
+
+                return null;
             }
         });
     }
 
-    private void addMethodsViaClassTree(Class<?> clazz) throws MissingAnnotationException {
-        if (clazz.isAnnotationPresent(WrappedClass.class)) {
-            try {
-                Class mcpClass = Class.forName(Mappings.getClassName(clazz.getAnnotation(WrappedClass.class).value()));
-                for (Method meths : clazz.getDeclaredMethods()) {
-                          Class<?>[] parameters = meths.getParameterTypes();
-                    int index = 0;
-                    for (Class<?> paramClazz : parameters) {
-                        if (paramClazz.isInterface() && paramClazz.isAnnotationPresent(WrappedClass.class)) {
-                            parameters[index] = Class.forName(Mappings.getClassName(paramClazz.getAnnotation(WrappedClass.class).value()));
-                        }
+    public static void init() {
+        Mappings.getMappings().getClasses()
+                .keySet()
+                .stream()
+                .filter(className -> !className.contains("$"))
+                .filter(className -> doesClassExist(className) != null)
+                .map(WrapperSystem::doesClassExist)
+                .forEach(WrapperSystem::new);
+    }
 
-                        index++;
-                    }
+    private static Class doesClassExist(String className) {
+        try {
+            return Class.forName("de.ropemc.api.wrapper." + className);
+        } catch (ClassNotFoundException e) {}
 
-                    Method targetMethod = mcpClass.getDeclaredMethod(Mappings.getMethodName(clazz.getAnnotation(WrappedClass.class).value(), meths.getName()), parameters);
-                    targetMethod.setAccessible(true);
+        return null;
+    }
 
-                    if (meths.getReturnType().isInterface() && meths.getReturnType().isAnnotationPresent(WrappedClass.class)) {
-                        if (!classWrappers.containsKey(meths.getReturnType())) {
-                            classWrappers.put(meths.getReturnType(), null);
-                            WrapperSystem wrapperSystem = new WrapperSystem(meths.getReturnType());
-                            classWrappers.put(meths.getReturnType(),wrapperSystem);
-                        }
-                    }
-
-                    methods.put(meths, targetMethod);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    public static Object construct(Class<?> self, Object... args) {
+        try {
+            if (self.isAnnotationPresent(WrappedClass.class)) {
+                Constructor constructor = Class.forName(Mappings.getClassName(self.getAnnotation(WrappedClass.class).value())).getDeclaredConstructor(Stream.of(args).map(arg -> arg.getClass()).toArray((IntFunction<Class<?>[]>) Class[]::new));
+                constructor.setAccessible(true);
+                Object handle = constructor.newInstance(args);
+                return classWrappers.get(self).createInstance(handle);
+            } else {
+                throw new MissingAnnotationException("No Constructor in " + self.getName());
             }
-
-        } else {
-            throw new MissingAnnotationException("Missing Annotation: " + WrappedClass.class.getName() + " in Class: " + calledFromClass.getName());
+        } catch (MissingAnnotationException | ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            System.out.println("NO CONSTRUCTOR FOUND !");
+            e.printStackTrace();
         }
 
-        if (clazz.getInterfaces().length != 0) {
-            addMethodsViaClassTree(clazz.getInterfaces()[0]);
-        }
+        return null;
+    }
+
+    public static WrapperSystem getWrapperSystem(Class<?> clazz) {
+        return classWrappers.get(clazz);
     }
 }

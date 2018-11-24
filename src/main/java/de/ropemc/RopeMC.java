@@ -6,6 +6,7 @@ import de.ropemc.api.event.EventManager;
 import de.ropemc.api.event.Listener;
 import de.ropemc.api.event.game.GameStartEvent;
 import de.ropemc.api.event.instrumentation.InstrumentationEvent;
+import de.ropemc.api.wrapper.WrapperSystem;
 import de.ropemc.api.wrapper.net.minecraft.client.Minecraft;
 import de.ropemc.mods.ModManager;
 import de.ropemc.utils.VersionFile;
@@ -54,6 +55,8 @@ public class RopeMC implements Listener {
         ModManager.loadModules(ropeModsDirectory);
         EventManager.callEvent(new InstrumentationEvent(instrumentation));
         instrumentation.addTransformer(new Transformer());
+
+        WrapperSystem.init();
 
         EventManager.registerListener(instance);
     }

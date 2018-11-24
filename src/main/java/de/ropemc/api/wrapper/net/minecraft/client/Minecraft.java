@@ -10,6 +10,8 @@ import de.ropemc.api.wrapper.net.minecraft.util.Session;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import static de.ropemc.api.wrapper.WrapperSystem.getWrapperSystem;
+
 public class Minecraft {
 
     private static Field theMinecraftField;
@@ -47,13 +49,9 @@ public class Minecraft {
             e.printStackTrace();
         }
 
-        try {
-            wrapperSystemEntityPlayerSP = new WrapperSystem(EntityPlayerSP.class);
-            wrapperSystemFontRenderer = new WrapperSystem(FontRenderer.class);
-            wrapperSystemSession = new WrapperSystem(Session.class);
-        } catch (MissingAnnotationException e) {
-            e.printStackTrace();
-        }
+        wrapperSystemEntityPlayerSP = getWrapperSystem(EntityPlayerSP.class);
+        wrapperSystemFontRenderer = getWrapperSystem(FontRenderer.class);
+        wrapperSystemSession = getWrapperSystem(Session.class);
     }
 
     private static Minecraft theMinecraft = null;

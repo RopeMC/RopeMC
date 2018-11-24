@@ -3,6 +3,7 @@ package de.ropemc.api.wrapper.net.minecraft.client.entity;
 
 import de.ropemc.api.wrapper.WrappedClass;
 import de.ropemc.api.wrapper.net.minecraft.util.BlockPos;
+import de.ropemc.api.wrapper.net.minecraft.util.IChatComponent;
 
 @WrappedClass("net.minecraft.client.entity.EntityPlayerSP")
 public interface EntityPlayerSP extends AbstractClientPlayer {
@@ -90,4 +91,6 @@ public interface EntityPlayerSP extends AbstractClientPlayer {
      * Returns true if the block at the given BlockPos and the block above it are NOT full cubes.
      */
     boolean isOpenBlockSpace(BlockPos pos);
+
+    void addChatMessage(IChatComponent component);
 }

@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Map;
 
 public class Mappings {
 
@@ -66,6 +67,9 @@ public class Mappings {
         return mapping.getMethodName(clazz, method);
     }
 
+    public static Mapping getMappings() {
+        return mapping;
+    }
     /**
      * represents the Minecraft-version
      */
