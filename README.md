@@ -40,7 +40,7 @@ We're working on a Installer which should make the installation process alot eas
 |        1.13       |         :x:        |
 |       1.13.2      |         :x:        |  
 
-:x: = ATM fully unsupported, :warning: = Could work, :heavy_check_mark = Working<br />
+:x: = ATM fully unsupported, :warning: = Could work, :heavy_check_mark: = Working<br />
 **You may consider using the old Minecraft Launcher.**
 ### Getting started
 #### Dependencies
