@@ -66,6 +66,13 @@ public class WrapperSystem {
             }
 
             @Override
+            public Field getField(String fieldName) throws NoSuchFieldException {
+                Field field = getHandle().getClass().getDeclaredField(fieldName);
+                field.setAccessible(true);
+                return field;
+            }
+
+            @Override
             public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
                 int index = 0;
                 if (args != null) {
