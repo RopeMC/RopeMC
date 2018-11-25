@@ -67,9 +67,13 @@ public class WrapperSystem {
 
             @Override
             public Field getField(String fieldName) throws NoSuchFieldException {
-                Field field = getHandle().getClass().getDeclaredField(fieldName);
-                field.setAccessible(true);
-                return field;
+                if (getHandle().getClass().isAnnotationPresent(WrappedClass.class)) {
+                    Field field = getHandle().getClass().getDeclaredField(Mappings.getFieldName(getHandle().getClass().getAnnotation(WrappedClass.class).value(), fieldName));
+                    field.setAccessible(true);
+                    return field;
+                }
+
+                return null;
             }
 
             @Override
