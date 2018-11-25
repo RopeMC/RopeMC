@@ -23,8 +23,23 @@ RopeMC is an easy, fast and lightweight Modding-API for Minecraft.
 - [Contact us](#Contact-us)
     
 ## Information
-We're working on a Installer which should make the installation process alot easier. 
-RopeMC supports Minecraft 1.8.8 at the moment only.<br/>
+We're working on a Installer which should make the installation process alot easier.<br/>
+### Supported minecraft versions
+| Minecraft version |      Supported     |
+|:-----------------:|:------------------:|
+|       1.7.10      |         :x:        |
+|        1.8        |      :warning:     |
+|       1.8.8       | :heavy_check_mark: |
+|        1.9        |      :warning:     |
+|       1.9.4       |      :warning:     |
+|       1.10.2      |      :warning:     |
+|        1.11       |      :warning:     |
+|       1.11.2      |      :warning:     |
+|        1.12       |      :warning:     |
+|       1.12.2      |      :warning:     |
+|        1.13       |         :x:        |
+|       1.13.2      |         :x:        |
+:x: = ATM fully unsupported, :warning: = Could work, :heavy_check_mark = Working<br />
 **You may consider using the old Minecraft Launcher.**
 ### Getting started
 #### Dependencies
