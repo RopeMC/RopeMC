@@ -94,7 +94,7 @@ Save your changes. You should be ready to go! :thumbsup:
 ## How to add mods
 Tip: You need to launch RopeMC at least once to continue.
 
-After launching RopeMC, the programm created a folder named RopeMC in your Minecraft-directory. Place your mod in 
+After launching RopeMC, the programm should created a folder named RopeMC in your Minecraft-directory. Please place your mod in 
 ```
 RopeMC → Mods
 ```
@@ -112,6 +112,7 @@ If you want to know how to create mods, or how to modify the source code for you
 - [x] License
 - [x] Insert all members
 - [ ] Troubleshooting
+- [ ] Website
 
 ## Server
 
