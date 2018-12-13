@@ -14,6 +14,7 @@ RopeMC is an easy, fast and lightweight Modding-API for Minecraft.
     - [Continue the installation](#continue-the-installation)
 - [Information for developers](#information-for-developers)
 - [Highlighted Mods](#highlighted-mods)
+- [Wiki](#wiki)
 - [To-Do](#To-Do)
 - [Server](#server)
 - [Credits](#credits)
@@ -111,6 +112,9 @@ If you want to know how to create mods, or how to modify the source code for you
 ## Highlighted Mods
 [ConsoleMod](https://github.com/RopeMC/ConsoleMod) <br/>
 [DebugMod](https://github.com/RopeMC/DebugMod)
+
+## Wiki
+For more detailed descriptions about RopeMC, how to create mods etc. please check our [Wiki!](https://github.com/RopeMC/RopeMC/wiki) 
 
 ## To-Do
 - [ ] Installer
