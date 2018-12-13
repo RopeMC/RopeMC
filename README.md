@@ -88,7 +88,8 @@ enable JVM-Arguments and add the following to the end of the line:
 
 Your profile should look something like this:
 
-![alt text](https://i.ibb.co/99gBjF8/parameters.png "Screenshot - Example")<br/>
+![alt text](https://i.ibb.co/99gBjF8/parameters.png)<br/>
+
 An example could be:
 ```
 -Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M -javaagent:RopeMC.jar
