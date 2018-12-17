@@ -72,6 +72,48 @@ public class Transformer implements ClassFileTransformer {
                 ex.printStackTrace();
             }
         }
+
+        if (Mappings.getClassName("net.minecraft.item.Item").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.item.Item"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.item.Item", "registerItems"));
+                m.insertAfter("de.ropemc.Hooks.registerItems();");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if (Mappings.getClassName("net.minecraft.block.Block").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.block.Block"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.block.Block", "registerBlocks"));
+                m.insertAfter("de.ropemc.Hooks.registerBlocks();");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if (Mappings.getClassName("net.minecraft.client.renderer.entity.RenderItem").equals(s)) {
+            try {
+                ClassPool cp = ClassPool.getDefault();
+                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.renderer.entity.RenderItem"));
+                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.renderer.entity.RenderItem", "registerItems"));
+                m.insertAfter("de.ropemc.Hooks.registerRenderItems(this);");
+                byte[] byteCode = cc.toBytecode();
+                cc.detach();
+                return byteCode;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         return null;
     }
 
