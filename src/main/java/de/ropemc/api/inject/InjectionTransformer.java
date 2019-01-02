@@ -68,25 +68,6 @@ public class InjectionTransformer implements ClassFileTransformer {
             }
         }
 
-        if (Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP").equals(s)) {
-            try {
-                cp = ClassPool.getDefault();
-                CtClass cc = cp.get(Mappings.getClassName("net.minecraft.client.entity.EntityPlayerSP"));
-                CtMethod m1 = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "sendChatMessage"));
-                CtMethod m = cc.getDeclaredMethod(Mappings.getMethodName("net.minecraft.client.entity.EntityPlayerSP", "onLivingUpdate"));
-                m.insertBefore("de.ropemc.api.event.EventManager.callEvent(new de.ropemc.api.event.player.PlayerUpdateEvent());");
-                m1.insertBefore("de.ropemc.api.event.chat.ChatEvent event = new de.ropemc.api.event.chat.ChatEvent($1);" +
-                        "de.ropemc.api.event.EventManager.callEvent(event);" +
-                        "$1 = event.getMessage();" +
-                        "if (event.isCancelled()) return;");
-                byte[] byteCode = cc.toBytecode();
-                cc.detach();
-                return byteCode;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-
         return null;
     }
 }
