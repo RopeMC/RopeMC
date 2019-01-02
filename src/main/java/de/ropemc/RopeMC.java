@@ -5,7 +5,9 @@ import de.ropemc.api.event.EventHandler;
 import de.ropemc.api.event.EventManager;
 import de.ropemc.api.event.Listener;
 import de.ropemc.api.event.game.GameStartEvent;
-import de.ropemc.api.event.instrumentation.InstrumentationEvent;
+import de.ropemc.api.event.instrumentation.InjectionEvent;
+import de.ropemc.api.event.player.PlayerUpdateEvent;
+import de.ropemc.api.inject.InjectionTransformer;
 import de.ropemc.api.wrapper.WrapperSystem;
 import de.ropemc.api.wrapper.net.minecraft.client.Minecraft;
 import de.ropemc.mods.ModManager;
@@ -53,15 +55,22 @@ public class RopeMC implements Listener {
         versions = new VersionFile(new File(ropeDirectory, "versions.json"));
         Mappings.load();
         ModManager.loadModules(ropeModsDirectory);
-        EventManager.callEvent(new InstrumentationEvent(instrumentation));
-        instrumentation.addTransformer(new Transformer());
-
         EventManager.registerListener(instance);
+        InjectionEvent injectionEvent = new InjectionEvent();
+        EventManager.callEvent(injectionEvent);
+        instrumentation.addTransformer(new InjectionTransformer(injectionEvent.getInjectors()));
+
+        instrumentation.addTransformer(new DeprecatedTransformer());
     }
 
     @EventHandler
     private void onGameStart(GameStartEvent event) {
         WrapperSystem.init();
         Minecraft.setWindowTitle("RopeMC v" + RopeMC.ROPE_VERSION + " (" + de.ropemc.api.wrapper.net.minecraft.client.Minecraft.getTheMinecraft().getLaunchedVersion() + ") [" + ModManager.getModules().size() + " mods loaded]");
+    }
+
+    @EventHandler
+    private void onInject(InjectionEvent event) {
+        event.add(PlayerUpdateEvent.PlayerUpdateEventInjector.class);
     }
 }
